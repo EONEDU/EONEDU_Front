@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import getMenuItems from '../constants/MenuItems';
 import ColorPalette from './ui/ColorPalette';
@@ -17,7 +17,8 @@ const NavContainer = styled.nav`
   position: fixed;
   left: 0;
   z-index: 1000;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 0.3s ease-in-out;
+  box-shadow: ${({ isScrolled }) => (isScrolled ? '0 0 4px rgba(0, 0, 0, 0.25)' : 'none')};
 `;
 
 const Logo = styled.a`
@@ -53,7 +54,7 @@ const MenuTitle = styled.div`
 
 const SubMenu = styled.div`
   ${FontStyle.body3Medium}
-  padding: ${SizeValue.space.md} 0; /* Adjust padding to match MenuTitle */
+  padding: ${SizeValue.space.md} 0;
   background-color: ${ColorPalette.white};
   border-radius: ${SizeValue.radius.sm};
   white-space: nowrap;
@@ -77,10 +78,28 @@ const SubMenuItem = styled.a`
 
 function NavBar() {
   const [activeMenu, setActiveMenu] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
   const menuItems = getMenuItems();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
-    <NavContainer>
+    <NavContainer isScrolled={isScrolled}>
       <Logo href={RoutePaths.HOME.path}>Logo</Logo>
       <Menu>
         {menuItems.map((menu, index) => (
