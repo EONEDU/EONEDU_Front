@@ -13,6 +13,7 @@ const StyledButton = styled.button`
   color: ${ColorPalette.white};
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 function CommonButton({ onClick, text }) {

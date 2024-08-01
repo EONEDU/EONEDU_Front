@@ -5,7 +5,7 @@ import { FontStyle } from './ui/FontStyle';
 
 const fadeIn = keyframes`
   from {
-    background-color: ${ColorPalette.background};
+    background-color: ${ColorPalette.gray050};
   }
   to {
     background-color: ${({ isAvailable, isSelected }) =>
@@ -17,11 +17,11 @@ const Button = styled.button`
   ${FontStyle.body1Regular}
   height: 30px;
   background-color: ${({ isLoading, isAvailable, isSelected }) =>
-    isLoading ? ColorPalette.gray200 : isSelected ? ColorPalette.gray900 : isAvailable ? ColorPalette.white : ColorPalette.background};
+    isLoading ? ColorPalette.gray050 : isSelected ? ColorPalette.gray900 : isAvailable ? ColorPalette.white : ColorPalette.gray050};
   color: ${({ isLoading, isAvailable, isSelected }) =>
-    isLoading ? 'white' : isSelected ? 'white' : isAvailable ? ColorPalette.black : ColorPalette.black};
+    isLoading ? ColorPalette.gray050 : isSelected ? 'white' : isAvailable ? ColorPalette.black : ColorPalette.gray300};
   border: ${({ isLoading, isAvailable, isSelected }) =>
-    isLoading ? `1px solid ${ColorPalette.gray700}` : isSelected ? `1px solid ${ColorPalette.gray900}` : isAvailable ? `1px solid ${ColorPalette.gray700}` : `1px solid ${ColorPalette.gray700}`};
+    isLoading ? `1px solid ${ColorPalette.gray050}` : isSelected ? `1px solid ${ColorPalette.gray900}` : isAvailable ? `1px solid ${ColorPalette.gray700}` : `none`};
   border-radius: 6px;
   cursor: ${({ isAvailable, isLoading }) => (isAvailable && !isLoading ? 'pointer' : 'not-allowed')};
   ${({ isLoading }) =>
