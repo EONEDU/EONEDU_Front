@@ -2,26 +2,27 @@ import React from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
-import { FontStyle } from './ui/FontStyle';
+import FontStyle from './ui/FontStyle';
 import ColorPalette from './ui/ColorPalette';
+import SizeValue from './ui/SizeValue';
 
 const CalendarWrapper = styled.div`
+  width: ${SizeValue.width.full};
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
 
   .react-calendar {
-    width: 450px;
+    width: ${SizeValue.width.pageSmContent};
+    border-radius: ${SizeValue.radius.md};
+    padding: ${SizeValue.space.xl};
     border: solid 1.5px ${ColorPalette.gray700};
-    border-radius: 6px;
-    padding: 20px;
   }
 
   .react-calendar__tile {
+    ${FontStyle.subhead3SemiBold}
     aspect-ratio: 1 / 1;
     background: none;
-    ${FontStyle.subhead3SemiBold}
     position: relative;
     display: flex;
     align-items: center;
@@ -29,8 +30,8 @@ const CalendarWrapper = styled.div`
   }
 
   .react-calendar__tile:disabled {
-    background: none;
     color: ${ColorPalette.gray300};
+    background: none;
   }
 
   .react-calendar__tile:enabled:hover {
@@ -38,20 +39,15 @@ const CalendarWrapper = styled.div`
   }
   
   .react-calendar__tile:enabled:focus {
+    border-radius: ${SizeValue.radius.circular};
     background: ${ColorPalette.transparent};
-    border-radius: 50px;
-  }
-
-  .react-calendar__tile--now {
-    background: none;
-    font-weight: bold;
   }
   
   .react-calendar__tile--active {
+    border-radius: ${SizeValue.radius.circular};
     background: ${ColorPalette.transparent};
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
     color: ${ColorPalette.white};
+    aspect-ratio: 1 / 1;
   }
 
   .react-calendar__tile--disabled {
@@ -59,10 +55,10 @@ const CalendarWrapper = styled.div`
   }
 
   .react-calendar__navigation {
+    margin: ${SizeValue.space.lg} 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 20px 0;
   }
 
   .react-calendar__navigation__label {
@@ -72,13 +68,11 @@ const CalendarWrapper = styled.div`
   }
 
   .react-calendar__navigation__arrow {
-    flex-grow: 0;
-    font-size: 3.6rem;
-    font-family: 'SUIT';
-    font-weight: 700;
+    ${FontStyle.display3Bold}
+    padding: 0 ${SizeValue.space.md};
     color: ${ColorPalette.black};
-    padding: 0 10px;
-    background-color: transparent;
+    background-color: ${ColorPalette.transparent};
+    flex-grow: 0;
   }
 
   .react-calendar__navigation__arrow {
@@ -86,29 +80,13 @@ const CalendarWrapper = styled.div`
   }
   
   .react-calendar__month-view__weekdays__weekday {
-    margin: 20px 0;
+    margin: ${SizeValue.space.xl} 0;
   }
 
   .react-calendar__month-view__weekdays__weekday > abbr {
     ${FontStyle.subhead3Bold}
     color: ${ColorPalette.black};
     text-decoration: none;
-  }
-
-  .circle-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .circle {
-    width: 40px;
-    height: 40px;
-    background-color: ${ColorPalette.primary};
-    border-radius: 50%;
-    position: absolute;
-    align-items: center;
   }
 `;
 
@@ -120,10 +98,10 @@ const CircleContainer = styled.div`
 `;
 
 const Circle = styled.div`
-  width: 40px;
-  height: 40px;
+  width: ${SizeValue.icon.xl2};
+  height: ${SizeValue.icon.xl2};
+  border-radius: ${SizeValue.radius.circular};
   background-color: ${ColorPalette.gray900};
-  border-radius: 50%;
   position: absolute;
   align-items: center;
 `;

@@ -2,27 +2,29 @@ import styled from "styled-components";
 import ColorPalette from "./ui/ColorPalette";
 import TimeSlotGrid from "./TimeSlotGrid";
 import Description from "./Description";
-import { FontStyle } from "./ui/FontStyle";
+import FontStyle from "./ui/FontStyle";
+import SizeValue from "./ui/SizeValue";
 
 const TimeSlotWrapper = styled.div`
+  width: ${SizeValue.width.pageSmContent};
+  border-radius: ${SizeValue.radius.md};
+  box-shadow: 0 0 0 2px ${ColorPalette.gray600} inset;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 0 1.5px ${ColorPalette.gray700} inset; 
-  border-radius: 6px;
+  
   display: flex;
-  width: 450px;
 `;
 
 const AmPmText = styled.text`
   ${FontStyle.display1Bold}
-  padding: 20px;
+  padding: ${SizeValue.space.xl};
 `;
 
 const DescriptionWrapper = styled.div`
+  gap: ${SizeValue.space.md};
+  padding: ${SizeValue.space.xl};
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 20px;
   justify-content: flex-end;
 `;
 

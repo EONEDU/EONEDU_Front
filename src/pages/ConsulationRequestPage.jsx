@@ -2,30 +2,30 @@ import React, { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import fetchConsultationsByDate from '../hooks/fetchConsultationByDate';
 import postConsultation from '../hooks/postConsultation';
-import TimeSlotGrid from '../components/TimeSlotGrid';
 import ConsultationCalendar from '../components/ConsultationCalendar';
 import Navbar from '../components/NavBar';
 import TimeSlot from '../components/TimeSlot';
 import CommonButton from '../components/CommonButton';
+import SizeValue from '../components/ui/SizeValue';
 
 const ContentWrapper = styled.div`
+  padding-top: ${SizeValue.height.navBar};
+  gap: ${SizeValue.space.xl4};
   display: flex;
   flex-direction: column;
-  padding-top: 60px;
   align-items: center;
-  gap: 50px;
 `;
 
 const CalendarWrapper = styled.div`
+  gap: ${SizeValue.space.xl};
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 20px;
 `;
 
 const ButtonWrapper = styled.div`
-  width: 450px;
+  width: ${SizeValue.width.pageSmContent};
 `;
 
 function formatDateToLocal (date) {

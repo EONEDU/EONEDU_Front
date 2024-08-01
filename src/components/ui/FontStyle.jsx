@@ -1,4 +1,4 @@
-export const FontStyle = {
+const FontStyle = {
   display3Bold: "font-size: 3.2rem; font-weight: 700; font-family: \"SUIT\";",
   display3SemiBold: "font-size: 3.2rem; font-weight: 600; font-family: \"SUIT\";",
   display2Bold: "font-size: 2.8rem; font-weight: 700; font-family: \"SUIT\";", 
@@ -24,3 +24,5 @@ export const FontStyle = {
   descriptionMedium: "font-size: 1rem; font-weight: 500; font-family: \"SUIT\";",
   descriptionRegular: "font-size: 1rem; font-weight: 400; font-family: \"SUIT\";",
 };
+
+export default FontStyle;

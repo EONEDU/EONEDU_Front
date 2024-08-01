@@ -1,17 +1,19 @@
 import styled from "styled-components";
-import { FontStyle } from "./ui/FontStyle";
+import FontStyle from "./ui/FontStyle";
+import SizeValue from "./ui/SizeValue";
 
 const DescriptionWrapper = styled.div`
+  gap: ${SizeValue.space.md};
   display: flex;
   align-items: center;
-  gap: 10px;
 `;
 
 const DescriptionBox = styled.div`
-  width: 15px;
-  height: 15px;
+  width: ${SizeValue.icon.md};
+  height: ${SizeValue.icon.md};
+  border-radius: ${SizeValue.radius.xs};
   background-color: ${({ color }) => color};
-  border-radius: 2px;
+  
 `;
 
 const DescriptionText = styled.div`

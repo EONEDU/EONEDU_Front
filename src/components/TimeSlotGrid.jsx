@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import TimeSlotButton from './TimeSlotButton';
+import SizeValue from './ui/SizeValue';
 
 const TimeSlotGridWrapper = styled.div`
+  gap: ${SizeValue.space.md};
+  padding: 0 ${SizeValue.space.xl};
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  padding: 0 20px;
 `;
 
 const TimeSlotGrid = ({ timeSlots, isTimeAvailable, selectedTime, setSelectedTime, loading }) => {
