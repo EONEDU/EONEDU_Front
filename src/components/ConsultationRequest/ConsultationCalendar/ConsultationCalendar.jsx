@@ -1,10 +1,10 @@
-import React from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import styled from 'styled-components';
-import FontStyle from '../../ui/FontStyle';
-import ColorPalette from '../../ui/ColorPalette';
-import SizeValue from '../../ui/SizeValue';
+import React from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import styled from "styled-components";
+import FontStyle from "../../ui/FontStyle";
+import ColorPalette from "../../ui/ColorPalette";
+import SizeValue from "../../ui/SizeValue";
 
 const CalendarWrapper = styled.div`
   width: ${SizeValue.width.full};
@@ -16,7 +16,8 @@ const CalendarWrapper = styled.div`
     width: ${SizeValue.width.pageSmContent};
     border-radius: ${SizeValue.radius.md};
     padding: ${SizeValue.space.xl};
-    border: solid 1.5px ${ColorPalette.gray700};
+    border: none;
+    box-shadow: 0 0 0 2px ${ColorPalette.gray600} inset;
   }
 
   .react-calendar__tile {
@@ -37,12 +38,12 @@ const CalendarWrapper = styled.div`
   .react-calendar__tile:enabled:hover {
     background: none;
   }
-  
+
   .react-calendar__tile:enabled:focus {
     border-radius: ${SizeValue.radius.circular};
     background: ${ColorPalette.transparent};
   }
-  
+
   .react-calendar__tile--active {
     border-radius: ${SizeValue.radius.circular};
     background: ${ColorPalette.transparent};
@@ -78,7 +79,7 @@ const CalendarWrapper = styled.div`
   .react-calendar__navigation__arrow {
     background: none !important;
   }
-  
+
   .react-calendar__month-view__weekdays__weekday {
     margin: ${SizeValue.space.xl} 0;
   }
@@ -87,6 +88,15 @@ const CalendarWrapper = styled.div`
     ${FontStyle.subhead3Bold}
     color: ${ColorPalette.black};
     text-decoration: none;
+  }
+
+  .weekend {
+    color: ${ColorPalette.black}; 
+    background-color: ${ColorPalette.transparent};
+  }
+
+  .weekend-selected {
+    color: ${ColorPalette.white} !important;
   }
 `;
 
@@ -113,9 +123,9 @@ const CircleText = styled.div`
   justify-content: center;
 `;
 
-const ConsultationCalendar = ({ value, onChange, tileDisabled }) => {
+const ConsultationCalendar = ({ value, onChange }) => {
   const tileContent = ({ date, view }) => {
-    if (view === 'month' && value && date.toDateString() === value.toDateString()) {
+    if (view === "month" && value && date.toDateString() === value.toDateString()) {
       return (
         <CircleContainer>
           <Circle />
@@ -126,17 +136,35 @@ const ConsultationCalendar = ({ value, onChange, tileDisabled }) => {
     return <CircleText>{date.getDate()}</CircleText>;
   };
 
+  const tileDisabled = ({ date, view }) => {
+    if (view === 'month') {
+      return date < new Date(new Date().setHours(0, 0, 0, 0));
+    }
+  };
+
+  const tileClassName = ({ date, view }) => {
+    if (view === "month") {
+      const day = date.getDay();
+      const isSelected = value && date.toDateString() === value.toDateString();
+      if (day === 0 || day === 6) {
+        return isSelected ? "weekend weekend-selected" : "weekend";
+      }
+    }
+    return null;
+  };
+
   return (
     <CalendarWrapper>
       <Calendar
         onChange={onChange}
         value={value}
         tileContent={tileContent}
+        tileClassName={tileClassName}
         tileDisabled={tileDisabled}
         showNeighboringMonth={false}
-        formatDay={() => ''}
+        formatDay={() => ""}
         navigationLabel={({ date, label, view }) => {
-          if (view === 'month') {
+          if (view === "month") {
             return `${date.getFullYear()}년 ${date.getMonth() + 1}월`;
           }
           return label;
