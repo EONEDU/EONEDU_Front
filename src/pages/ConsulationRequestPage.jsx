@@ -7,6 +7,8 @@ import NavBar from '../components/Common/NavBar';
 import TimeSlot from '../components/ConsultationRequest/TimeSlot/TimeSlot';
 import CommonButton from '../components/Common/CommonButton';
 import SizeValue from '../components/ui/SizeValue';
+import HighlightText from '../components/Common/HighlightText';
+import FontStyle from '../components/ui/FontStyle';
 
 const ContentWrapper = styled.div`
   padding-top: ${SizeValue.height.navBar};
@@ -26,6 +28,18 @@ const CalendarWrapper = styled.div`
 
 const ButtonWrapper = styled.div`
   width: ${SizeValue.width.pageSmContent};
+`;
+
+const TitleWrapper = styled.div`
+  ${FontStyle.display3Bold}
+  margin: ${SizeValue.space.xl5} 0;
+  display: flex;
+  white-space: nowrap;
+`;
+
+const TitleText = styled.div`
+  ${FontStyle.display3Bold}
+  white-space: nowrap;
 `;
 
 function formatDateToLocal (date) {
@@ -120,6 +134,11 @@ function ConsulationRequestPage() {
     <>
       <NavBar/>
       <ContentWrapper>
+        <TitleWrapper>
+          <TitleText>{`빠르게\u00A0`}</TitleText>
+          <HighlightText text="상담 예약" fontStyle={FontStyle.display3Bold}/>
+          <TitleText>{`을 도와드릴게요!`}</TitleText>
+        </TitleWrapper>
         <CalendarWrapper>
           <ConsultationCalendar
             value={value}

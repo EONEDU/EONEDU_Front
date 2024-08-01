@@ -1,5 +1,6 @@
 const ColorPalette = {
   primary: "#364BFF",
+  highlight: "#ADFFF5",
   background: "#181818",
   darkgray: "#2F2F2F",
   gray: "#232429",

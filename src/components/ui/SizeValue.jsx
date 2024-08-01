@@ -1,6 +1,7 @@
 const SizeValue = {
   space : {
     page: "5.2rem",
+    xl5: "6rem",
     xl4: "5rem",
     xl3: "3rem",
     xl2: "2.5rem",
