@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import ColorPalette from "./ui/ColorPalette";
-import FontStyle from "./ui/FontStyle";
-import SizeValue from "./ui/SizeValue";
+import ColorPalette from "../ui/ColorPalette";
+import FontStyle from "../ui/FontStyle";
+import SizeValue from "../ui/SizeValue";
 
 const StyledButton = styled.button`
   ${FontStyle.headlineBold}

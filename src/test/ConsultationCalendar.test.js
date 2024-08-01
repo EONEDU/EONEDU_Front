@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ConsultationCalendar from '../components/ConsultationCalendar';
+import ConsultationCalendar from '../components/ConsultationCalendar/ConsultationCalendar';
 
 describe('ConsultationCalendar', () => {
   const mockDate = new Date(2024, 7, 1);

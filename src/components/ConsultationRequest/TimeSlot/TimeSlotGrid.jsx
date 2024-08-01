@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import TimeSlotButton from './TimeSlotButton';
-import SizeValue from './ui/SizeValue';
+import SizeValue from '../ui/SizeValue';
 
 const TimeSlotGridWrapper = styled.div`
   gap: ${SizeValue.space.md};

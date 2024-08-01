@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import ColorPalette from './ui/ColorPalette';
-import FontStyle from './ui/FontStyle';
-import SizeValue from './ui/SizeValue';
+import ColorPalette from '../ui/ColorPalette';
+import FontStyle from '../ui/FontStyle';
+import SizeValue from '../ui/SizeValue';
 
 const Button = styled.button`
   ${FontStyle.body1Regular}

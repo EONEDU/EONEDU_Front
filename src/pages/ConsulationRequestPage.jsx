@@ -2,10 +2,10 @@ import React, { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import fetchConsultationsByDate from '../hooks/fetchConsultationByDate';
 import postConsultation from '../hooks/postConsultation';
-import ConsultationCalendar from '../components/ConsultationCalendar';
+import ConsultationCalendar from '../components/ConsultationCalendar/ConsultationCalendar';
 import Navbar from '../components/NavBar';
-import TimeSlot from '../components/TimeSlot';
-import CommonButton from '../components/CommonButton';
+import TimeSlot from '../components/TimeSlot/TimeSlot';
+import CommonButton from '../components/Common/CommonButton';
 import SizeValue from '../components/ui/SizeValue';
 
 const ContentWrapper = styled.div`
