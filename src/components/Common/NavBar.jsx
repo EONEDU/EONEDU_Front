@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import getMenuItems from '../constants/MenuItems';
-import ColorPalette from './ui/ColorPalette';
-import FontStyle from './ui/FontStyle';
-import SizeValue from './ui/SizeValue';
-import RoutePaths from '../constants/RoutePaths';
+import getMenuItems from '../../constants/MenuItems';
+import ColorPalette from '../ui/ColorPalette';
+import FontStyle from '../ui/FontStyle';
+import SizeValue from '../ui/SizeValue';
+import RoutePaths from '../../constants/RoutePaths';
 
 const NavContainer = styled.nav`
   height: ${SizeValue.height.navBar};

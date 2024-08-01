@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import ColorPalette from "../ui/ColorPalette";
+import ColorPalette from "../../ui/ColorPalette";
+import FontStyle from "../../ui/FontStyle";
+import SizeValue from "../../ui/SizeValue";
 import TimeSlotGrid from "./TimeSlotGrid";
 import Description from "./Description";
-import FontStyle from "../ui/FontStyle";
-import SizeValue from "../ui/SizeValue";
 
 const TimeSlotWrapper = styled.div`
   width: ${SizeValue.width.pageSmContent};

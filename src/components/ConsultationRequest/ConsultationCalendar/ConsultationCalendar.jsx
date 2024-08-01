@@ -2,9 +2,9 @@ import React from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
-import FontStyle from '../ui/FontStyle';
-import ColorPalette from '../ui/ColorPalette';
-import SizeValue from '../ui/SizeValue';
+import FontStyle from '../../ui/FontStyle';
+import ColorPalette from '../../ui/ColorPalette';
+import SizeValue from '../../ui/SizeValue';
 
 const CalendarWrapper = styled.div`
   width: ${SizeValue.width.full};

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import FontStyle from "../ui/FontStyle";
-import SizeValue from "../ui/SizeValue";
+import FontStyle from "../../ui/FontStyle";
+import SizeValue from "../../ui/SizeValue";
 
 const DescriptionWrapper = styled.div`
   gap: ${SizeValue.space.md};
