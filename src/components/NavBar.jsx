@@ -48,14 +48,14 @@ const MenuItem = styled.li`
 
 const MenuTitle = styled.div`
   ${FontStyle.headlineSemiBold}
+  padding: ${SizeValue.space.md} ${SizeValue.space.lg};
 `;
 
 const SubMenu = styled.div`
   ${FontStyle.body3Medium}
-  padding: ${SizeValue.space.md};
+  padding: ${SizeValue.space.md} 0; /* Adjust padding to match MenuTitle */
   background-color: ${ColorPalette.white};
   border-radius: ${SizeValue.radius.sm};
-  padding: ${SizeValue.space.md};
   white-space: nowrap;
   display: none;
   position: absolute;
