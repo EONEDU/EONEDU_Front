@@ -9,13 +9,23 @@ import CommonButton from '../components/Common/CommonButton';
 import SizeValue from '../components/ui/SizeValue';
 import HighlightText from '../components/Common/HighlightText';
 import FontStyle from '../components/ui/FontStyle';
+import StepText from '../components/ConsultationRequest/StepText/StepText';
+import ColorPalette from '../components/ui/ColorPalette';
+
+const PageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const ContentWrapper = styled.div`
+  width: ${SizeValue.width.pageSm};
   padding-top: ${SizeValue.height.navBar};
   gap: ${SizeValue.space.xl4};
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: center;
 `;
 
 const CalendarWrapper = styled.div`
@@ -40,6 +50,18 @@ const TitleWrapper = styled.div`
 const TitleText = styled.div`
   ${FontStyle.display3Bold}
   white-space: nowrap;
+`;
+
+const VerticalDevider = styled.div`
+  display: flex;
+  width: 1px;
+  background-color: ${({ color }) => color};
+`;
+
+const CategoryWrapper = styled.div`
+  display: flex;
+  align-items: stretch;
+  gap: ${SizeValue.space.xl};
 `;
 
 function formatDateToLocal(date) {
@@ -71,29 +93,35 @@ function ConsulationRequestPage() {
   return (
     <>
       <NavBar />
-      <ContentWrapper>
-        <TitleWrapper>
-          <TitleText>{`빠르게\u00A0`}</TitleText>
-          <HighlightText text="상담 예약" fontStyle={FontStyle.display3Bold} />
-          <TitleText>{`을 도와드릴게요!`}</TitleText>
-        </TitleWrapper>
-        <CalendarWrapper>
-          <ConsultationCalendar
-            value={selectedDate}
-            onChange={setSelectedDate}
-          />
-          <TimeSlot
-            selectedDate={selectedDate}
-            selectedDateReservations={reservations}
-            selectedTime={selectedTime}
-            setSelectedTime={setSelectedTime}
-            loading={loading}
-          />
-        </CalendarWrapper>
-        <ButtonWrapper>
-          <CommonButton onClick={handleReserveClick} text="상담 신청" />
-        </ButtonWrapper>
-      </ContentWrapper>
+      <PageWrapper>
+        <ContentWrapper>
+          <TitleWrapper>
+            <TitleText>{`빠르게\u00A0`}</TitleText>
+            <HighlightText text="상담 예약" fontStyle={FontStyle.display3Bold} />
+            <TitleText>{`을 도와드릴게요!`}</TitleText>
+          </TitleWrapper>
+          <StepText titleText="3. 상담시간" descriptionText="원하시는 상담 시간을 선택해주세요." />
+          <CategoryWrapper>
+            <VerticalDevider color={ColorPalette.black} />
+            <CalendarWrapper>
+              <ConsultationCalendar
+                value={selectedDate}
+                onChange={setSelectedDate}
+              />
+              <TimeSlot
+                selectedDate={selectedDate}
+                selectedDateReservations={reservations}
+                selectedTime={selectedTime}
+                setSelectedTime={setSelectedTime}
+                loading={loading}
+              />
+            </CalendarWrapper>
+          </CategoryWrapper>
+          <ButtonWrapper>
+            <CommonButton onClick={handleReserveClick} text="상담 신청" />
+          </ButtonWrapper>
+        </ContentWrapper>
+      </PageWrapper>
     </>
   );
 }
