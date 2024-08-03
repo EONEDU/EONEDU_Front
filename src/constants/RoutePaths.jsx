@@ -1,5 +1,5 @@
-import MainPage from "../pages/MainPage";
-import ConsultationRequestPage from "../pages/ConsulationRequestPage";
+import MainPage from "../components/pages/MainPage";
+import ConsultationRequestPage from "../components/pages/ConsulationRequestPage";
 
 const RoutePaths = {
   HOME: { path: "/", element: <MainPage />, title: "홈", isNavItem: false },

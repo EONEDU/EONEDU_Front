@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import postConsultation from '../hooks/postConsultation';
-import useConsultations from '../hooks/useConsultations';
-import ConsultationCalendar from '../components/ConsultationRequest/ConsultationCalendar/ConsultationCalendar';
-import NavBar from '../components/Common/NavBar';
-import TimeSlot from '../components/ConsultationRequest/TimeSlot/TimeSlot';
-import CommonButton from '../components/Common/CommonButton';
-import SizeValue from '../components/ui/SizeValue';
-import HighlightText from '../components/Common/HighlightText';
-import FontStyle from '../components/ui/FontStyle';
-import StepText from '../components/ConsultationRequest/StepText/StepText';
-import ColorPalette from '../components/ui/ColorPalette';
+import postConsultation from '../../hooks/postConsultation';
+import useConsultations from '../../hooks/useConsultations';
+import ConsultationCalendar from '../atoms/ConsultationCalendar';
+import NavBar from '../blocks/NavBar';
+import TimeSlot from '../blocks/TimeSlot';
+import SizeValue from '../ui/SizeValue';
+import HighlightText from '../atoms/HighlightText';
+import FontStyle from '../ui/FontStyle';
+import ColorPalette from '../ui/ColorPalette';
+import Button from '../atoms/Button';
+import ConsultationStep from '../blocks/ConsultationStep';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -54,18 +54,6 @@ const TitleText = styled.div`
   white-space: nowrap;
 `;
 
-const VerticalDevider = styled.div`
-  display: flex;
-  width: 1px;
-  background-color: ${({ color }) => color};
-`;
-
-const CategoryWrapper = styled.div`
-  display: flex;
-  align-items: stretch;
-  gap: ${SizeValue.space.xl};
-`;
-
 function formatDateToLocal(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -102,9 +90,7 @@ function ConsulationRequestPage() {
             <HighlightText text="상담 예약" fontStyle={FontStyle.display3Bold} />
             <TitleText>{`을 도와드릴게요!`}</TitleText>
           </TitleWrapper>
-          <StepText titleText="3. 상담시간" descriptionText="원하시는 상담 시간을 선택해주세요." />
-          <CategoryWrapper>
-            <VerticalDevider color={ColorPalette.black} />
+          <ConsultationStep stepTitle="3. 상담 날짜" stepDescription="대충 상담 날짜">
             <CalendarWrapper>
               <ConsultationCalendar
                 value={selectedDate}
@@ -118,9 +104,16 @@ function ConsulationRequestPage() {
                 loading={loading}
               />
             </CalendarWrapper>
-          </CategoryWrapper>
+          </ConsultationStep>
           <ButtonWrapper>
-            <CommonButton onClick={handleReserveClick} text="상담 신청" />
+            <Button
+              buttonText="상담 신청"
+              height={SizeValue.height.button}
+              backgroundColor={ColorPalette.gray900}
+              textColor={ColorPalette.white}
+              available={true}
+              onClick={handleReserveClick}
+            />
           </ButtonWrapper>
         </ContentWrapper>
       </PageWrapper>

@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import ColorPalette from "../../ui/ColorPalette";
-import FontStyle from "../../ui/FontStyle";
-import SizeValue from "../../ui/SizeValue";
+import ColorPalette from "../ui/ColorPalette";
+import FontStyle from "../ui/FontStyle";
+import SizeValue from "../ui/SizeValue";
 import TimeSlotGrid from "./TimeSlotGrid";
-import Description from "./Description";
+import TimeSlotDescription from "../atoms/TimeSlotDescription";
 import { useMemo } from "react";
 
 const TimeSlotWrapper = styled.div`
@@ -97,8 +97,8 @@ function TimeSlot({ selectedDate, selectedDateReservations, selectedTime, setSel
         loading={loading}
       />
       <DescriptionWrapper>
-        <Description text="선택" color={ColorPalette.gray900} />
-        <Description text="불가" color={ColorPalette.gray100} />
+        <TimeSlotDescription text="선택" color={ColorPalette.gray900} />
+        <TimeSlotDescription text="불가" color={ColorPalette.gray100} />
       </DescriptionWrapper>
     </TimeSlotWrapper>
   );

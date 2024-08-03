@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import NavBar from "../components/Common/NavBar";
+import NavBar from "../blocks/NavBar";
 
 const MainContent = styled.div`
   padding-top: 60px;

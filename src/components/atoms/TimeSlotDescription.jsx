@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import FontStyle from "../../ui/FontStyle";
-import SizeValue from "../../ui/SizeValue";
+import FontStyle from "../ui/FontStyle";
+import SizeValue from "../ui/SizeValue";
 
-const DescriptionWrapper = styled.div`
+const TimeSlotDescriptionWrapper = styled.div`
   gap: ${SizeValue.space.md};
   display: flex;
   align-items: center;
@@ -20,13 +20,13 @@ const DescriptionText = styled.div`
   ${FontStyle.body1Regular}
 `;
 
-function Description({ text, color }) {
+function TimeSlotDescription({ text, color }) {
   return (
-    <DescriptionWrapper>
+    <TimeSlotDescriptionWrapper>
       <DescriptionBox color={color} />
       <DescriptionText>{text}</DescriptionText>
-    </DescriptionWrapper>
+    </TimeSlotDescriptionWrapper>
   );
 }
 
-export default Description;
+export default TimeSlotDescription;

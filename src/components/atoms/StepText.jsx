@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import HighlightText from "../../Common/HighlightText";
-import FontStyle from "../../ui/FontStyle";
+import HighlightText from "./HighlightText";
+import FontStyle from "../ui/FontStyle";
 
 const StepTextWrapper = styled.div`
   display: flex;
   gap: 8px;
   align-items: end;
-  align-self: flex-start;
+  align-self: start;
 `;
 
 const DescriptionText = styled.span`

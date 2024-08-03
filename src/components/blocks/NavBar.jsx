@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import getMenuItems from '../../constants/MenuItems';
 import ColorPalette from '../ui/ColorPalette';
 import FontStyle from '../ui/FontStyle';
 import SizeValue from '../ui/SizeValue';
 import RoutePaths from '../../constants/RoutePaths';
+import Logo from '../atoms/Logo';
 
 const NavContainer = styled.nav`
   height: ${SizeValue.height.navBar};
@@ -19,15 +19,6 @@ const NavContainer = styled.nav`
   z-index: 1000;
   transition: box-shadow 0.3s ease-in-out;
   box-shadow: ${({ isScrolled }) => (isScrolled ? '0 0 4px rgba(0, 0, 0, 0.25)' : 'none')};
-`;
-
-const Logo = styled.a`
-  ${FontStyle.display2Bold}
-  margin: 0 ${SizeValue.space.xl};
-  color: ${ColorPalette.black};
-  display: block;
-  text-decoration: none;
-  border: none;
 `;
 
 const Menu = styled.ul`
@@ -80,7 +71,6 @@ function NavBar() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const menuItems = getMenuItems();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,7 +90,7 @@ function NavBar() {
 
   return (
     <NavContainer isScrolled={isScrolled}>
-      <Logo href={RoutePaths.HOME.path}>Logo</Logo>
+      <Logo href={RoutePaths.HOME.path} logoText="아카데미아" />
       <Menu>
         {menuItems.map((menu, index) => (
           <MenuItem
