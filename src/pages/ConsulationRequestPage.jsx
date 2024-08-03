@@ -21,23 +21,24 @@ const PageWrapper = styled.div`
 const ContentWrapper = styled.div`
   width: ${SizeValue.width.pageSm};
   padding-top: ${SizeValue.height.navBar};
-  gap: ${SizeValue.space.xl4};
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: end;
   align-self: center;
 `;
 
 const CalendarWrapper = styled.div`
   gap: ${SizeValue.space.xl};
+  margin-top: ${SizeValue.space.xl};
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  align-self: end;
 `;
 
 const ButtonWrapper = styled.div`
-  width: ${SizeValue.width.pageSmContent};
+  width: ${SizeValue.width.pageSm};
 `;
 
 const TitleWrapper = styled.div`
@@ -45,6 +46,7 @@ const TitleWrapper = styled.div`
   margin: ${SizeValue.space.xl5} 0;
   display: flex;
   white-space: nowrap;
+  align-self: center;
 `;
 
 const TitleText = styled.div`
