@@ -11,16 +11,12 @@ import FontStyle from '../ui/FontStyle';
 import ColorPalette from '../ui/ColorPalette';
 import Button from '../atoms/Button';
 import ConsultationStep from '../blocks/ConsultationStep';
-import Footer from '../blocks/Footer';
+import TextField from '../atoms/TextField';
 
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
-  padding-bottom: ${SizeValue.space.md};
 `;
 
 const ContentWrapper = styled.div`
@@ -122,7 +118,6 @@ function ConsulationRequestPage() {
           </ButtonWrapper>
         </ContentWrapper>
       </PageWrapper>
-      <Footer/>
     </>
   );
 }

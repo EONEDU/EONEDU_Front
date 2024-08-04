@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import FontStyle from "../ui/FontStyle";
 import SizeValue from "../ui/SizeValue";
-import ColorPalette from "../ui/ColorPalette";
 
 const StyledButton = styled.button`
   ${FontStyle.headlineBold}
@@ -18,15 +17,16 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
-function Button({
+function Button(
+  {
     onClick,
     buttonText,
-    height=SizeValue.height.button,
-    backgroundColor=ColorPalette.gray900,
-    disabledBackgroundColor=ColorPalette.gray300,
-    available=true,
-    textColor=ColorPalette.white,
-    disabledTextColor=ColorPalette.gray500,
+    height,
+    backgroundColor,
+    disabledBackgroundColor,
+    available,
+    textColor,
+    disabledTextColor,
   }) {
   return (
     <StyledButton
