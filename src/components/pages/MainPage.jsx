@@ -9,7 +9,7 @@ function MainPage() {
   return (
     <Layout>
       <MainContent>
-        Test CICD
+        Test CICD Again
       </MainContent>
     </Layout>
   );
