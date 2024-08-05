@@ -8,7 +8,9 @@ function MainPage() {
   
   return (
     <Layout>
-      <MainContent></MainContent>
+      <MainContent>
+        Test CICD
+      </MainContent>
     </Layout>
   );
 }
