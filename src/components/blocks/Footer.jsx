@@ -7,6 +7,7 @@ import TextButton from "../atoms/TextButton";
 
 const FooterWrapper = styled.footer`
   width: 100%;
+  height: ${SizeValue.height.footerHeight};
   background-color: ${ColorPalette.gray900};
   color: ${ColorPalette.white};
   padding: ${SizeValue.space.md};
