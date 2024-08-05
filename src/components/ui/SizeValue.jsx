@@ -36,6 +36,7 @@ const SizeValue = {
     pageSmContent: "45.0rem",
   },
   height : {
+    footerHeight: "40.0rem",
     textField: "5.0rem",
     button: "5.0rem",
     toggleButtonLg: "4.0rem",

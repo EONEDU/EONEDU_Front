@@ -1,17 +1,15 @@
 import styled from "styled-components";
-import NavBar from "../blocks/NavBar";
+import Layout from "../blocks/Layout";
 
 const MainContent = styled.div`
-  padding-top: 60px;
 `;
 
 function MainPage() {
   
   return (
-    <>
-      <NavBar></NavBar>
+    <Layout>
       <MainContent></MainContent>
-    </>
+    </Layout>
   );
 }
 

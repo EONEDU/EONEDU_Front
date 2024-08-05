@@ -10,7 +10,7 @@ const LogoWrapper = styled.a`
 `;
 
 const LogoText = styled.div`
-  ${FontStyle.display3Bold}
+  ${FontStyle.display2Bold}
   color: ${ColorPalette.black};
   margin-left: ${SizeValue.space.sm};
 `;

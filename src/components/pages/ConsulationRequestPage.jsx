@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import postConsultation from '../../hooks/postConsultation';
 import useConsultations from '../../hooks/useConsultations';
 import ConsultationCalendar from '../atoms/ConsultationCalendar';
-import NavBar from '../blocks/NavBar';
 import TimeSlot from '../blocks/TimeSlot';
 import SizeValue from '../ui/SizeValue';
 import HighlightText from '../atoms/HighlightText';
@@ -11,18 +10,10 @@ import FontStyle from '../ui/FontStyle';
 import ColorPalette from '../ui/ColorPalette';
 import Button from '../atoms/Button';
 import ConsultationStep from '../blocks/ConsultationStep';
-import TextField from '../atoms/TextField';
-import Footer from '../blocks/Footer';
-
-const PageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+import Layout from '../blocks/Layout';
 
 const ContentWrapper = styled.div`
   width: ${SizeValue.width.pageSm};
-  padding-top: ${SizeValue.height.navBar};
   display: flex;
   flex-direction: column;
   align-items: end;
@@ -83,44 +74,40 @@ function ConsulationRequestPage() {
   };
 
   return (
-    <>
-      <NavBar />
-      <PageWrapper>
-        <ContentWrapper>
-          <TitleWrapper>
-            <TitleText>{`빠르게\u00A0`}</TitleText>
-            <HighlightText text="상담 예약" fontStyle={FontStyle.display3Bold} />
-            <TitleText>{`을 도와드릴게요!`}</TitleText>
-          </TitleWrapper>
-          <ConsultationStep stepTitle="3. 상담 날짜" stepDescription="대충 상담 날짜">
-            <CalendarWrapper>
-              <ConsultationCalendar
-                value={selectedDate}
-                onChange={setSelectedDate}
-              />
-              <TimeSlot
-                selectedDate={selectedDate}
-                selectedDateReservations={reservations}
-                selectedTime={selectedTime}
-                setSelectedTime={setSelectedTime}
-                loading={loading}
-              />
-            </CalendarWrapper>
-          </ConsultationStep>
-          <ButtonWrapper>
-            <Button
-              buttonText="상담 신청"
-              height={SizeValue.height.button}
-              backgroundColor={ColorPalette.gray900}
-              textColor={ColorPalette.white}
-              available={true}
-              onClick={handleReserveClick}
+    <Layout>
+      <ContentWrapper>
+        <TitleWrapper>
+          <TitleText>{`빠르게\u00A0`}</TitleText>
+          <HighlightText text="상담 예약" fontStyle={FontStyle.display3Bold} />
+          <TitleText>{`을 도와드릴게요!`}</TitleText>
+        </TitleWrapper>
+        <ConsultationStep stepTitle="3. 상담 날짜" stepDescription="대충 상담 날짜">
+          <CalendarWrapper>
+            <ConsultationCalendar
+              value={selectedDate}
+              onChange={setSelectedDate}
             />
-          </ButtonWrapper>
-        </ContentWrapper>
-      </PageWrapper>
-      <Footer />
-    </>
+            <TimeSlot
+              selectedDate={selectedDate}
+              selectedDateReservations={reservations}
+              selectedTime={selectedTime}
+              setSelectedTime={setSelectedTime}
+              loading={loading}
+            />
+          </CalendarWrapper>
+        </ConsultationStep>
+        <ButtonWrapper>
+          <Button
+            buttonText="상담 신청"
+            height={SizeValue.height.button}
+            backgroundColor={ColorPalette.gray900}
+            textColor={ColorPalette.white}
+            available={true}
+            onClick={handleReserveClick}
+          />
+        </ButtonWrapper>
+      </ContentWrapper>
+    </Layout>
   );
 }
 
