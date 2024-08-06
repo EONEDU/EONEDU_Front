@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import getMenuItems from '../../constants/MenuItems';
-import ColorPalette from '../ui/ColorPalette';
-import FontStyle from '../ui/FontStyle';
-import SizeValue from '../ui/SizeValue';
-import RoutePaths from '../../constants/RoutePaths';
-import Logo from '../atoms/Logo';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import getMenuItems from "../../constants/MenuItems";
+import ColorPalette from "../ui/ColorPalette";
+import FontStyle from "../ui/FontStyle";
+import SizeValue from "../ui/SizeValue";
+import RoutePaths from "../../constants/RoutePaths";
+import Logo from "../atoms/Logo";
+import SvgIcon from "../atoms/SvgIcon";
+import MenuIcon from "../../assets/image/menu.svg?react";
+import CloseIcon from "../../assets/image/close.svg?react";
 
 const NavContainer = styled.nav`
   height: ${SizeValue.height.navBar};
@@ -14,11 +17,23 @@ const NavContainer = styled.nav`
   color: ${ColorPalette.black};
   display: flex;
   align-items: center;
+  justify-content: space-between;
   position: fixed;
+  top: 0;
   left: 0;
   z-index: 1000;
   transition: box-shadow 0.3s ease-in-out;
-  box-shadow: ${({ isScrolled }) => (isScrolled ? '0 0 4px rgba(0, 0, 0, 0.25)' : 'none')};
+  box-shadow: ${({ isScrolled }) =>
+    isScrolled ? "0 0 4px rgba(0, 0, 0, 0.25)" : "none"};
+
+  @media (max-width: ${SizeValue.breakpoint.tablet}) {
+    padding: 0 ${SizeValue.space.sm};
+    height: 60px;
+  }
+`;
+
+const LogoContainer = styled.div`
+  margin-left: ${SizeValue.space.sm};
 `;
 
 const Menu = styled.ul`
@@ -26,6 +41,19 @@ const Menu = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
+
+  @media (max-width: ${SizeValue.breakpoint.tablet}) {
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background-color: ${ColorPalette.white};
+    width: 100%;
+    max-height: ${({ isOpen }) => (isOpen ? "300px" : "0")};
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: max-height 0.3s ease;
+  }
 `;
 
 const MenuItem = styled.li`
@@ -33,14 +61,20 @@ const MenuItem = styled.li`
   position: relative;
   cursor: pointer;
 
-  &:hover > div {
-    display: block;
+  @media (max-width: ${SizeValue.breakpoint.tablet}) {
+    margin-right: 0;
+    padding: ${SizeValue.space.sm} 0;
+    text-align: center;
   }
 `;
 
 const MenuTitle = styled.div`
   ${FontStyle.headlineSemiBold}
   padding: ${SizeValue.space.md} ${SizeValue.space.lg};
+
+  @media (max-width: ${SizeValue.breakpoint.tablet}) {
+    padding: ${SizeValue.space.sm};
+  }
 `;
 
 const SubMenu = styled.div`
@@ -49,11 +83,16 @@ const SubMenu = styled.div`
   background-color: ${ColorPalette.white};
   border-radius: ${SizeValue.radius.sm};
   white-space: nowrap;
-  display: none;
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   position: absolute;
   top: 100%;
   left: 0;
   box-shadow: 0 0px 4px rgba(0, 0, 0, 0.3);
+
+  @media (max-width: ${SizeValue.breakpoint.tablet}) {
+    position: static;
+    box-shadow: none;
+  }
 `;
 
 const SubMenuItem = styled.a`
@@ -67,9 +106,21 @@ const SubMenuItem = styled.a`
   }
 `;
 
+const HamburgerMenu = styled.div`
+  display: none;
+  cursor: pointer;
+  margin-right: ${SizeValue.space.lg};
+
+  @media (max-width: ${SizeValue.breakpoint.tablet}) {
+    display: block;
+  }
+`;
+
 function NavBar() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSubMenuMobile, setActiveSubMenuMobile] = useState(null);
   const menuItems = getMenuItems();
 
   useEffect(() => {
@@ -80,34 +131,54 @@ function NavBar() {
         setIsScrolled(false);
       }
     };
-
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const toggleSubMenuMobile = (index) => {
+    if (activeSubMenuMobile === index) {
+      setActiveSubMenuMobile(null);
+    } else {
+      setActiveSubMenuMobile(index);
+    }
+  };
+
   return (
     <NavContainer isScrolled={isScrolled}>
-      <Logo href={RoutePaths.HOME.path} logoText="아카데미아" />
-      <Menu>
+      <LogoContainer>
+        <Logo href={RoutePaths.HOME.path} logoText="아카데미아" />
+      </LogoContainer>
+      <HamburgerMenu onClick={toggleMenu}>
+        <SvgIcon svg={menuOpen ? CloseIcon : MenuIcon} />
+      </HamburgerMenu>
+      <Menu isOpen={menuOpen}>
         {menuItems.map((menu, index) => (
           <MenuItem
             key={index}
-            onMouseEnter={() => setActiveMenu(index)}
-            onMouseLeave={() => setActiveMenu(null)}
+            onMouseEnter={() => window.innerWidth > 768 && setActiveMenu(index)}
+            onMouseLeave={() => window.innerWidth > 768 && setActiveMenu(null)}
+            onClick={() => window.innerWidth <= 768 && toggleSubMenuMobile(index)}
           >
             <MenuTitle>{menu.name}</MenuTitle>
-            {activeMenu === index && (
-              <SubMenu>
-                {menu.subMenus.map((subMenu, subIndex) => (
-                  <SubMenuItem key={subIndex} href={subMenu.path}>
-                    {subMenu.name}
-                  </SubMenuItem>
-                ))}
-              </SubMenu>
-            )}
+            <SubMenu
+              isOpen={
+                (window.innerWidth > 768 && activeMenu === index) ||
+                (window.innerWidth <= 768 && activeSubMenuMobile === index)
+              }
+            >
+              {menu.subMenus.map((subMenu, subIndex) => (
+                <SubMenuItem key={subIndex} href={subMenu.path}>
+                  {subMenu.name}
+                </SubMenuItem>
+              ))}
+            </SubMenu>
           </MenuItem>
         ))}
       </Menu>

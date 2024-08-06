@@ -43,6 +43,10 @@ const SizeValue = {
     toggleButtonSm: "3.0rem",
     navBar: "8.0rem",
   },
+  breakpoint: {
+    tablet: "768px",
+    mobile: "420px",
+  }
 };
 
 
