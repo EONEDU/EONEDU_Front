@@ -4,6 +4,9 @@ import SizeValue from "../ui/SizeValue";
 import Layout from "../blocks/Layout";
 import HighlightText from "../atoms/HighlightText";
 import FontStyle from "../ui/FontStyle";
+import Map from "../atoms/Map";
+import OverlayContainer from "../atoms/OverlayContainer";
+import MapInfo from "../blocks/MapInfo";
 
 const MainContent = styled.div`
   display: flex;
@@ -12,8 +15,10 @@ const MainContent = styled.div`
 `;
 
 const MapContainer = styled.div`
+  position: relative;
   width: 100%;
   height: 400px;
+  background-color: #f0f0f0;
 `;
 
 const TitleWrapper = styled.div`
@@ -24,40 +29,14 @@ const TitleWrapper = styled.div`
   align-self: center;
 `;
 
-const TitleText = styled.div`
-  ${FontStyle.display3Bold}
-  white-space: nowrap;
-`;
-
 function LocationPage() {
-  const mapElement = useRef(null);
-
-  useEffect(() => {
-    const map = new naver.maps.Map(mapElement.current, {
-      center: new naver.maps.LatLng(37.5665, 126.978),
-      zoom: 17,
-    });
-
-    const marker = new naver.maps.Marker({
-      position: new naver.maps.LatLng(37.5665, 126.978),
-      map: map,
-      title: "Seoul City Hall",
-    });
-
-    
-    naver.maps.Event.addListener(marker, "click", () => {
-      alert("You clicked the marker!");
-    });
-
-  }, []);
-
   return (
     <Layout>
       <MainContent>
         <TitleWrapper>
           <HighlightText text="오시는 길" fontStyle={FontStyle.display3Bold} />
         </TitleWrapper>
-        <MapContainer ref={mapElement}/>
+        <MapInfo />
       </MainContent>
     </Layout>
   );
