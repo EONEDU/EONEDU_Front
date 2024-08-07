@@ -4,25 +4,25 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: "SUIT";
     font-weight: 400;
-    src: url("public/assets/fonts/SUIT-Regular.woff2") format("woff2");
+    src: url("/assets/fonts/SUIT-Regular.woff2") format("woff2");
   }
 
   @font-face {
     font-family: "SUIT";
     font-weight: 500;
-    src: url("public/assets/fonts/SUIT-Medium.woff2") format("woff2");
+    src: url("/assets/fonts/SUIT-Medium.woff2") format("woff2");
   }
 
    @font-face {
     font-family: "SUIT";
     font-weight: 600;
-    src: url("public/assets/fonts/SUIT-SemiBold.woff2") format("woff2");
+    src: url("/assets/fonts/SUIT-SemiBold.woff2") format("woff2");
   }
 
   @font-face {
     font-family: "SUIT";
     font-weight: 700;
-    src: url("public/assets/fonts/SUIT-Bold.woff2") format("woff2");
+    src: url("/sassets/fonts/SUIT-Bold.woff2") format("woff2");
   }
 
   html {
