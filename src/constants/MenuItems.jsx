@@ -8,7 +8,7 @@ const getMenuItems = () => [
       { name: "시설 안내", path: "/facility-guide" },
       { name: "제공 컨텐츠", path: "/provided-content" },
       { name: "입시 실적", path: "/entrance-results" },
-      { name: "오시는 길", path: "/directions" },
+      { name: "오시는 길", path: RoutePaths.LOCATION.path },
     ],
   },
   {
