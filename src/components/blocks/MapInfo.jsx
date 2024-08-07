@@ -2,8 +2,8 @@ import styled from "styled-components";
 import Map from "../atoms/Map";
 import OverlayContainer from "../atoms/OverlayContainer";
 import SizeValue from "../ui/SizeValue";
-import locationSvg from "../../assets/image/location.svg";
-import phoneSvg from "../../assets/image/phone.svg";
+import locationSvg from "../../../public/assets/image/location.svg";
+import phoneSvg from "../../../public/assets/image/phone.svg";
 import ColorPalette from "../ui/ColorPalette";
 
 const ComponentWrapper = styled.div`

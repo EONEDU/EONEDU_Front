@@ -7,8 +7,8 @@ import SizeValue from "../ui/SizeValue";
 import RoutePaths from "../../constants/RoutePaths";
 import Logo from "../atoms/Logo";
 import SvgIcon from "../atoms/SvgIcon";
-import MenuIcon from "../../assets/image/menu.svg?react";
-import CloseIcon from "../../assets/image/close.svg?react";
+import MenuIcon from "../../../public/assets/image/menu.svg?react";
+import CloseIcon from "../../../public/assets/image/close.svg?react";
 
 const NavContainer = styled.nav`
   height: ${SizeValue.height.navBar};
