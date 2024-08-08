@@ -22,7 +22,7 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: "SUIT";
     font-weight: 700;
-    src: url("/sassets/fonts/SUIT-Bold.woff2") format("woff2");
+    src: url("/assets/fonts/SUIT-Bold.woff2") format("woff2");
   }
 
   html {

@@ -3,7 +3,7 @@ import SizeValue from "../ui/SizeValue";
 import ColorPalette from "../ui/ColorPalette";
 
 const Container = styled.div`
-  width: 250px;
+  width: 200px;
   height: 350px;
   background-color: ${ColorPalette.gray900};
   color: white;
