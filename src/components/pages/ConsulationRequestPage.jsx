@@ -75,6 +75,8 @@ function formatDateToLocal(date) {
 function ConsulationRequestPage() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
+  const [selectedBranch, setSelectedBranch] = useState(null);
   const { reservations, loading, error } = useConsultations(selectedDate);
 
   const handleReserveClick = async () => {
@@ -100,10 +102,10 @@ function ConsulationRequestPage() {
           <TitleText>{`을 도와드릴게요!`}</TitleText>
         </TitleWrapper>
         <ConsultationStep stepTitle="1. 상담 종류" stepDescription="원하시는 상담 시간을 선택해주세요.">
-          <ToggleButton toggleButtons={typeToggleData}></ToggleButton>
+        <ToggleButton toggleButtons={typeToggleData} selected={selectedType} setSelected={setSelectedType} />
         </ConsultationStep>
         <ConsultationStep stepTitle="2. 지점" stepDescription="상담 지점을 선택해주세요.">
-          <ToggleButton toggleButtons={branchToggleData}></ToggleButton>
+        <ToggleButton toggleButtons={branchToggleData} selected={selectedBranch} setSelected={setSelectedBranch} />
         </ConsultationStep>
         <ConsultationStep stepTitle="3. 상담 날짜" stepDescription="대충 상담 날짜">
           <CalendarWrapper>
