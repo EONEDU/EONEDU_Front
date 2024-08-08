@@ -3,7 +3,7 @@ import FontStyle from "../ui/FontStyle";
 import SizeValue from "../ui/SizeValue";
 
 const StyledButton = styled.button`
-  ${FontStyle.headlineBold}
+  ${props => props.fontStyle}
   border-radius: ${SizeValue.radius.md};
   height: ${props => props.height};
   width: ${SizeValue.width.full};
@@ -15,10 +15,12 @@ const StyledButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  box-shadow: ${props => props.boxShadow};
 `;
 
 function Button(
   {
+    fontStyle=FontStyle.headlineBold,
     onClick,
     buttonText,
     height,
@@ -27,14 +29,17 @@ function Button(
     available,
     textColor,
     disabledTextColor,
+    boxShadow="none",
   }) {
   return (
     <StyledButton
+      fontStyle={fontStyle}
       onClick={available && onClick}
       height={height}
       backgroundColor={available ? backgroundColor : disabledBackgroundColor}
       textColor={available ? textColor : disabledTextColor}
-      content={buttonText}>
+      content={buttonText}
+      boxShadow={boxShadow}>
       {buttonText}
     </StyledButton>
   );
