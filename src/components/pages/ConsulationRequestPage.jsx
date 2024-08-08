@@ -11,6 +11,7 @@ import ColorPalette from '../ui/ColorPalette';
 import Button from '../atoms/Button';
 import ConsultationStep from '../blocks/ConsultationStep';
 import Layout from '../blocks/Layout';
+import ToggleButton from '../blocks/ToggleButton';
 
 const ContentWrapper = styled.div`
   width: ${SizeValue.width.pageSm};
@@ -23,6 +24,7 @@ const ContentWrapper = styled.div`
 const CalendarWrapper = styled.div`
   gap: ${SizeValue.space.xl};
   margin-top: ${SizeValue.space.xl};
+  margin-bottom: ${SizeValue.space.xl5};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,6 +34,7 @@ const CalendarWrapper = styled.div`
 
 const ButtonWrapper = styled.div`
   width: ${SizeValue.width.pageSm};
+  margin-bottom: ${SizeValue.space.xl5};
 `;
 
 const TitleWrapper = styled.div`
@@ -46,6 +49,21 @@ const TitleText = styled.div`
   ${FontStyle.display3Bold}
   white-space: nowrap;
 `;
+
+const typeToggleData = [
+  {
+    text: '방문 상담',
+  },
+  {
+    text: '전화 상담',
+  },
+];
+
+const branchToggleData = [
+  {
+    text: '1호점',
+  },
+];
 
 function formatDateToLocal(date) {
   const year = date.getFullYear();
@@ -81,6 +99,12 @@ function ConsulationRequestPage() {
           <HighlightText text="상담 예약" fontStyle={FontStyle.display3Bold} />
           <TitleText>{`을 도와드릴게요!`}</TitleText>
         </TitleWrapper>
+        <ConsultationStep stepTitle="1. 상담 종류" stepDescription="원하시는 상담 시간을 선택해주세요.">
+          <ToggleButton toggleButtons={typeToggleData}></ToggleButton>
+        </ConsultationStep>
+        <ConsultationStep stepTitle="2. 지점" stepDescription="상담 지점을 선택해주세요.">
+          <ToggleButton toggleButtons={branchToggleData}></ToggleButton>
+        </ConsultationStep>
         <ConsultationStep stepTitle="3. 상담 날짜" stepDescription="대충 상담 날짜">
           <CalendarWrapper>
             <ConsultationCalendar
@@ -96,9 +120,12 @@ function ConsulationRequestPage() {
             />
           </CalendarWrapper>
         </ConsultationStep>
+        <ConsultationStep stepTitle="4. 예약자 정보" stepDescription="이름과 전화번호를 입력해주세요.">
+
+        </ConsultationStep>
         <ButtonWrapper>
           <Button
-            buttonText="상담 신청"
+            buttonText="상담 신청하기"
             height={SizeValue.height.button}
             backgroundColor={ColorPalette.gray900}
             textColor={ColorPalette.white}

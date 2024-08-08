@@ -2,9 +2,8 @@ import styled from "styled-components";
 import Map from "../atoms/Map";
 import OverlayContainer from "../atoms/OverlayContainer";
 import SizeValue from "../ui/SizeValue";
-import locationSvg from "/assets/image/location.svg";
-import phoneSvg from "/assets/image/phone.svg";
 import ColorPalette from "../ui/ColorPalette";
+import ImgPaths from "../../constants/ImgPaths";
 
 const ComponentWrapper = styled.div`
   position: relative;
@@ -71,10 +70,10 @@ function MapInfo() {
       </MapWrapper>
       <MapInfoWrapper>
         <InfoWrapper>
-          <OverlayContainer svgUrl={locationSvg} fillColor={ColorPalette.gray100}>
+          <OverlayContainer svgUrl={ImgPaths.location} fillColor={ColorPalette.gray100}>
             <p>오시는 길</p>
           </OverlayContainer>
-          <OverlayContainer svgUrl={phoneSvg}>
+          <OverlayContainer svgUrl={ImgPaths.phone}>
             <p>상담 안내</p>
           </OverlayContainer>
         </InfoWrapper>

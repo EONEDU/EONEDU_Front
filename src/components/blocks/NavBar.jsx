@@ -6,9 +6,8 @@ import FontStyle from "../ui/FontStyle";
 import SizeValue from "../ui/SizeValue";
 import RoutePaths from "../../constants/RoutePaths";
 import Logo from "../atoms/Logo";
-import SvgIcon from "../atoms/SvgIcon";
-import MenuIcon from "@assets/image/menu.svg?react";
-import CloseIcon from "@assets/image/close.svg?react";
+import SVGImage from "../atoms/SvgImg";
+import ImgPaths from "../../constants/ImgPaths";
 
 const NavContainer = styled.nav`
   height: ${SizeValue.height.navBar};
@@ -156,7 +155,7 @@ function NavBar() {
         <Logo href={RoutePaths.HOME.path} logoText="아카데미아" />
       </LogoContainer>
       <HamburgerMenu onClick={toggleMenu}>
-        <SvgIcon svg={menuOpen ? CloseIcon : MenuIcon} />
+        <SVGImage src={menuOpen ? ImgPaths.close : ImgPaths.menu} />
       </HamburgerMenu>
       <Menu isOpen={menuOpen}>
         {menuItems.map((menu, index) => (
