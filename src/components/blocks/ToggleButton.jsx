@@ -26,7 +26,7 @@ function ToggleButton({ toggleButtons, selected, setSelected }) {
           key={index}
           onClick={() => handleClick(index)}
           buttonText={button.text}
-          height={SizeValue.height.toggleButtonSm}
+          height={SizeValue.height.toggleButtonLg}
           backgroundColor={selected === index ? ColorPalette.gray900 : ColorPalette.white}
           textColor={selected === index ? ColorPalette.white : ColorPalette.gray400}
           boxShadow={selected === index ? "none" : `0 0 0 1px ${ColorPalette.gray300} inset`}
