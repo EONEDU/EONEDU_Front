@@ -2,29 +2,32 @@ import styled from "styled-components";
 import ColorPalette from "../ui/ColorPalette";
 import FontStyle from "../ui/FontStyle";
 
-const ButtonWrapper = styled.button`
+const ButtonWrapper = styled.button.attrs(props => ({
+  style: {
+    color: props.$textColor,
+  }
+}))`
   ${props => props.fontStyle}
   display: flex;
   align-items: center;
   background-color: transparent;
   border: none;
-  color: ${props => props.textColor};
   cursor: pointer;
 `;
 
 function TextButton({
   onClick,
   buttonText,
-  textColor=ColorPalette.white,
-  fontStyle=FontStyle.body2Regular,
+  textColor = ColorPalette.white,
+  fontStyle = FontStyle.body2Regular,
 }) {
   return (
     <ButtonWrapper
       onClick={onClick}
-      textColor={textColor}
+      $textColor={textColor}
       fontStyle={fontStyle}
     >
-    {buttonText}
+      {buttonText}
     </ButtonWrapper>
   );
 }

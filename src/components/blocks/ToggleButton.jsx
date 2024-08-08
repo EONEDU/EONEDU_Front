@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '../atoms/Button';
 import styled from 'styled-components';
 import SizeValue from '../ui/SizeValue';
@@ -13,9 +13,7 @@ const ToggleButtonGroup = styled.div`
   margin-bottom: ${SizeValue.space.xl5};
 `;
 
-function ToggleButton({ toggleButtons }) {
-  const [selected, setSelected] = useState(null);
-
+function ToggleButton({ toggleButtons, selected, setSelected }) {
   const handleClick = (index) => {
     setSelected(index);
   };
@@ -37,6 +35,6 @@ function ToggleButton({ toggleButtons }) {
       ))}
     </ToggleButtonGroup>
   );
-};
+}
 
 export default ToggleButton;

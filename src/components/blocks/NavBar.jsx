@@ -22,8 +22,8 @@ const NavContainer = styled.nav`
   left: 0;
   z-index: 1000;
   transition: box-shadow 0.3s ease-in-out;
-  box-shadow: ${({ isScrolled }) =>
-    isScrolled ? "0 0 4px rgba(0, 0, 0, 0.25)" : "none"};
+  box-shadow: ${({ $isScrolled }) =>
+    $isScrolled ? "0 0 4px rgba(0, 0, 0, 0.25)" : "none"};
 
   @media (max-width: ${SizeValue.breakpoint.tablet}) {
     padding: 0 ${SizeValue.space.sm};
@@ -48,7 +48,7 @@ const Menu = styled.ul`
     left: 0;
     background-color: ${ColorPalette.white};
     width: 100%;
-    max-height: ${({ isOpen }) => (isOpen ? "300px" : "0")};
+    max-height: ${({ $isOpen }) => ($isOpen ? "300px" : "0")};
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: max-height 0.3s ease;
@@ -82,7 +82,7 @@ const SubMenu = styled.div`
   background-color: ${ColorPalette.white};
   border-radius: ${SizeValue.radius.sm};
   white-space: nowrap;
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  display: ${({ $isOpen }) => ($isOpen ? "block" : "none")};
   position: absolute;
   top: 100%;
   left: 0;
@@ -150,14 +150,14 @@ function NavBar() {
   };
 
   return (
-    <NavContainer isScrolled={isScrolled}>
+    <NavContainer $isScrolled={isScrolled}>
       <LogoContainer>
         <Logo href={RoutePaths.HOME.path} logoText="아카데미아" />
       </LogoContainer>
       <HamburgerMenu onClick={toggleMenu}>
         <SVGImage src={menuOpen ? ImgPaths.close : ImgPaths.menu} />
       </HamburgerMenu>
-      <Menu isOpen={menuOpen}>
+      <Menu $isOpen={menuOpen}>
         {menuItems.map((menu, index) => (
           <MenuItem
             key={index}
@@ -167,7 +167,7 @@ function NavBar() {
           >
             <MenuTitle>{menu.name}</MenuTitle>
             <SubMenu
-              isOpen={
+              $isOpen={
                 (window.innerWidth > 768 && activeMenu === index) ||
                 (window.innerWidth <= 768 && activeSubMenuMobile === index)
               }

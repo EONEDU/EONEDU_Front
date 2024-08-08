@@ -12,6 +12,8 @@ import Button from '../atoms/Button';
 import ConsultationStep from '../blocks/ConsultationStep';
 import Layout from '../blocks/Layout';
 import ToggleButton from '../blocks/ToggleButton';
+import TextField from '../atoms/TextField';
+import ButtonTextField from '../atoms/ButtonTextField';
 
 const ContentWrapper = styled.div`
   width: ${SizeValue.width.pageSm};
@@ -50,6 +52,16 @@ const TitleText = styled.div`
   white-space: nowrap;
 `;
 
+const TextButtonWrapper = styled.div`
+  margin-top: ${SizeValue.space.xl3};
+  margin-bottom: ${SizeValue.space.xl5};
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: ${SizeValue.space.md};
+  width: ${SizeValue.width.pageSmContent};
+`;
+
 const typeToggleData = [
   {
     text: '방문 상담',
@@ -75,6 +87,8 @@ function formatDateToLocal(date) {
 function ConsulationRequestPage() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedType, setSelectedType] = useState(0);
+  const [selectedBranch, setSelectedBranch] = useState(0);
   const { reservations, loading, error } = useConsultations(selectedDate);
 
   const handleReserveClick = async () => {
@@ -100,10 +114,10 @@ function ConsulationRequestPage() {
           <TitleText>{`을 도와드릴게요!`}</TitleText>
         </TitleWrapper>
         <ConsultationStep stepTitle="1. 상담 종류" stepDescription="원하시는 상담 시간을 선택해주세요.">
-          <ToggleButton toggleButtons={typeToggleData}></ToggleButton>
+        <ToggleButton toggleButtons={typeToggleData} selected={selectedType} setSelected={setSelectedType} />
         </ConsultationStep>
         <ConsultationStep stepTitle="2. 지점" stepDescription="상담 지점을 선택해주세요.">
-          <ToggleButton toggleButtons={branchToggleData}></ToggleButton>
+        <ToggleButton toggleButtons={branchToggleData} selected={selectedBranch} setSelected={setSelectedBranch} />
         </ConsultationStep>
         <ConsultationStep stepTitle="3. 상담 날짜" stepDescription="대충 상담 날짜">
           <CalendarWrapper>
@@ -121,9 +135,14 @@ function ConsulationRequestPage() {
           </CalendarWrapper>
         </ConsultationStep>
         <ConsultationStep stepTitle="4. 예약자 정보" stepDescription="이름과 전화번호를 입력해주세요.">
-
+          <TextButtonWrapper>
+            <TextField placeholder="이름" />
+            <ButtonTextField placeholder="전화번호" buttonText="인증하기"/>
+            <TextField placeholder="인증번호 받기" />
+          </TextButtonWrapper>
         </ConsultationStep>
         <ButtonWrapper>
+          
           <Button
             buttonText="상담 신청하기"
             height={SizeValue.height.button}
