@@ -2,44 +2,43 @@ import styled from "styled-components";
 import FontStyle from "../ui/FontStyle";
 import SizeValue from "../ui/SizeValue";
 
-const StyledButton = styled.button`
+const StyledButton = styled.button.attrs(props => ({
+  style: {
+    height: props.height,
+    width: SizeValue.width.full,
+    backgroundColor: props.$backgroundColor,
+    color: props.$textColor,
+    boxShadow: props.$boxShadow,
+  }
+}))`
   ${props => props.fontStyle}
   border-radius: ${SizeValue.radius.md};
-  height: ${props => props.height};
-  width: ${SizeValue.width.full};
-  background-color: ${props => props.backgroundColor};
-  content: ${props => props.buttonText};
-  color: ${props => props.textColor};
   display: flex;
   border: none;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: ${props => props.boxShadow};
 `;
 
-function Button(
-  {
-    fontStyle=FontStyle.headlineBold,
-    onClick,
-    buttonText,
-    height,
-    backgroundColor,
-    disabledBackgroundColor,
-    available,
-    textColor,
-    disabledTextColor,
-    boxShadow="none",
-  }) {
+function Button({
+  fontStyle = FontStyle.headlineBold,
+  onClick,
+  buttonText,
+  height,
+  backgroundColor,
+  available,
+  textColor,
+  boxShadow = "none",
+}) {
   return (
     <StyledButton
       fontStyle={fontStyle}
       onClick={available && onClick}
       height={height}
-      backgroundColor={available ? backgroundColor : disabledBackgroundColor}
-      textColor={available ? textColor : disabledTextColor}
-      content={buttonText}
-      boxShadow={boxShadow}>
+      $backgroundColor={backgroundColor}
+      $textColor={textColor}
+      $boxShadow={boxShadow}
+    >
       {buttonText}
     </StyledButton>
   );

@@ -4,7 +4,12 @@ import ColorPalette from '../ui/ColorPalette';
 import FontStyle from '../ui/FontStyle';
 import SizeValue from '../ui/SizeValue';
 
-const Button = styled.button`
+const StyledButton = styled.button.attrs(({ isLoading, isAvailable, isSelected }) => ({
+  // props 필터링
+  isLoading: undefined,
+  isAvailable: undefined,
+  isSelected: undefined,
+}))`
   ${FontStyle.body1Regular}
   height: ${SizeValue.height.toggleButtonSm};
   border-radius: ${SizeValue.radius.md};
@@ -30,14 +35,14 @@ const Button = styled.button`
 
 const TimeSlotButton = ({ time, isAvailable, isSelected, isLoading, onClick }) => {
   return (
-    <Button
+    <StyledButton
       isAvailable={isAvailable}
       isSelected={isSelected}
       isLoading={isLoading}
       onClick={onClick}
     >
       {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-    </Button>
+    </StyledButton>
   );
 };
 
