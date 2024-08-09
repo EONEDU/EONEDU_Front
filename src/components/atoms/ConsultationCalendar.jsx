@@ -12,6 +12,14 @@ const CalendarWrapper = styled.div`
   align-items: center;
   justify-content: center;
 
+  @media (max-width: 768px) {
+    max-width: 450px;
+  }
+
+  @media (max-width: 450px) {
+    width: 350px;
+  }
+
   .react-calendar {
     width: ${SizeValue.width.pageSmContent};
     border-radius: ${SizeValue.radius.md};

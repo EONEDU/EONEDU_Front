@@ -5,7 +5,6 @@ import FontStyle from '../ui/FontStyle';
 import SizeValue from '../ui/SizeValue';
 
 const StyledButton = styled.button.attrs(({ isLoading, isAvailable, isSelected }) => ({
-  // props 필터링
   isLoading: undefined,
   isAvailable: undefined,
   isSelected: undefined,
@@ -25,6 +24,10 @@ const StyledButton = styled.button.attrs(({ isLoading, isAvailable, isSelected }
   cursor: ${({ isAvailable, isLoading }) => (isAvailable && !isLoading ? 'pointer' : 'not-allowed')};
 
   transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+  
+  @media (max-width: 450px) {
+    ${FontStyle.captionRegular}
+  }
 
   ${({ isLoading }) =>
     !isLoading &&
