@@ -11,6 +11,14 @@ const ToggleButtonGroup = styled.div`
   gap: ${SizeValue.space.md};
   margin-top: ${SizeValue.space.xl3};
   margin-bottom: ${SizeValue.space.xl5};
+
+  @media (max-width: 768px) {
+    max-width: 450px;
+  }
+
+  @media (max-width: 450px) {
+    width: 350px;
+  }
 `;
 
 function ToggleButton({ toggleButtons, selected, setSelected }) {

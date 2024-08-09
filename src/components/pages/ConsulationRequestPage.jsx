@@ -21,6 +21,14 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: end;
   align-self: center;
+  
+  @media (max-width: 768px) {
+    max-width: 500px;
+  }
+
+  @media (max-width: 450px) {
+    width: 400px;
+  }
 `;
 
 const CalendarWrapper = styled.div`
@@ -37,6 +45,13 @@ const CalendarWrapper = styled.div`
 const ButtonWrapper = styled.div`
   width: ${SizeValue.width.pageSm};
   margin-bottom: ${SizeValue.space.xl5};
+  @media (max-width: 768px) {
+    max-width: 500px;
+  }
+
+  @media (max-width: 450px) {
+    width: 400px;
+  }
 `;
 
 const TitleWrapper = styled.div`
@@ -52,7 +67,7 @@ const TitleText = styled.div`
   white-space: nowrap;
 `;
 
-const TextButtonWrapper = styled.div`
+const TextFieldWrapper = styled.div`
   margin-top: ${SizeValue.space.xl3};
   margin-bottom: ${SizeValue.space.xl5};
   display: flex;
@@ -60,6 +75,14 @@ const TextButtonWrapper = styled.div`
   flex-direction: column;
   gap: ${SizeValue.space.md};
   width: ${SizeValue.width.pageSmContent};
+  
+  @media (max-width: 768px) {
+    max-width: 450px;
+  }
+
+  @media (max-width: 450px) {
+    width: 350px;
+  }
 `;
 
 const typeToggleData = [
@@ -135,11 +158,11 @@ function ConsulationRequestPage() {
           </CalendarWrapper>
         </ConsultationStep>
         <ConsultationStep stepTitle="4. 예약자 정보" stepDescription="이름과 전화번호를 입력해주세요.">
-          <TextButtonWrapper>
+          <TextFieldWrapper>
             <TextField placeholder="이름" />
             <ButtonTextField placeholder="전화번호" buttonText="인증하기"/>
             <TextField placeholder="인증번호 받기" />
-          </TextButtonWrapper>
+          </TextFieldWrapper>
         </ConsultationStep>
         <ButtonWrapper>
           
