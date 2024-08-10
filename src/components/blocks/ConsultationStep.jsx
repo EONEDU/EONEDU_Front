@@ -6,6 +6,7 @@ import StepText from "../atoms/StepText";
 
 const StepWrapper = styled.div`
   width: 100%;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
 `;
@@ -13,19 +14,22 @@ const StepWrapper = styled.div`
 const StepContentWrapper = styled.div`
   display: flex;
   align-items: stretch;
-  gap: ${SizeValue.space.xl};
+  gap: ${SizeValue.space.sm};
   justify-content: space-between;
+  width: 100%;
 `;
 
 const DividerWrapper = styled.div`
   display: flex;
   justify-content: center;
-  flex: 1;
+  margin: 0 auto;
+  flex: 0 0 auto;
 `;
 
 const ChildrenWrapper = styled.div`
   display: flex;
   align-items: flex-end;
+  flex: 1;
 `;
 
 function ConsultationStep({ stepTitle, stepDescription, children }) {

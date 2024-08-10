@@ -14,75 +14,64 @@ import Layout from '../blocks/Layout';
 import ToggleButton from '../blocks/ToggleButton';
 import TextField from '../atoms/TextField';
 import ButtonTextField from '../atoms/ButtonTextField';
+import { useMediaQuery } from 'react-responsive';
 
 const ContentWrapper = styled.div`
-  width: ${SizeValue.width.pageSm};
+  width: 100%;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
-  align-items: end;
-  align-self: center;
-  
-  @media (max-width: 768px) {
-    max-width: 500px;
-  }
-
-  @media (max-width: 450px) {
-    width: 400px;
-  }
+  align-items: center;
+  margin: 0 auto;
+  justify-content: center;
 `;
 
 const CalendarWrapper = styled.div`
-  gap: ${SizeValue.space.xl};
-  margin-top: ${SizeValue.space.xl};
-  margin-bottom: ${SizeValue.space.xl5};
+  width: 100%;
+  gap: ${SizeValue.space.lg};
+  margin-top: ${SizeValue.space.lg};
+  margin-bottom: ${SizeValue.space.xl};
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  align-self: end;
 `;
 
 const ButtonWrapper = styled.div`
-  width: ${SizeValue.width.pageSm};
-  margin-bottom: ${SizeValue.space.xl5};
-  @media (max-width: 768px) {
-    max-width: 500px;
-  }
-
-  @media (max-width: 450px) {
-    width: 400px;
-  }
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: ${SizeValue.space.xl};
+  display: flex;
+  justify-content: center;
+  align-self: center;
 `;
 
 const TitleWrapper = styled.div`
-  ${FontStyle.display3Bold}
-  margin: ${SizeValue.space.xl5} 0;
+  margin: ${SizeValue.space.xl} 0;
   display: flex;
   white-space: nowrap;
-  align-self: center;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 `;
 
 const TitleText = styled.div`
   ${FontStyle.display3Bold}
   white-space: nowrap;
+
+  @media (max-width: 768px) {
+    ${FontStyle.display1Bold}
+  }
 `;
 
 const TextFieldWrapper = styled.div`
-  margin-top: ${SizeValue.space.xl3};
-  margin-bottom: ${SizeValue.space.xl5};
+  margin-top: ${SizeValue.space.lg};
+  margin-bottom: ${SizeValue.space.xl};
   display: flex;
   justify-content: center;
   flex-direction: column;
   gap: ${SizeValue.space.md};
-  width: ${SizeValue.width.pageSmContent};
-  
-  @media (max-width: 768px) {
-    max-width: 450px;
-  }
-
-  @media (max-width: 450px) {
-    width: 350px;
-  }
+  width: 100%;
 `;
 
 const typeToggleData = [
@@ -128,19 +117,21 @@ function ConsulationRequestPage() {
     }
   };
 
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
   return (
     <Layout>
       <ContentWrapper>
         <TitleWrapper>
           <TitleText>{`빠르게\u00A0`}</TitleText>
-          <HighlightText text="상담 예약" fontStyle={FontStyle.display3Bold} />
+          <HighlightText text="상담 예약" fontStyle={ isMobile ? FontStyle.display1Bold : FontStyle.display3Bold} />
           <TitleText>{`을 도와드릴게요!`}</TitleText>
         </TitleWrapper>
         <ConsultationStep stepTitle="1. 상담 종류" stepDescription="원하시는 상담 시간을 선택해주세요.">
-        <ToggleButton toggleButtons={typeToggleData} selected={selectedType} setSelected={setSelectedType} />
+          <ToggleButton toggleButtons={typeToggleData} selected={selectedType} setSelected={setSelectedType} />
         </ConsultationStep>
         <ConsultationStep stepTitle="2. 지점" stepDescription="상담 지점을 선택해주세요.">
-        <ToggleButton toggleButtons={branchToggleData} selected={selectedBranch} setSelected={setSelectedBranch} />
+          <ToggleButton toggleButtons={branchToggleData} selected={selectedBranch} setSelected={setSelectedBranch} />
         </ConsultationStep>
         <ConsultationStep stepTitle="3. 상담 날짜" stepDescription="대충 상담 날짜">
           <CalendarWrapper>
@@ -165,7 +156,6 @@ function ConsulationRequestPage() {
           </TextFieldWrapper>
         </ConsultationStep>
         <ButtonWrapper>
-          
           <Button
             buttonText="상담 신청하기"
             height={SizeValue.height.button}
