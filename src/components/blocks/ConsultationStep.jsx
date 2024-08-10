@@ -22,7 +22,7 @@ const StepContentWrapper = styled.div`
 const DividerWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin: 0 auto;
+  margin: 0 ${SizeValue.space.sm};
   flex: 0 0 auto;
 `;
 
