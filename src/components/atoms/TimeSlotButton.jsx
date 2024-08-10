@@ -23,10 +23,12 @@ const StyledButton = styled.button.attrs(({ isLoading, isAvailable, isSelected }
 
   cursor: ${({ isAvailable, isLoading }) => (isAvailable && !isLoading ? 'pointer' : 'not-allowed')};
 
+  white-space: nowrap;
   transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
   
   @media (max-width: 450px) {
-    ${FontStyle.captionRegular}
+    ${FontStyle.descriptionRegular}
+    height: ${SizeValue.height.toggleButtonXs};
   }
 
   ${({ isLoading }) =>
