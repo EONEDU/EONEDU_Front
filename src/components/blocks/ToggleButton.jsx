@@ -7,18 +7,14 @@ import FontStyle from '../ui/FontStyle';
 
 const ToggleButtonGroup = styled.div`
   display: flex;
-  width: ${SizeValue.width.pageSmContent};
+  width: 100%;
   gap: ${SizeValue.space.md};
   margin-top: ${SizeValue.space.xl3};
   margin-bottom: ${SizeValue.space.xl5};
+`;
 
-  @media (max-width: 768px) {
-    max-width: 450px;
-  }
-
-  @media (max-width: 450px) {
-    width: 350px;
-  }
+const StyledButton = styled(Button)`
+  flex: 1;
 `;
 
 function ToggleButton({ toggleButtons, selected, setSelected }) {
@@ -29,7 +25,7 @@ function ToggleButton({ toggleButtons, selected, setSelected }) {
   return (
     <ToggleButtonGroup>
       {toggleButtons.map((button, index) => (
-        <Button
+        <StyledButton
           fontStyle={FontStyle.body2Regular}
           key={index}
           onClick={() => handleClick(index)}
@@ -38,7 +34,6 @@ function ToggleButton({ toggleButtons, selected, setSelected }) {
           backgroundColor={selected === index ? ColorPalette.gray900 : ColorPalette.white}
           textColor={selected === index ? ColorPalette.white : ColorPalette.gray400}
           boxShadow={selected === index ? "none" : `0 0 0 1px ${ColorPalette.gray300} inset`}
-          available
         />
       ))}
     </ToggleButtonGroup>

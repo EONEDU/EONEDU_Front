@@ -7,19 +7,11 @@ import TimeSlotDescription from "../atoms/TimeSlotDescription";
 import { useMemo } from "react";
 
 const TimeSlotWrapper = styled.div`
-  width: 450px;
+  width: 100%;
   border-radius: ${SizeValue.radius.md};
   box-shadow: 0 0 0 2px ${ColorPalette.gray600} inset;
   display: flex;
   flex-direction: column;
-
-  @media (max-width: 768px) {
-    max-width: 450px;
-  }
-
-  @media (max-width: 450px) {
-    width: 350px;
-  }
 `;
 
 const AmPmText = styled.div`

@@ -5,10 +5,10 @@ import SizeValue from "../ui/SizeValue";
 const StyledButton = styled.button.attrs(props => ({
   style: {
     height: props.height,
-    width: SizeValue.width.full,
     backgroundColor: props.$backgroundColor,
     color: props.$textColor,
     boxShadow: props.$boxShadow,
+    width: props.$width,
   }
 }))`
   ${props => props.fontStyle}
@@ -18,6 +18,7 @@ const StyledButton = styled.button.attrs(props => ({
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  flex: 1;  // 부모 컨테이너에서 flexbox를 활용할 수 있도록 설정
 `;
 
 function Button({
@@ -29,6 +30,7 @@ function Button({
   available,
   textColor,
   boxShadow = "none",
+  width = '100%',
 }) {
   return (
     <StyledButton
@@ -38,6 +40,7 @@ function Button({
       $backgroundColor={backgroundColor}
       $textColor={textColor}
       $boxShadow={boxShadow}
+      $width={width}  // width를 동적으로 설정 가능하게 함
     >
       {buttonText}
     </StyledButton>

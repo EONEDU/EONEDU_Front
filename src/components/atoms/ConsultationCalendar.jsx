@@ -7,23 +7,14 @@ import ColorPalette from "../ui/ColorPalette";
 import SizeValue from "../ui/SizeValue";
 
 const CalendarWrapper = styled.div`
-  width: ${SizeValue.width.full};
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  @media (max-width: 768px) {
-    max-width: 450px;
-  }
-
-  @media (max-width: 450px) {
-    width: 350px;
-  }
 
   .react-calendar {
-    width: ${SizeValue.width.pageSmContent};
+    width: 100%;
     border-radius: ${SizeValue.radius.md};
-    padding: ${SizeValue.space.xl};
+    padding: ${SizeValue.space.md};
+    margin: 0;
     border: none;
     box-shadow: 0 0 0 2px ${ColorPalette.gray600} inset;
   }
