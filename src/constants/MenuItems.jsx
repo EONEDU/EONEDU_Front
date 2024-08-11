@@ -27,7 +27,7 @@ const getMenuItems = () => [
   {
     name: "공지",
     subMenus: [
-      { name: "공지사항", path: "/notices" },
+      { name: "공지사항", path: RoutePaths.NOTICE.path },
     ],
   },
   {
