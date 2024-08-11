@@ -5,6 +5,8 @@ import HighlightText from "../atoms/HighlightText";
 import { useMediaQuery } from "react-responsive";
 import FontStyle from "../ui/FontStyle";
 import SizeValue from "../ui/SizeValue";
+import Pagination from "../blocks/Pagination";
+import { useState } from "react";
 
 const PageContent = styled.div`
   display: flex;
@@ -27,6 +29,14 @@ const data = [
   ];
 
 function NoticeTablePage() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = 10;
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    
+  };
+
   const handleRowClick = (id) => {
     alert(`게시글 ${id}을(를) 클릭했습니다.`);
   };
@@ -40,6 +50,7 @@ function NoticeTablePage() {
           <HighlightText text="공지사항" fontStyle={ isMobile ? FontStyle.display1Bold : FontStyle.display3Bold} />
         </TitleText>
         <NoticeTable data={data} onClick={handleRowClick} />
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} ></Pagination>
       </PageContent>
     </Layout>
   );
