@@ -47,7 +47,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  margin: ${SizeValue.space.xl} 0;
+  margin: ${SizeValue.space.xl5} 0;
   display: flex;
   white-space: nowrap;
   align-items: center;
