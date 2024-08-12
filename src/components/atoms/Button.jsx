@@ -27,7 +27,7 @@ function Button({
   buttonText,
   height,
   backgroundColor,
-  available,
+  available = true,
   textColor,
   boxShadow = "none",
   width = '100%',
@@ -40,7 +40,7 @@ function Button({
       $backgroundColor={backgroundColor}
       $textColor={textColor}
       $boxShadow={boxShadow}
-      $width={width}  // width를 동적으로 설정 가능하게 함
+      $width={width}
     >
       {buttonText}
     </StyledButton>

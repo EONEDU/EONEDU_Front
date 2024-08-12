@@ -20,6 +20,8 @@ const StyledButton = styled(Button)`
 function ToggleButton({ toggleButtons, selected, setSelected }) {
   const handleClick = (index) => {
     setSelected(index);
+    console.log(`1111`);
+    console.log(`Selected: ${toggleButtons[index].name}`);
   };
 
   return (
