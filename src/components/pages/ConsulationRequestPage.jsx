@@ -89,8 +89,8 @@ function ConsulationRequestPage() {
   const { reservations } = useConsultations(selectedDate);
 
   const requests = [
-    { url: '/v1/counsel-types', method: 'GET' },
-    { url: '/v1/branches', method: 'GET' },
+    { url: `/api/v1/counsel-types`, method: 'GET' },
+    { url: `/api/v1/branches`, method: 'GET' },
   ];
 
   const { loading, data, error } = useFetchMultipleData(requests);
@@ -100,26 +100,22 @@ function ConsulationRequestPage() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  let [typeToggleData, branchToggleData] = data;
+  console.log('data:', data[0]);
 
-  if (!typeToggleData || typeToggleData.length === 0) {
-    typeToggleData = [
-      {
-        text: '방문 상담',
-      },
-      {
-        text: '전화 상담',
-      },
-    ];
-  }
+  const typeToggleData = (data[0] && data[0].counselTypes.length > 0) ? data[0].counselTypes : [
+    {
+      name: '방문 상담',
+    },
+    {
+      name: '전화 상담',
+    },
+  ];
 
-  if (!branchToggleData || branchToggleData.length === 0) {
-    branchToggleData = [
-      {
-        text: '1호점',
-      },
-    ];
-  }
+  const branchToggleData = (data[1] && data[1].branches.length > 0) ? data[1].branches : [
+    {
+      name: '1호점',
+    },
+  ];
 
   const handleReserveClick = async () => {
     if (selectedTime) {
