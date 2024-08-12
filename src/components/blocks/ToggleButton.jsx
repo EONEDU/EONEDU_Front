@@ -27,9 +27,9 @@ function ToggleButton({ toggleButtons, selected, setSelected }) {
       {toggleButtons.map((button, index) => (
         <StyledButton
           fontStyle={FontStyle.body2Regular}
-          key={index}
+          key={button.id}
           onClick={() => handleClick(index)}
-          buttonText={button.text}
+          buttonText={button.name}
           height={SizeValue.height.toggleButtonLg}
           backgroundColor={selected === index ? ColorPalette.gray900 : ColorPalette.white}
           textColor={selected === index ? ColorPalette.white : ColorPalette.gray400}

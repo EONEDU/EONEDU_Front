@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 const useFetchMultipleData = (requestsConfig = []) => {
   const [state, setState] = useState({
@@ -8,8 +8,10 @@ const useFetchMultipleData = (requestsConfig = []) => {
     error: null,
   });
 
+  const stableRequestsConfig = useMemo(() => requestsConfig, [JSON.stringify(requestsConfig)]);
+
   useEffect(() => {
-    if (requestsConfig.length === 0) {
+    if (stableRequestsConfig.length === 0) {
       setState({
         loading: false,
         data: [],
@@ -20,18 +22,27 @@ const useFetchMultipleData = (requestsConfig = []) => {
 
     const fetchData = async () => {
       try {
-        const responses = await Promise.all(
-          requestsConfig.map((config) =>
+        const results = await Promise.all(
+          stableRequestsConfig.map((config) =>
             axios({
               ...config,
               method: config.method || 'GET',
+              headers: {
+                'Accept': 'application/json',
+              },
+            }).then(response => response.data?.data)
+            .catch(error => {
+              console.error(`Error fetching ${config.url}:`, error);
+              return null;  // 오류 발생 시 null 반환
             })
           )
         );
 
+        console.log('results:', results);
+
         setState({
           loading: false,
-          data: responses.map((res) => res.data?.data), // 각 응답 객체의 data 부분만 저장
+          data: results.filter(result => result !== null),
           error: null,
         });
       } catch (err) {
@@ -44,7 +55,7 @@ const useFetchMultipleData = (requestsConfig = []) => {
     };
 
     fetchData();
-  }, [requestsConfig]);
+  }, [stableRequestsConfig]);
 
   return state;
 };
