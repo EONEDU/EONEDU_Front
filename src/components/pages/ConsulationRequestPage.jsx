@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import postConsultation from '../../hooks/postConsultation';
-import useConsultations from '../../hooks/useConsultations';
+import useFetchMultipleData from '../../hooks/useFetchMultipleData';
 import ConsultationCalendar from '../atoms/ConsultationCalendar';
 import TimeSlot from '../blocks/TimeSlot';
 import SizeValue from '../ui/SizeValue';
@@ -15,6 +14,7 @@ import ToggleButton from '../blocks/ToggleButton';
 import TextField from '../atoms/TextField';
 import ButtonTextField from '../atoms/ButtonTextField';
 import { useMediaQuery } from 'react-responsive';
+import useConsultations from '../../hooks/useConsultations';
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -74,21 +74,6 @@ const TextFieldWrapper = styled.div`
   width: 100%;
 `;
 
-const typeToggleData = [
-  {
-    text: '방문 상담',
-  },
-  {
-    text: '전화 상담',
-  },
-];
-
-const branchToggleData = [
-  {
-    text: '1호점',
-  },
-];
-
 function formatDateToLocal(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -101,7 +86,40 @@ function ConsulationRequestPage() {
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedType, setSelectedType] = useState(0);
   const [selectedBranch, setSelectedBranch] = useState(0);
-  const { reservations, loading, error } = useConsultations(selectedDate);
+  const { reservations } = useConsultations(selectedDate);
+
+  const requests = [
+    { url: '/v1/counsel-types', method: 'GET' },
+    { url: '/v1/branches', method: 'GET' },
+  ];
+
+  const { loading, data, error } = useFetchMultipleData(requests);
+
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  let [typeToggleData, branchToggleData] = data;
+
+  if (!typeToggleData || typeToggleData.length === 0) {
+    typeToggleData = [
+      {
+        text: '방문 상담',
+      },
+      {
+        text: '전화 상담',
+      },
+    ];
+  }
+
+  if (!branchToggleData || branchToggleData.length === 0) {
+    branchToggleData = [
+      {
+        text: '1호점',
+      },
+    ];
+  }
 
   const handleReserveClick = async () => {
     if (selectedTime) {
@@ -117,14 +135,12 @@ function ConsulationRequestPage() {
     }
   };
 
-  const isMobile = useMediaQuery({ maxWidth: 768 });
-
   return (
     <Layout>
       <ContentWrapper>
         <TitleWrapper>
           <TitleText>{`빠르게\u00A0`}</TitleText>
-          <HighlightText text="상담 예약" fontStyle={ isMobile ? FontStyle.display1Bold : FontStyle.display3Bold} />
+          <HighlightText text="상담 예약" fontStyle={isMobile ? FontStyle.display1Bold : FontStyle.display3Bold} />
           <TitleText>{`을 도와드릴게요!`}</TitleText>
         </TitleWrapper>
         <ConsultationStep stepTitle="1. 상담 종류" stepDescription="원하시는 상담 시간을 선택해주세요.">
@@ -135,10 +151,7 @@ function ConsulationRequestPage() {
         </ConsultationStep>
         <ConsultationStep stepTitle="3. 상담 날짜" stepDescription="대충 상담 날짜">
           <CalendarWrapper>
-            <ConsultationCalendar
-              value={selectedDate}
-              onChange={setSelectedDate}
-            />
+            <ConsultationCalendar value={selectedDate} onChange={setSelectedDate} />
             <TimeSlot
               selectedDate={selectedDate}
               selectedDateReservations={reservations}
@@ -151,7 +164,7 @@ function ConsulationRequestPage() {
         <ConsultationStep stepTitle="4. 예약자 정보" stepDescription="이름과 전화번호를 입력해주세요.">
           <TextFieldWrapper>
             <TextField placeholder="이름" />
-            <ButtonTextField placeholder="전화번호" buttonText="인증하기"/>
+            <ButtonTextField placeholder="전화번호" buttonText="인증하기" />
             <TextField placeholder="인증번호 받기" />
           </TextFieldWrapper>
         </ConsultationStep>
