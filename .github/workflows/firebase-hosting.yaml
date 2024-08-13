@@ -28,6 +28,10 @@ jobs:
           VITE_APP_NCP_KEY: ${{ secrets.VITE_APP_NCP_KEY }}
           VITE_APP_BASE_URL: ${{ secrets.VITE_APP_BASE_URL }}
 
+      - name: Replace /devapi with actual base URL
+        run: |
+          find ./dist -type f -exec sed -i 's|/devapi|${{ secrets.VITE_APP_BASE_URL }}|g' {} +
+
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 

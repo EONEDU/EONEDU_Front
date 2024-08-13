@@ -89,8 +89,8 @@ function ConsulationRequestPage() {
   const { reservations } = useConsultations(selectedDate);
 
   const requests = [
-    { url: `${import.meta.env.VITE_APP_BASE_URL}/v1/counsel-types`, method: 'GET' },
-    { url: `${import.meta.env.VITE_APP_BASE_URL}/v1/branches`, method: 'GET' },
+    { url: `/devapi/v1/counsel-types`, method: 'GET' },
+    { url: `/devapi/v1/branches`, method: 'GET' },
   ];
 
   const { loading, data, error } = useFetchMultipleData(requests);
