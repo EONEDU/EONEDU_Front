@@ -11,10 +11,10 @@ export default defineConfig({
   plugins: [react(), svgr()],
   server: {
     proxy: {
-      '/api': {
+      '/devapi': {
         target: baseURL,
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: (path) => path.replace(/^\/devapi/, ''),
       },
     },
   },
