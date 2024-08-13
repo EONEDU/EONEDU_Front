@@ -36,7 +36,7 @@ const Th = styled.th`
   }
 
   &:nth-child(2) {
-    text-align: left;
+    text-align: center;
   }
 
   &:last-child {
