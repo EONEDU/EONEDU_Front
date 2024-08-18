@@ -55,6 +55,7 @@ function TimeSlot({ selectedDate, selectedDateReservations, selectedTime, setSel
   );
 
   const isTimeAvailable = (time) => {
+    const formattedTime = time.toTimeString().split(" ")[0].slice(0, 5);
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const timeDate = new Date(
@@ -62,20 +63,20 @@ function TimeSlot({ selectedDate, selectedDateReservations, selectedTime, setSel
       time.getMonth(),
       time.getDate()
     );
-
+  
     if (timeDate.getTime() === today.getTime() && time < now) {
       return false;
     }
-
-    const formattedTime = time.toTimeString().split(" ")[0];
-    return !selectedDateReservations.some((reservation) => {
-      const reservationTime = new Date(
-        `1970-01-01T${reservation.appointment_time}`
-      )
-        .toTimeString()
-        .split(" ")[0];
+  
+    if (!selectedDateReservations || selectedDateReservations.length === 0) {
+      return true;
+    }
+  
+    const isReserved = selectedDateReservations.some((reservationTime) => {
       return reservationTime === formattedTime;
     });
+  
+    return !isReserved;
   };
 
   return (

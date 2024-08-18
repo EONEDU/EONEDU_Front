@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
-import useFetchMultipleData from '../../hooks/useFetchMultipleData';
+import useFetchData from '../../hooks/useFetchData';
 import ConsultationCalendar from '../atoms/ConsultationCalendar';
 import TimeSlot from '../blocks/TimeSlot';
 import SizeValue from '../ui/SizeValue';
@@ -14,7 +14,7 @@ import ToggleButton from '../blocks/ToggleButton';
 import TextField from '../atoms/TextField';
 import ButtonTextField from '../atoms/ButtonTextField';
 import { useMediaQuery } from 'react-responsive';
-import useConsultations from '../../hooks/useConsultations';
+import LoadingOverlay from '../atoms/LoadingOverlay';
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -30,7 +30,7 @@ const CalendarWrapper = styled.div`
   width: 100%;
   gap: ${SizeValue.space.lg};
   margin-top: ${SizeValue.space.lg};
-  margin-bottom: ${SizeValue.space.xl};
+  margin-bottom: ${SizeValue.space.xl5};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,7 +66,7 @@ const TitleText = styled.div`
 
 const TextFieldWrapper = styled.div`
   margin-top: ${SizeValue.space.lg};
-  margin-bottom: ${SizeValue.space.xl};
+  margin-bottom: ${SizeValue.space.xl5};
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -81,54 +81,83 @@ function formatDateToLocal(date) {
   return `${year}-${month}-${day}`;
 }
 
-function ConsulationRequestPage() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+function ConsultationRequestPage() {
+  const today = new Date();
+  const [selectedDate, setSelectedDate] = useState(today);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedType, setSelectedType] = useState(0);
   const [selectedBranch, setSelectedBranch] = useState(0);
-  const { reservations } = useConsultations(selectedDate);
+  const [codeGenerateRequestConfig, setCodeGenerateRequestConfig] = useState(null);
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [code, setCode] = useState('');
+  const [isCodeSent, setIsCodeSent] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [timer, setTimer] = useState(300);
 
-  const requests = [
-    { url: `/devapi/v1/counsel-types`, method: 'GET' },
-    { url: `/devapi/v1/branches`, method: 'GET' },
-  ];
+  const dateString = formatDateToLocal(selectedDate);
 
-  const { loading, data, error } = useFetchMultipleData(requests);
+  const reservationsRequest = useMemo(() => ({
+    url: `/devapi/v1/reservations?date=${dateString}&branch_id=${selectedBranch + 1}&counsel_type_id=${selectedType + 1}`,
+    method: 'GET'
+  }), [dateString, selectedBranch, selectedType]);
+  const branchRequest = useMemo(() => ({ url: `/devapi/v1/branches`, method: 'GET' }), []);
+  const counselTypeRequest = useMemo(() => ({ url: `/devapi/v1/counsel-types`, method: 'GET' }), []);
+  const codeGenerate = useMemo(() => ({ url: `/devapi/v1/sms-verifications`, method: 'POST', data: { clientPhone: phoneNumber } }), [phoneNumber]);
+  const codeVerificate = useMemo(() => ({ url: `/devapi/v1/sms-verifications/verify`, method: 'POST', data: { clientPhone: phoneNumber, code } }), [phoneNumber, code]);
+
+  const { loading: reservationLoading, data: reservationData, error } = useFetchData(reservationsRequest);
+  const { loading: branchLoading, data: branchData, error: branchError } = useFetchData(branchRequest);
+  const { loading: counselTypeLoading, data: counselTypeData, error: counselTypeError } = useFetchData(counselTypeRequest);
+  const { loading: codeLoading, data: codeData, error: codeError } = useFetchData(codeGenerateRequestConfig);
 
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  useEffect(() => {
+    let interval;
+    if (isButtonDisabled && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else if (timer === 0) {
+      setIsButtonDisabled(false);
+      setTimer(300);
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isButtonDisabled, timer]);
 
-  console.log('data:', data[0]);
+  if (reservationLoading || branchLoading || counselTypeLoading) {
+    return <LoadingOverlay />;
+  }
 
-  const typeToggleData = (data[0] && data[0].counselTypes.length > 0) ? data[0].counselTypes : [
-    {
-      name: '방문 상담',
-    },
-    {
-      name: '전화 상담',
-    },
+  if (error || branchError || counselTypeError)
+    return <p>Error: {error?.message || branchError?.message || counselTypeError?.message}</p>;
+
+  const typeToggleData = counselTypeData?.counselTypes.length > 0 ? counselTypeData.counselTypes : [
+    { name: '방문 상담' },
+    { name: '전화 상담' },
   ];
 
-  const branchToggleData = (data[1] && data[1].branches.length > 0) ? data[1].branches : [
-    {
-      name: '1호점',
-    },
+  const branchToggleData = branchData?.branches.length > 0 ? branchData.branches : [
+    { name: '1호점' },
   ];
 
   const handleReserveClick = async () => {
-    if (selectedTime) {
-      const formattedDate = formatDateToLocal(selectedDate);
-      const formattedTime = selectedTime.toTimeString().split(' ')[0];
-      try {
-        await postConsultation(formattedDate, formattedTime, "noguen", "01020573318");
-        alert('Consultation reserved successfully');
-      } catch (err) {
-        console.error("Reservation Error:", err);
-        alert('Failed to reserve consultation');
-      }
-    }
+    // 상담 예약 로직 추가
+  };
+
+  const handleGenerateCodeClick = () => {
+    setCodeGenerateRequestConfig({
+      url: `/devapi/v1/sms-verifications`,
+      method: 'POST',
+      data: { clientPhone: phoneNumber },
+      headers: {
+        'Content-Type': 'application/json', // 추가
+      },
+    });
+    setIsCodeSent(true);
+    setIsButtonDisabled(true);
   };
 
   return (
@@ -150,18 +179,24 @@ function ConsulationRequestPage() {
             <ConsultationCalendar value={selectedDate} onChange={setSelectedDate} />
             <TimeSlot
               selectedDate={selectedDate}
-              selectedDateReservations={reservations}
+              selectedDateReservations={reservationData.unavailableTimes}
               selectedTime={selectedTime}
               setSelectedTime={setSelectedTime}
-              loading={loading}
+              loading={reservationLoading}
             />
           </CalendarWrapper>
         </ConsultationStep>
         <ConsultationStep stepTitle="4. 예약자 정보" stepDescription="이름과 전화번호를 입력해주세요.">
           <TextFieldWrapper>
-            <TextField placeholder="이름" />
-            <ButtonTextField placeholder="전화번호" buttonText="인증하기" />
-            <TextField placeholder="인증번호 받기" />
+            <TextField placeholder="이름" setTextValue={setName} />
+            <ButtonTextField
+              placeholder="전화번호"
+              buttonText={isButtonDisabled ? `${Math.floor(timer / 60)}:${String(timer % 60).padStart(2, '0')}` : "인증 번호 받기"}
+              setTextValue={setPhoneNumber}
+              onButtonClick={handleGenerateCodeClick}
+              disabled={isButtonDisabled}
+            />
+            <TextField placeholder="인증번호" setTextValue={setCode} />
           </TextFieldWrapper>
         </ConsultationStep>
         <ButtonWrapper>
@@ -179,4 +214,4 @@ function ConsulationRequestPage() {
   );
 }
 
-export default ConsulationRequestPage;
+export default ConsultationRequestPage;
