@@ -4,11 +4,7 @@ import ColorPalette from '../ui/ColorPalette';
 import FontStyle from '../ui/FontStyle';
 import SizeValue from '../ui/SizeValue';
 
-const StyledButton = styled.button.attrs(({ isLoading, isAvailable, isSelected }) => ({
-  isLoading: undefined,
-  isAvailable: undefined,
-  isSelected: undefined,
-}))`
+const Button = styled.button`
   ${FontStyle.body1Regular}
   height: ${SizeValue.height.toggleButtonSm};
   border-radius: ${SizeValue.radius.md};
@@ -23,13 +19,7 @@ const StyledButton = styled.button.attrs(({ isLoading, isAvailable, isSelected }
 
   cursor: ${({ isAvailable, isLoading }) => (isAvailable && !isLoading ? 'pointer' : 'not-allowed')};
 
-  white-space: nowrap;
   transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
-  
-  @media (max-width: 450px) {
-    ${FontStyle.descriptionRegular}
-    height: ${SizeValue.height.toggleButtonXs};
-  }
 
   ${({ isLoading }) =>
     !isLoading &&
@@ -40,14 +30,14 @@ const StyledButton = styled.button.attrs(({ isLoading, isAvailable, isSelected }
 
 const TimeSlotButton = ({ time, isAvailable, isSelected, isLoading, onClick }) => {
   return (
-    <StyledButton
+    <Button
       isAvailable={isAvailable}
       isSelected={isSelected}
       isLoading={isLoading}
       onClick={onClick}
     >
       {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-    </StyledButton>
+    </Button>
   );
 };
 

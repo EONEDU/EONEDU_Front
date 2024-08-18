@@ -19,6 +19,7 @@ const TimeSlotGrid = ({ timeSlots, isTimeAvailable, selectedTime, setSelectedTim
     <TimeSlotGridWrapper>
       {timeSlots.map((time, index) => {
         const isAvailable = isTimeAvailable(time);
+
         return (
           <TimeSlotButton
             key={index}

@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 const useFetchData = (requestConfig) => {
-  const localRequestConfig = requestConfig || {};
+  const localRequestConfig = useMemo(() => requestConfig || {}, [JSON.stringify(requestConfig)]);
 
   const [state, setState] = useState({
     loading: true,
@@ -10,34 +10,37 @@ const useFetchData = (requestConfig) => {
     error: null,
   });
 
-  if (!localRequestConfig?.method) {
-    localRequestConfig.method = 'GET';
-  }
-
   useEffect(() => {
-    if (localRequestConfig.url) {
-      axios(localRequestConfig)
-        .then((res) => {
-          setState({
-            loading: false,
-            data: res.data?.data, // 응답 객체의 data 부분만 저장
-            error: null,
-          });
-        })
-        .catch((err) => {
-          setState({
-            loading: false,
-            data: null,
-            error: err,
-          });
+    const fetchData = async () => {
+      if (!localRequestConfig.url) {
+        setState({
+          loading: false,
+          data: null,
+          error: new Error('No URL provided!'),
         });
-    } else {
-      setState({
-        loading: false,
-        data: null,
-        error: new Error('No URL provided!'),
-      });
-    }
+        return;
+      }
+
+      setState((prevState) => ({ ...prevState, loading: true }));
+
+      try {
+        const response = await axios(localRequestConfig);
+        setState({
+          loading: false,
+          data: response?.data.data,
+          error: null,
+        });
+      } catch (err) {
+        console.log(err);
+        setState({
+          loading: false,
+          data: null,
+          error: err,
+        });
+      }
+    };
+
+    fetchData();
   }, [localRequestConfig]);
 
   return state;
