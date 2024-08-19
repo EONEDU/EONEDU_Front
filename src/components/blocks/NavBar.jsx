@@ -68,7 +68,7 @@ const MenuItem = styled.li`
 `;
 
 const MenuTitle = styled.div`
-  ${FontStyle.headlineSemiBold}
+  ${FontStyle.subhead3SemiBold}
   padding: ${SizeValue.space.md} ${SizeValue.space.lg};
 
   @media (max-width: ${SizeValue.breakpoint.tablet}) {
@@ -77,7 +77,7 @@ const MenuTitle = styled.div`
 `;
 
 const SubMenu = styled.div`
-  ${FontStyle.body3Medium}
+  ${FontStyle.body1Medium}
   padding: ${SizeValue.space.md} 0;
   background-color: ${ColorPalette.white};
   border-radius: ${SizeValue.radius.sm};
