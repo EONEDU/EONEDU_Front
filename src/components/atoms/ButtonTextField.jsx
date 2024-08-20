@@ -38,58 +38,84 @@ const StyledTextField = styled.input`
 const StyledButton = styled.button`
   ${FontStyle.body2Regular}
   height: calc(${SizeValue.height.textField} - 10px);
-  background-color: ${ColorPalette.gray900};
+  background-color: ${(props) => props.buttonBackgroundColor};
   color: ${ColorPalette.white};
   border: none;
   border-radius: ${SizeValue.radius.md};
   padding: 0 ${SizeValue.space.lg};
-  cursor: pointer;
+  cursor: ${(props) => (props.isButtonDisabled ? "not-allowed" : "pointer")};
   position: absolute;
   right: 5px;
   top: 50%;
   transform: translateY(-50%);
+  pointer-events: ${(props) => (props.isButtonDisabled ? "none" : "auto")};
+  opacity: ${(props) => (props.isButtonDisabled ? 0.5 : 1)};
+  transition: background-color 0.3s ease, opacity 0.3s ease;
 
   &:hover {
-    background-color: ${ColorPalette.gray700};
+    background-color: ${(props) =>
+      props.isButtonDisabled ? props.buttonBackgroundColor : ColorPalette.gray700};
   }
 
   &:active {
-    background-color: ${ColorPalette.gray600};
+    background-color: ${(props) =>
+      props.isButtonDisabled ? props.buttonBackgroundColor : ColorPalette.gray600};
   }
 `;
 
+function formatPhoneNumber(value) {
+  const cleaned = value.replace(/\D/g, "");
+
+  let formatted = cleaned;
+  if (cleaned.length > 3 && cleaned.length <= 7) {
+    formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+  } else if (cleaned.length > 7) {
+    formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3, 7)}-${cleaned.slice(7, 11)}`;
+  }
+
+  return formatted;
+}
+
 function ButtonTextField({
   backgroundColor = ColorPalette.gray050,
-  disabledBackgroundColor = ColorPalette.gray100,
+  buttonBackgroundColor = ColorPalette.gray900,
   textColor = ColorPalette.black,
   placeholderColor = ColorPalette.gray600,
-  disabledTextColor = ColorPalette.gray300,
-  disabledPlaceholderColor = ColorPalette.gray500,
   borderColor = ColorPalette.gray400,
   focusBorderColor = ColorPalette.gray900,
   width = SizeValue.width.full,
-  available = true,
   fontStyle = FontStyle.body2Regular,
+  isButtonDisabled,
   placeholder,
   textValue,
   setTextValue,
   buttonText,
   onButtonClick,
 }) {
+
+  const handleInputChange = (e) => {
+    const formattedValue = formatPhoneNumber(e.target.value);
+    setTextValue(formattedValue);
+  };
+
   return (
     <TextFieldContainer width={width}>
       <StyledTextField
         fontStyle={fontStyle}
         placeholder={placeholder}
-        backgroundColor={available ? backgroundColor : disabledBackgroundColor}
-        textColor={available ? textColor : disabledTextColor}
-        placeholderColor={available ? placeholderColor : disabledPlaceholderColor}
+        backgroundColor={backgroundColor}
+        textColor={textColor}
+        placeholderColor={placeholderColor}
         value={textValue}
-        onChange={(e) => setTextValue(e.target.value)}
+        onChange={handleInputChange}
         borderColor={borderColor}
         focusBorderColor={focusBorderColor}
       />
-      <StyledButton onClick={onButtonClick}>
+      <StyledButton
+        onClick={onButtonClick}
+        buttonBackgroundColor={buttonBackgroundColor}
+        isButtonDisabled={isButtonDisabled}
+      >
         {buttonText}
       </StyledButton>
     </TextFieldContainer>

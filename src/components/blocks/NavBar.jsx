@@ -26,7 +26,7 @@ const NavContainer = styled.nav`
     $isScrolled ? "0 0 4px rgba(0, 0, 0, 0.25)" : "none"};
 
   @media (max-width: ${SizeValue.breakpoint.tablet}) {
-    padding: 0 ${SizeValue.space.sm};
+    
     height: 60px;
   }
 `;

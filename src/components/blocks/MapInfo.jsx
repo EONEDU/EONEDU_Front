@@ -11,6 +11,7 @@ const ComponentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 50px;
 `;
 
 const MapWrapper = styled.div`

@@ -16,23 +16,19 @@ const PageNumber = styled.button`
   background-color: ${props => (props.active ? ColorPalette.black : 'transparent')};
   color: ${props => (props.active ? ColorPalette.white : ColorPalette.black)};
   border: none;
-  border-radius: 50%;
+  border-radius: ${props => (props.active ? '50%' : '4px')};
   width: ${props => (props.active ? '36px' : 'auto')};
   height: ${props => (props.active ? '36px' : 'auto')};
+  padding: 0 12px;
   margin: 0 ${SizeValue.space.sm};
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
-const Ellipsis = styled.span`
-  ${FontStyle.body2Medium}
-  margin: 0 ${SizeValue.space.sm};
+  &:hover {
+    background-color: ${props => (props.active ? ColorPalette.black : ColorPalette.gray200)};
+  }
 `;
 
 const ArrowButton = styled.button`
@@ -78,18 +74,13 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           1
         </PageNumber>
       );
-      pages.push(
-        <PageNumber key={2} active={currentPage === 2} onClick={() => onPageChange(2)}>
-          2
-        </PageNumber>
-      );
 
       if (currentPage > 3) {
-        pages.push(<Ellipsis key="left-ellipsis">...</Ellipsis>);
+        pages.push(<PageNumber key="left-ellipsis" disabled>...</PageNumber>);
       }
 
-      const startPage = Math.max(3, currentPage - 1);
-      const endPage = Math.min(totalPages - 2, currentPage + 1);
+      const startPage = Math.max(2, currentPage - 1);
+      const endPage = Math.min(totalPages - 1, currentPage + 1);
 
       for (let i = startPage; i <= endPage; i++) {
         pages.push(
@@ -100,24 +91,11 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       }
 
       if (currentPage < totalPages - 2) {
-        pages.push(<Ellipsis key="right-ellipsis">...</Ellipsis>);
+        pages.push(<PageNumber key="right-ellipsis" disabled>...</PageNumber>);
       }
 
       pages.push(
-        <PageNumber
-          key={totalPages - 1}
-          active={currentPage === totalPages - 1}
-          onClick={() => onPageChange(totalPages - 1)}
-        >
-          {totalPages - 1}
-        </PageNumber>
-      );
-      pages.push(
-        <PageNumber
-          key={totalPages}
-          active={currentPage === totalPages}
-          onClick={() => onPageChange(totalPages)}
-        >
+        <PageNumber key={totalPages} active={currentPage === totalPages} onClick={() => onPageChange(totalPages)}>
           {totalPages}
         </PageNumber>
       );

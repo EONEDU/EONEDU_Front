@@ -17,18 +17,24 @@ function Map() {
         clearInterval(interval);
 
         const map = new window.naver.maps.Map(mapElement.current, {
-          center: new window.naver.maps.LatLng(37.5665, 126.978),
+          center: new window.naver.maps.LatLng(37.4964821, 127.0522146),
           zoom: 17,
+          draggable: false, // 지도 드래그 방지
+          pinchZoom: false, // 핀치 줌 방지 (모바일)
+          scrollWheel: false, // 스크롤 휠 줌 방지
+          keyboardShortcuts: false, // 키보드 단축키 방지
+          disableDoubleTapZoom: true, // 더블 탭 줌 방지
+          disableDoubleClickZoom: true, // 더블 클릭 줌 방지
         });
 
         const marker = new window.naver.maps.Marker({
-          position: new window.naver.maps.LatLng(37.5665, 126.978),
+          position: new window.naver.maps.LatLng(37.4964821, 127.0522146),
           map: map,
-          title: "Seoul City Hall",
+          title: "아카데미아",
         });
 
         window.naver.maps.Event.addListener(marker, "click", () => {
-          alert("You clicked the marker!");
+          // 마커 클릭 시 동작 정의 가능
         });
       }
     }, 100);
@@ -36,9 +42,7 @@ function Map() {
     return () => clearInterval(interval);
   }, []);
 
-  return (
-    <MapContainer ref={mapElement} />
-  );
+  return <MapContainer ref={mapElement} />;
 }
 
 export default Map;

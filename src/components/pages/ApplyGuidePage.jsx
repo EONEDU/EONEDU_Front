@@ -4,6 +4,8 @@ import SizeValue from "../ui/SizeValue";
 import Layout from "../blocks/Layout";
 import HighlightText from "../atoms/HighlightText";
 import FontStyle from "../ui/FontStyle";
+import Map from "../atoms/Map";
+import OverlayContainer from "../atoms/OverlayContainer";
 import MapInfo from "../blocks/MapInfo";
 
 const MainContent = styled.div`
@@ -21,23 +23,22 @@ const MapContainer = styled.div`
 
 const TitleWrapper = styled.div`
   ${FontStyle.display2Bold}
-  margin: 80px 0;
+  margin: ${SizeValue.space.xl5} 0;
   display: flex;
   white-space: nowrap;
   align-self: center;
 `;
 
-function LocationPage() {
+function ApplyGuidePage() {
   return (
     <Layout>
       <MainContent>
         <TitleWrapper>
-          <HighlightText text="오시는 길" fontStyle={FontStyle.display3Bold} />
+          <HighlightText text="모집 요강" fontStyle={FontStyle.display2Bold} />
         </TitleWrapper>
-        <MapInfo />
       </MainContent>
     </Layout>
   );
 }
 
-export default LocationPage;
+export default ApplyGuidePage;

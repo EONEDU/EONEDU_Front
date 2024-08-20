@@ -26,12 +26,13 @@ const ContentWrapper = styled.div`
   align-items: center;
   margin: 0 auto;
   justify-content: center;
+  margin-bottom: ${SizeValue.space.xl5};
 `;
 
 const CalendarWrapper = styled.div`
   width: 100%;
   gap: ${SizeValue.space.lg};
-  margin-top: ${SizeValue.space.lg};
+  margin-top: ${SizeValue.space.xl3};
   margin-bottom: ${SizeValue.space.xl5};
   display: flex;
   align-items: center;
@@ -58,7 +59,7 @@ const TitleWrapper = styled.div`
 `;
 
 const TitleText = styled.div`
-  ${FontStyle.display3Bold}
+  ${FontStyle.display2Bold}
   white-space: nowrap;
 
   @media (max-width: 768px) {
@@ -170,12 +171,14 @@ function ConsultationRequestPage() {
     setIsButtonDisabled(true);
   };
 
+  console.log(phoneNumber);
+
   return (
     <Layout>
       <ContentWrapper>
         <TitleWrapper>
           <TitleText>{`빠르게\u00A0`}</TitleText>
-          <HighlightText text="상담 예약" fontStyle={isMobile ? FontStyle.display1Bold : FontStyle.display3Bold} />
+          <HighlightText text="상담 예약" fontStyle={isMobile ? FontStyle.display1Bold : FontStyle.display2Bold} />
           <TitleText>{`을 도와드릴게요!`}</TitleText>
         </TitleWrapper>
         <ConsultationStep stepTitle="1. 상담 종류" stepDescription="원하시는 상담 시간을 선택해주세요.">
@@ -203,8 +206,10 @@ function ConsultationRequestPage() {
               placeholder="전화번호"
               buttonText={isButtonDisabled ? `${Math.floor(timer / 60)}:${String(timer % 60).padStart(2, '0')}` : "인증 번호 받기"}
               setTextValue={setPhoneNumber}
-              onButtonClick={handleGenerateCodeClick}
-              disabled={isButtonDisabled}
+              onButtonClick={isButtonDisabled ? null : handleGenerateCodeClick}
+              buttonBackgroundColor={isButtonDisabled ? ColorPalette.gray300 : ColorPalette.gray900}
+              isButtonDisabled={isButtonDisabled}
+              textValue={phoneNumber}
             />
             <TextField placeholder="인증번호" setTextValue={setCode} />
           </TextFieldWrapper>
