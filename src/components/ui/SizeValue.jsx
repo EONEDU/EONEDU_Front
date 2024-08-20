@@ -42,7 +42,7 @@ const SizeValue = {
     toggleButtonLg: "4.0rem",
     toggleButtonSm: "3.0rem",
     toggleButtonXs: "2.0rem",
-    navBar: "8.0rem",
+    navBar: "6.0rem",
   },
   breakpoint: {
     tablet: "768px",

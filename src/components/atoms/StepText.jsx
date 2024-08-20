@@ -13,10 +13,10 @@ const StepTextWrapper = styled.div`
 `;
 
 const DescriptionText = styled.span`
-  ${FontStyle.body2Regular}
+  ${FontStyle.body1Regular}
 
   @media (max-width: 768px) {
-    ${FontStyle.body1Regular}
+    ${FontStyle.captionMedium}
   }
 `;
 
@@ -26,7 +26,7 @@ function StepText({ titleText, descriptionText }) {
   return (
     <StepTextWrapper>
       <HighlightText 
-        fontStyle={isMobile ? FontStyle.headlineBold : FontStyle.display1Bold} 
+        fontStyle={isMobile ? FontStyle.subhead3Bold : FontStyle.headlineBold} 
         text={titleText} 
       />
       <DescriptionText>{descriptionText}</DescriptionText>

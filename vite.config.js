@@ -14,6 +14,7 @@ export default defineConfig({
       '/devapi': {
         target: baseURL,
         changeOrigin: true,
+        secure: false,
         rewrite: (path) => path.replace(/^\/devapi/, ''),
       },
     },

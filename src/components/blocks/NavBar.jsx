@@ -26,7 +26,7 @@ const NavContainer = styled.nav`
     $isScrolled ? "0 0 4px rgba(0, 0, 0, 0.25)" : "none"};
 
   @media (max-width: ${SizeValue.breakpoint.tablet}) {
-    padding: 0 ${SizeValue.space.sm};
+    
     height: 60px;
   }
 `;
@@ -68,7 +68,7 @@ const MenuItem = styled.li`
 `;
 
 const MenuTitle = styled.div`
-  ${FontStyle.headlineSemiBold}
+  ${FontStyle.subhead3SemiBold}
   padding: ${SizeValue.space.md} ${SizeValue.space.lg};
 
   @media (max-width: ${SizeValue.breakpoint.tablet}) {
@@ -77,7 +77,7 @@ const MenuTitle = styled.div`
 `;
 
 const SubMenu = styled.div`
-  ${FontStyle.body3Medium}
+  ${FontStyle.body1Medium}
   padding: ${SizeValue.space.md} 0;
   background-color: ${ColorPalette.white};
   border-radius: ${SizeValue.radius.sm};

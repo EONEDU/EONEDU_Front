@@ -24,12 +24,16 @@ const TitleText = styled.div`
   padding: ${SizeValue.space.xl5} 0;
 `;
 
-function NoticeTablePage() {
+function NoticePage() {
   const [currentPage, setCurrentPage] = useState(1);
   
   const requestConfig = {
-    url: `/devapi/v1/notices`,
+    url: `/devapi/v1/notices/${0}`,
     method: 'GET',
+    params: {
+      page: currentPage,
+      size: 10,
+    }
   };
   
   const { loading, data, error } = useFetchData(requestConfig);
@@ -63,4 +67,4 @@ function NoticeTablePage() {
   );
 }
 
-export default NoticeTablePage;
+export default NoticePage;
