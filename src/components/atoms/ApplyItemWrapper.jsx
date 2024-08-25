@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import FontStyle from '../ui/FontStyle';
+import SizeValue from '../ui/SizeValue';
 
 const Container = styled.div`
   display: flex;
@@ -11,7 +12,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  ${FontStyle.subhead2Bold}
+  ${FontStyle.subhead3Bold}
   flex: 0 0 150px;
 `;
 
@@ -23,16 +24,16 @@ const Content = styled.div`
 `;
 
 const ContentTitle = styled.div`
-  ${FontStyle.subhead2Bold}
-  padding-bottom: 10px;
+  ${FontStyle.subhead3SemiBold}
+  padding-bottom: ${SizeValue.space.md};
 `;
 
-function ApplyItemWrapper({ title = 'File Upload', contentTitle = 'Choose a file', children }) {
+function ApplyItemWrapper({ title = '제목', contentTitle, children }) {
   return (
     <Container>
       <Title>{title}</Title>
       <Content>
-        <ContentTitle>{contentTitle}</ContentTitle>
+        {contentTitle && <ContentTitle>{contentTitle}</ContentTitle>}
         {children}
       </Content>
     </Container>
