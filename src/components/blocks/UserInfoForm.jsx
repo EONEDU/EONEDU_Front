@@ -91,7 +91,7 @@ function UserInfoForm({
     setCodeGenerateRequestConfig({
       url: `/devapi/v1/sms-verifications`,
       method: 'POST',
-      data: { clientPhone: formatPhoneNumber(phoneNumber) },
+      data: { clientPhone: phoneNumber },
     });
   };
 
@@ -100,7 +100,7 @@ function UserInfoForm({
       url: `/devapi/v1/sms-verifications/verify`,
       method: 'POST',
       data: {
-        clientPhone: formatPhoneNumber(phoneNumber),
+        clientPhone: phoneNumber,
         code: code,
       },
     });
