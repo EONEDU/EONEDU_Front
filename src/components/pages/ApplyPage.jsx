@@ -25,6 +25,7 @@ const MainContent = styled.div`
   flex-direction: column;
   width: 100%;
   max-width: 800px;
+  align-self: center;
 `;
 
 const TitleWrapper = styled.div`
@@ -47,17 +48,15 @@ const ButtonWrapper = styled.div`
 function ApplyPage() {
   const {
     year, month, day, photoFile, uploadedFile,
-    name, phoneNumber, studentPhoneNumber, code, isButtonDisabled,
+    name, phoneNumber, studentPhoneNumber, parentPhoneNumber, code, isButtonDisabled,
     setYear, setMonth, setDay,
+    selectedKoreanOptions, selectedMathOptions,
+    selectedScienceOptions, selectedGenderOptions,
     setName, setStudentPhoneNumber, setCode,
     setPhotoFile, setUploadedFile,
-    setPhoneNumber,
+    setPhoneNumber, setParentPhoneNumber, setSelectedKoreanOptions,
+    setSelectedMathOptions, setSelectedScienceOptions, setSelectedGenderOptions,
   } = useApplyStore();
-
-  const [selectedKoreanOptions, setSelectedKoreanOptions] = useState([]);
-  const [selectedMathOptions, setSelectedMathOptions] = useState([]);
-  const [selectedScienceOptions, setSelectedScienceOptions] = useState([]);
-  const [selectedGenderOptions, setSelectedGenderOptions] = useState([]);
 
   const handleReserveClick = () => {
     // if (isButtonAvailable()) {
@@ -181,8 +180,8 @@ function ApplyPage() {
         </ ApplyItemWrapper >
         <ApplyItemWrapper title="학부모 연락처 *" >
           <PhoneTextField
-            textValue={name}
-            setTextValue={setName}
+            textValue={parentPhoneNumber}
+            setTextValue={setParentPhoneNumber}
             placeholder="학부모 연락처"
           />
         </ ApplyItemWrapper >

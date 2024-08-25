@@ -58,7 +58,7 @@ function NoticePage() {
     <Layout>
       <PageContent>
         <TitleText>
-          <HighlightText text="공지사항" fontStyle={ isMobile ? FontStyle.display1Bold : FontStyle.display3Bold} />
+          <HighlightText text="공지사항" fontStyle={ isMobile ? FontStyle.display1Bold : FontStyle.display2Bold} />
         </TitleText>
         <NoticeTable data={notices} onClick={handleRowClick} />
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
