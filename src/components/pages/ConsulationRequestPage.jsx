@@ -1,4 +1,5 @@
 import React, { useMemo, useEffect, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 import useFetchData from '../../hooks/useFetchData';
 import useConsultationStore from '../../store/consultationStore';
@@ -9,14 +10,15 @@ import Button from '../atoms/Button';
 import ConsultationStep from '../blocks/ConsultationStep';
 import Layout from '../blocks/Layout';
 import ToggleButton from '../blocks/ToggleButton';
-import TextField from '../atoms/TextField';
-import ButtonTextField from '../atoms/ButtonTextField';
-import { useMediaQuery } from 'react-responsive';
 import LoadingOverlay from '../atoms/LoadingOverlay';
 import HighlightText from '../atoms/HighlightText';
 import FontStyle from '../ui/FontStyle';
 import SizeValue from '../ui/SizeValue';
+import UserInfoForm from '../blocks/UserInfoForm';
 import ColorPalette from '../ui/ColorPalette';
+import formatDateToLocal from '../../util/formatDateToLocal';
+import formatToTime from '../../util/formatToTime';
+import formatPhoneNumber from '../../util/formatPhoneNumber';
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -67,40 +69,15 @@ const TitleText = styled.div`
   }
 `;
 
-const TextFieldWrapper = styled.div`
-  margin-top: ${SizeValue.space.lg};
-  margin-bottom: ${SizeValue.space.xl5};
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  gap: ${SizeValue.space.md};
-  width: 100%;
-`;
-
-function formatDateToLocal(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
-function formatToTime(isoString) {
-  const date = new Date(isoString);
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  return `${hours}:${minutes}`;
-}
-
 function ConsultationRequestPage() {
   const [initialLoading, setInitialLoading] = useState(true);
   const {
     selectedDate, selectedTime, selectedType, selectedBranch,
-    name, phoneNumber, code, isButtonDisabled, timer,
-    codeGenerateRequestConfig,consultationRequestConfig,
+    name, phoneNumber, code, isVerified,
+    consultationRequestConfig,
     setSelectedDate, setSelectedTime, setSelectedType,
     setSelectedBranch, setName, setPhoneNumber, setCode,
-    setIsCodeSent, setIsButtonDisabled, setCodeGenerateRequestConfig,
-    setConsultationRequestConfig
+    setConsultationRequestConfig, setIsVerified,
   } = useConsultationStore();
 
   useTimer();
@@ -117,8 +94,7 @@ function ConsultationRequestPage() {
   const { loading: reservationLoading, data: reservationData, error: reservationError } = useFetchData(reservationsRequest);
   const { loading: branchLoading, data: branchData, error: branchError } = useFetchData(branchRequest);
   const { loading: counselTypeLoading, data: counselTypeData, error: counselTypeError } = useFetchData(counselTypeRequest);
-  const { loading: codeLoading, data: codeData, error: codeError } = useFetchData(codeGenerateRequestConfig);
-  const { loading: consulatationLoading, data: consultationData, error: consultationError } = useFetchData(consultationRequestConfig);
+  const { loading: requestLoading, data: requestResult, error: requestError } = useFetchData(consultationRequestConfig);
 
   useEffect(() => {
     if (!reservationLoading && !branchLoading && !counselTypeLoading) {
@@ -146,32 +122,34 @@ function ConsultationRequestPage() {
     { name: '1호점' },
   ];
 
+  const isButtonAvailable = () => {
+    return (
+      selectedDate &&
+      selectedTime &&
+      selectedBranch !== null &&
+      selectedType !== null &&
+      name.trim() !== '' &&
+      isVerified
+    );
+  };
+
   const handleReserveClick = () => {
-    setConsultationRequestConfig({
-      url: `devapi/v1/reservations`,
-      method: 'POST',
-      data: {
-        counselTypeId: selectedType + 1,
-        branchId: selectedBranch + 1,
-        clientName: name,
-        clientPhone: phoneNumber,
-        date: formatDateToLocal(selectedDate),
-        time: formatToTime(selectedTime),
-      }
-    });
+    if (isButtonAvailable()) {
+      setConsultationRequestConfig({
+        url: `devapi/v1/reservations`,
+        method: 'POST',
+        data: {
+          counselTypeId: selectedType + 1,
+          branchId: selectedBranch + 1,
+          clientName: name,
+          clientPhone: phoneNumber,
+          date: formatDateToLocal(selectedDate),
+          time: formatToTime(selectedTime),
+        }
+      });
+      console.log(requestResult);
+    }
   };
-
-  const handleGenerateCodeClick = () => {
-    setCodeGenerateRequestConfig({
-      url: `/devapi/v1/sms-verifications`,
-      method: 'POST',
-      data: { clientPhone: phoneNumber },
-    });
-    setIsCodeSent(true);
-    setIsButtonDisabled(true);
-  };
-
-  console.log(phoneNumber);
 
   return (
     <Layout>
@@ -200,27 +178,23 @@ function ConsultationRequestPage() {
           </CalendarWrapper>
         </ConsultationStep>
         <ConsultationStep stepTitle="4. 예약자 정보" stepDescription="이름과 전화번호를 입력해주세요.">
-          <TextFieldWrapper>
-            <TextField placeholder="이름" setTextValue={setName} />
-            <ButtonTextField
-              placeholder="전화번호"
-              buttonText={isButtonDisabled ? `${Math.floor(timer / 60)}:${String(timer % 60).padStart(2, '0')}` : "인증 번호 받기"}
-              setTextValue={setPhoneNumber}
-              onButtonClick={isButtonDisabled ? null : handleGenerateCodeClick}
-              buttonBackgroundColor={isButtonDisabled ? ColorPalette.gray300 : ColorPalette.gray900}
-              isButtonDisabled={isButtonDisabled}
-              textValue={phoneNumber}
-            />
-            <TextField placeholder="인증번호" setTextValue={setCode} />
-          </TextFieldWrapper>
+          <UserInfoForm
+            name={name}
+            setName={setName}
+            phoneNumber={phoneNumber}
+            setPhoneNumber={setPhoneNumber}
+            code={code}
+            setCode={setCode}
+            setVerified={setIsVerified}
+          />
         </ConsultationStep>
         <ButtonWrapper>
           <Button
             buttonText="상담 신청하기"
             height={SizeValue.height.button}
-            backgroundColor={ColorPalette.gray900}
+            backgroundColor={isButtonAvailable() ? ColorPalette.gray900 : ColorPalette.gray300}
             textColor={ColorPalette.white}
-            available={true}
+            available={isButtonAvailable()}
             onClick={handleReserveClick}
           />
         </ButtonWrapper>

@@ -1,22 +1,26 @@
 import { useEffect } from 'react';
 import useConsultationStore from '../store/consultationStore';
 
-const useTimer = () => {
-  const { isButtonDisabled, timer, setIsButtonDisabled, setTimer } = useConsultationStore();
+function useTimer() {
+  const { timer, setTimer, isButtonDisabled, setIsButtonDisabled } = useConsultationStore();
 
   useEffect(() => {
-    let interval;
     if (isButtonDisabled && timer > 0) {
-      interval = setInterval(() => {
-        setTimer((prevTimer) => prevTimer - 1);
+      const intervalId = setInterval(() => {
+        setTimer((prevTimer) => {
+          if (prevTimer > 0) {
+            return prevTimer - 1;
+          } else {
+            clearInterval(intervalId);
+            setIsButtonDisabled(false);
+            return 0;
+          }
+        });
       }, 1000);
-    } else if (timer === 0) {
-      setIsButtonDisabled(false);
-      setTimer(300);
-      clearInterval(interval);
+
+      return () => clearInterval(intervalId);
     }
-    return () => clearInterval(interval);
-  }, [isButtonDisabled, timer, setIsButtonDisabled, setTimer]);
-};
+  }, [isButtonDisabled, timer, setTimer, setIsButtonDisabled]);
+}
 
 export default useTimer;

@@ -7,7 +7,7 @@ import SizeValue from '../ui/SizeValue';
 const Button = styled.button`
   ${FontStyle.body1Regular}
   height: ${SizeValue.height.toggleButtonSm};
-  border-radius: ${SizeValue.radius.md};
+  //border-radius: ${SizeValue.radius.md};
   background-color: ${({ isLoading, isAvailable, isSelected }) =>
     isLoading ? ColorPalette.gray050 : isSelected ? ColorPalette.gray900 : isAvailable ? ColorPalette.white : ColorPalette.gray050};
   

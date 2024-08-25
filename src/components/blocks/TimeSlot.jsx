@@ -8,7 +8,7 @@ import { useMemo } from "react";
 
 const TimeSlotWrapper = styled.div`
   width: 100%;
-  border-radius: ${SizeValue.radius.md};
+  //border-radius: ${SizeValue.radius.md};
   box-shadow: 0 0 0 2px ${ColorPalette.gray600} inset;
   display: flex;
   flex-direction: column;
