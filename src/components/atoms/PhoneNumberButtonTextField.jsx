@@ -4,6 +4,7 @@ import SizeValue from "../ui/SizeValue";
 import ColorPalette from "../ui/ColorPalette";
 import FontStyle from "../ui/FontStyle";
 
+
 const TextFieldContainer = styled.div`
   display: flex;
   align-items: center;
@@ -13,35 +14,43 @@ const TextFieldContainer = styled.div`
 
 const StyledTextField = styled.input`
   ${(props) => props.fontStyle}
-  background-color: ${(props) => props.backgroundColor};
-  color: ${(props) => props.textColor};
+  background-color: ${(props) =>
+    props.isDisabled ? ColorPalette.gray200 : props.backgroundColor};
+  color: ${(props) => (props.isDisabled ? ColorPalette.gray500 : props.textColor)};
   width: 100%;
   height: ${SizeValue.height.textField};
   box-shadow: 0 0 0 1px ${(props) => props.borderColor} inset;
   border: none;
-  border-radius: ${SizeValue.radius.md};
   padding: ${SizeValue.space.lg};
   padding-right: ${SizeValue.height.textField + 10}px;
   box-sizing: border-box;
   outline: none;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
 
   ::placeholder {
     color: ${(props) => props.placeholderColor};
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px ${(props) => props.focusBorderColor} inset;
+    box-shadow: ${(props) =>
+      props.isDisabled ? "none" : `0 0 0 2px ${props.focusBorderColor} inset`};
   }
+
+  ${(props) =>
+    props.isDisabled &&
+    `
+    cursor: not-allowed;
+    pointer-events: none;
+  `}
 `;
 
 const StyledButton = styled.button`
-  ${FontStyle.body2Regular}
+  ${FontStyle.body1Regular}
   height: calc(${SizeValue.height.textField} - 10px);
   background-color: ${(props) => props.buttonBackgroundColor};
   color: ${ColorPalette.white};
   border: none;
-  border-radius: ${SizeValue.radius.md};
+  width: 120px;
   padding: 0 ${SizeValue.space.lg};
   cursor: ${(props) => (props.isButtonDisabled ? "not-allowed" : "pointer")};
   position: absolute;
@@ -76,7 +85,7 @@ function formatPhoneNumber(value) {
   return formatted;
 }
 
-function ButtonTextField({
+function PhoneNumberButtonTextField({
   backgroundColor = ColorPalette.gray050,
   buttonBackgroundColor = ColorPalette.gray900,
   textColor = ColorPalette.black,
@@ -85,6 +94,7 @@ function ButtonTextField({
   focusBorderColor = ColorPalette.gray900,
   width = SizeValue.width.full,
   fontStyle = FontStyle.body2Regular,
+  isTextFieldDisabled = false,
   isButtonDisabled,
   placeholder,
   textValue,
@@ -92,7 +102,6 @@ function ButtonTextField({
   buttonText,
   onButtonClick,
 }) {
-
   const handleInputChange = (e) => {
     const formattedValue = formatPhoneNumber(e.target.value);
     setTextValue(formattedValue);
@@ -110,6 +119,8 @@ function ButtonTextField({
         onChange={handleInputChange}
         borderColor={borderColor}
         focusBorderColor={focusBorderColor}
+        isDisabled={isTextFieldDisabled}
+        disabled={isTextFieldDisabled}
       />
       <StyledButton
         onClick={onButtonClick}
@@ -122,4 +133,4 @@ function ButtonTextField({
   );
 }
 
-export default ButtonTextField;
+export default PhoneNumberButtonTextField;

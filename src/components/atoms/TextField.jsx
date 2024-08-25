@@ -11,7 +11,7 @@ const StyledTextField = styled.input`
   height: ${SizeValue.height.textField};
   box-shadow: 0 0 0 1px ${(props) => props.borderColor} inset;
   border: none;
-  border-radius: ${SizeValue.radius.md};
+  //border-radius: ${SizeValue.radius.md};
   padding: ${SizeValue.space.lg};
   box-sizing: border-box;
   outline: none;

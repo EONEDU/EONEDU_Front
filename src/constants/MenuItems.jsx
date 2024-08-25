@@ -4,9 +4,8 @@ const getMenuItems = () => [
   {
     name: "학원 소개",
     subMenus: [
-      { name: "학원 시스템", path: "/academy-system" },
-      { name: "제공 컨텐츠", path: "/provided-content" },
-      { name: "오시는 길", path: RoutePaths.LOCATION.path },
+      { name: "학원 시설 안내", path: RoutePaths.FACILITY.path },
+      { name: "대치점 안내", path: RoutePaths.INFO.path },
     ],
   },
   {

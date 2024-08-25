@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import FontStyle from "../ui/FontStyle";
-import SizeValue from "../ui/SizeValue";
 
 const StyledButton = styled.button.attrs(props => ({
   style: {
@@ -12,13 +11,14 @@ const StyledButton = styled.button.attrs(props => ({
   }
 }))`
   ${props => props.fontStyle}
-  border-radius: ${SizeValue.radius.md};
   display: flex;
   border: none;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  flex: 1;  // 부모 컨테이너에서 flexbox를 활용할 수 있도록 설정
+  cursor: ${props => (props.$available ? "pointer" : "not-allowed")};
+  pointer-events: ${props => (props.$available ? "auto" : "none")};
+  flex: 1;
+  opacity: ${props => (props.$available ? 1 : 0.6)};
 `;
 
 function Button({
@@ -35,12 +35,13 @@ function Button({
   return (
     <StyledButton
       fontStyle={fontStyle}
-      onClick={available && onClick}
+      onClick={available ? onClick : null}
       height={height}
       $backgroundColor={backgroundColor}
       $textColor={textColor}
       $boxShadow={boxShadow}
       $width={width}
+      $available={available}
     >
       {buttonText}
     </StyledButton>

@@ -17,7 +17,7 @@ const ComponentWrapper = styled.div`
 const MapWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 400px;
+  height: 350px;
   margin-bottom: 20px;
 `;
 
@@ -63,22 +63,30 @@ const InfoWrapper = styled.div`
   }
 `;
 
+const InfoText = styled.div`
+  text-align: left;
+  
+  & > .title {
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  & > .details {
+    font-weight: normal;
+    font-size: 1rem;
+    text-align: left;
+    margin-top: 10px;
+  }
+`;
+
 function MapInfo() {
   return (
     <ComponentWrapper>
       <MapWrapper>
         <Map />
       </MapWrapper>
-      <MapInfoWrapper>
-        <InfoWrapper>
-          <OverlayContainer svgUrl={ImgPaths.location} fillColor={ColorPalette.gray100}>
-            <p>오시는 길</p>
-          </OverlayContainer>
-          <OverlayContainer svgUrl={ImgPaths.phone}>
-            <p>상담 안내</p>
-          </OverlayContainer>
-        </InfoWrapper>
-      </MapInfoWrapper>
     </ComponentWrapper>
   );
 }

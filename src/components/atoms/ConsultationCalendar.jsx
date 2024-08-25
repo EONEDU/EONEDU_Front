@@ -12,7 +12,7 @@ const CalendarWrapper = styled.div`
 
   .react-calendar {
     width: 100%;
-    border-radius: ${SizeValue.radius.md};
+    //border-radius: ${SizeValue.radius.md};
     padding: ${SizeValue.space.md};
     margin: 0;
     border: none;
@@ -41,12 +41,12 @@ const CalendarWrapper = styled.div`
   }
 
   .react-calendar__tile:enabled:focus {
-    border-radius: ${SizeValue.radius.circular};
+    //border-radius: ${SizeValue.radius.circular};
     background: ${ColorPalette.transparent};
   }
 
   .react-calendar__tile--active {
-    border-radius: ${SizeValue.radius.circular};
+    //border-radius: ${SizeValue.radius.circular};
     background: ${ColorPalette.transparent};
     color: ${ColorPalette.white};
     aspect-ratio: 1 / 1;
