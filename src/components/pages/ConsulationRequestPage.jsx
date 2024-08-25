@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import useFetchData from '../../hooks/useFetchData';
 import useConsultationStore from '../../store/consultationStore';
 import useTimer from '../../hooks/useTimer';
@@ -10,7 +11,6 @@ import Button from '../atoms/Button';
 import ConsultationStep from '../blocks/ConsultationStep';
 import Layout from '../blocks/Layout';
 import ToggleButton from '../blocks/ToggleButton';
-import LoadingOverlay from '../atoms/LoadingOverlay';
 import HighlightText from '../atoms/HighlightText';
 import FontStyle from '../ui/FontStyle';
 import SizeValue from '../ui/SizeValue';
@@ -18,7 +18,7 @@ import UserInfoForm from '../blocks/UserInfoForm';
 import ColorPalette from '../ui/ColorPalette';
 import formatDateToLocal from '../../util/formatDateToLocal';
 import formatToTime from '../../util/formatToTime';
-import formatPhoneNumber from '../../util/formatPhoneNumber';
+import RoutePaths from '../../constants/RoutePaths';
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -69,8 +69,36 @@ const TitleText = styled.div`
   }
 `;
 
+const LoadingOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+const Spinner = styled.div`
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid white;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
 function ConsultationRequestPage() {
   const [initialLoading, setInitialLoading] = useState(true);
+  const navigate = useNavigate();
   const {
     selectedDate, selectedTime, selectedType, selectedBranch,
     name, phoneNumber, code, isVerified,
@@ -102,6 +130,13 @@ function ConsultationRequestPage() {
     }
   }, [reservationLoading, branchLoading, counselTypeLoading]);
 
+  useEffect(() => {
+    if (requestResult && requestResult.reservationUuid != null) {
+      alert('상담 예약이 완료되었습니다.');
+      navigate(RoutePaths.CONSULTATION_RESULT.path, { state: requestResult });
+    }
+  }, [requestResult, navigate]);
+
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
   const combinedError = reservationError || branchError || counselTypeError;
@@ -110,7 +145,7 @@ function ConsultationRequestPage() {
   }
 
   if (initialLoading) {
-    return <LoadingOverlay />;
+    return <LoadingOverlay><Spinner /></LoadingOverlay>;
   }
 
   const typeToggleData = counselTypeData?.counselTypes.length > 0 ? counselTypeData.counselTypes : [
@@ -147,7 +182,6 @@ function ConsultationRequestPage() {
           time: formatToTime(selectedTime),
         }
       });
-      console.log(requestResult);
     }
   };
 
@@ -199,6 +233,11 @@ function ConsultationRequestPage() {
           />
         </ButtonWrapper>
       </ContentWrapper>
+      {requestLoading && (
+        <LoadingOverlay>
+          <Spinner />
+        </LoadingOverlay>
+      )}
     </Layout>
   );
 }

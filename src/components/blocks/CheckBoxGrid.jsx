@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import FontStyle from '../ui/FontStyle';
 
 const CheckboxGridStyle = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
   gap: 10px;
 `;
 
@@ -12,16 +12,13 @@ const CheckboxItem = styled.label`
   ${FontStyle.body1Regular}
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
 `;
 
 const CheckboxInput = styled.input.attrs({ type: 'checkbox' })`
   margin-right: 5px;
 `;
 
-function CheckboxGrid({ 
-  title = 'Title', 
-  contentTitle = 'Content goes here', 
+function CheckboxGrid({  
   options = [], 
   selectedOptions = [], 
   setSelectedOptions, 
@@ -40,19 +37,17 @@ function CheckboxGrid({
   };
 
   return (
-    <>
-      <CheckboxGridStyle>
-        {options.map((option, index) => (
-          <CheckboxItem key={index}>
-            <CheckboxInput
-              checked={selectedOptions.includes(option)}
-              onChange={() => handleCheckboxChange(option)}
-            />
-            {option}
-          </CheckboxItem>
-        ))}
-      </CheckboxGridStyle>
-    </>
+    <CheckboxGridStyle>
+      {options.map((option, index) => (
+        <CheckboxItem key={index}>
+          <CheckboxInput
+            checked={selectedOptions.includes(option)}
+            onChange={() => handleCheckboxChange(option)}
+          />
+          {option}
+        </CheckboxItem>
+      ))}
+    </CheckboxGridStyle>
   );
 }
 

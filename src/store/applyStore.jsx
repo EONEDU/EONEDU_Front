@@ -1,25 +1,31 @@
 import { create } from 'zustand';
 
 const useApplyStore = create((set) => ({
+  year: 2000,
+  month: 1,
+  day: 1,
   name: '',
   phoneNumber: '',
+  studentPhoneNumber: '',
   code: '',
-  isCodeSent: false,
+  photoFile: null,
+  uploadedFile: null,
   isButtonDisabled: false,
-  timer: 300,
   isLoading: true,
-  codeGenerateRequestConfig: null,
-  consultationRequestConfig: null,
+  isVerified: false,
   
+  setYear: (year) => set({ year }),
+  setMonth: (month) => set({ month }),
+  setDay: (day) => set({ day }),
   setName: (name) => set({ name }),
   setPhoneNumber: (phoneNumber) => set({ phoneNumber }),
+  setStudentPhoneNumber: (studentPhoneNumber) => set({ studentPhoneNumber }),
   setCode: (code) => set({ code }),
-  setIsCodeSent: (isCodeSent) => set({ isCodeSent }),
+  setPhotoFile: (photoFile) => set({ photoFile }),
+  setUploadedFile: (uploadedFile) => set({ uploadedFile }),
   setIsButtonDisabled: (isButtonDisabled) => set({ isButtonDisabled }),
-  setTimer: (timer) => set({ timer }),
-  setCodeGenerateRequestConfig: (config) => set({ codeGenerateRequestConfig: config }),
   setIsLoading: (isLoading) => set({ isLoading }),
-  setConsultationRequestConfig: (config) => set({ consultationRequestConfig: config }),
+  setIsVerified: (isVerified) => set({ isVerified }),
 }));
 
 export default useApplyStore;
