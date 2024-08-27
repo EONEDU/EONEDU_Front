@@ -19,7 +19,7 @@ import ScoreInputForm from "../../blocks/ScoreInputForm";
 import ConsentForm from "../../blocks/ConsentForm";
 import { useNavigate } from "react-router-dom";
 import RoutePaths from "../../../constants/RoutePaths";
-import useApplyStoreScience2025 from "../../../store/applyStoreScience2025";
+import useApplyStoreScience2024 from "../../../store/applyStoreScience2024";
 
 const MainContent = styled.div`
   display: flex;
@@ -65,9 +65,9 @@ function Sciences2025ApplyPage() {
     setPhoneNumber, setParentPhoneNumber, setSelectedKoreanOptions,
     setSelectedMathOptions, setSelectedScienceOptions, setSelectedGenderOptions,
     setSelectedGraduationType, setIsVerified,
-  } = useApplyStoreScience2025();
+  } = useApplyStoreScience2024();
 
-  const navigate =  useNavigate();
+  const navigate = useNavigate();
 
   const [subjectScores, setSubjectScores] = useState({
     korean: '',
@@ -91,6 +91,7 @@ function Sciences2025ApplyPage() {
 
   const [isButtonAvailable, setIsButtonAvailable] = useState(false);
   const [missingFields, setMissingFields] = useState([]);
+  const [consent, setConsent] = useState(null);
 
   useEffect(() => {
     const fields = [];
@@ -106,42 +107,35 @@ function Sciences2025ApplyPage() {
 
     // 제2외국어가 "응시안함"이 아닐 때만 등급 입력을 검사
     const requiredScores = [
-        'korean', 'koreanScore', 'math', 'mathScore',
-        'inquiry1', 'inquiry1Score', 'inquiry2', 'inquiry2Score',
-        'english', 'history'
+      'korean', 'koreanScore', 'math', 'mathScore',
+      'inquiry1', 'inquiry1Score', 'inquiry2', 'inquiry2Score',
+      'english', 'history'
     ];
 
     // Check other required scores
     for (const score of requiredScores) {
-        if (!subjectScores[score]) {
-            fields.push("성적표 입력");
-            break; // 한 번만 메시지를 추가하기 위해 break
-        }
+      if (!subjectScores[score]) {
+        fields.push("성적표 입력");
+        break; // 한 번만 메시지를 추가하기 위해 break
+      }
     }
 
     // Check foreignLangScore only if foreignLang is not "응시안함"
     if (subjectScores.foreignLang !== "응시안함" && !subjectScores.foreignLangScore) {
-        fields.push("제2외국어 등급 입력");
+      fields.push("제2외국어 등급 입력");
     }
 
     if (!isVerified) fields.push("문자 인증");
     if (selectedGraduationType.length === 0) fields.push("재학 여부 선택");
-
-    // 개인정보 처리 방침 동의 체크 (예: checkConsent 함수 사용)
-    if (!checkConsent()) fields.push("개인정보 처리 방침 동의");
+    if (consent !== 'agree') fields.push("개인정보 처리 방침 동의");
 
     setMissingFields(fields);
     setIsButtonAvailable(fields.length === 0);
-}, [
+  }, [
     name, year, month, day, selectedKoreanOptions, selectedMathOptions,
     selectedScienceOptions, photoFile, uploadedFile, subjectScores, isVerified,
-    selectedGraduationType
-]);
-
-  const checkConsent = () => {
-    // 개인정보 처리 방침 동의 여부 체크 로직 구현
-    return true;  // 예시: 항상 동의한 것으로 처리
-  };
+    selectedGraduationType, consent
+  ]);
 
   const uploadTwoFiles = async () => {
     const [uploadedPhotoUrl, uploadedReportFileUrl] = await Promise.all([
@@ -374,7 +368,10 @@ function Sciences2025ApplyPage() {
           />
         </ApplyItemWrapper>
         <ApplyItemWrapper title="개인정보 처리 *">
-          <ConsentForm />
+          <ConsentForm
+            consent={consent}
+            onConsentChange={setConsent}
+          />
         </ApplyItemWrapper>
         <ButtonWrapper>
           <Button
