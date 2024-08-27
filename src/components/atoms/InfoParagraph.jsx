@@ -30,8 +30,7 @@ const Details = styled.div`
 `;
 
 const SmallText = styled.span`
-  
-  ${FontStyle.body1Medium} /* 더 작은 폰트 스타일 */
+  ${FontStyle.body1Medium}
 `;
 
 function InfoParagraph() {
