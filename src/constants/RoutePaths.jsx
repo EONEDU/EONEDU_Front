@@ -1,11 +1,12 @@
 import MainPage from "../components/pages/MainPage";
 import ConsultationRequestPage from "../components/pages/ConsulationRequestPage";
 import AkademiaInfoPage from "../components/pages/AkademiaInfoPage";
-import NoticeTablePage from "../components/pages/NoticeTablePage";
+import NoticeTablePage from "../components/pages/notice_pages/NoticeTablePage";
 import ApplyPage from "../components/pages/ApplyPage";
 import ApplyGuidePage from "../components/pages/ApplyGuidePage";
 import FacilityPage from "../components/pages/FacilityPage";
 import ConsultationResultPage from "../components/pages/ConsultationResultPage";
+import NoticePage from "../components/pages/notice_pages/NoticePage";
 
 const RoutePaths = {
   HOME: { path: "/", element: <MainPage />, title: "홈", isNavItem: false },
@@ -16,6 +17,7 @@ const RoutePaths = {
   APPLY: { path: "/apply", element: <ApplyPage />, title: "원서 접수", isNavItem: false },
   APPLY_GUIDE: { path: "/apply_guide", element: <ApplyGuidePage />, title: "모집요강", isNavItem: false },
   FACILITY: { path: "/facility", element: <FacilityPage />, title: "학원 시설 안내", isNavItem: false },
+  NOTICE_DETAIL: { path: "/notice/:id", element: <NoticePage />, title: "공지 상세", isNavItem: false },
 };
 
 export default RoutePaths;
