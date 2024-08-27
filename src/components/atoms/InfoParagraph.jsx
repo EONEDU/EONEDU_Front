@@ -30,6 +30,7 @@ const Details = styled.div`
 `;
 
 const SmallText = styled.span`
+  
   ${FontStyle.body1Medium} /* 더 작은 폰트 스타일 */
 `;
 
@@ -42,7 +43,7 @@ function InfoParagraph() {
           <Title>[오시는 길]</Title>
           <Details>
             서울시 강남구 도곡로 331 영동SC빌딩 6층<br />
-            한티역 7번출구 바로 앞
+            한티역 8번출구 바로 앞
           </Details>
         </TextContent>
       </InfoSection>
@@ -51,9 +52,9 @@ function InfoParagraph() {
         <TextContent>
           <Title>[상담안내]</Title>
           <Details>
-            TEL 0000.0000<br />
+            TEL. 010-5486-4795 (문자 전용)<br />
             <SmallText>상담 예약 가능 시간</SmallText><br />
-            오전 10시 ~ 오후 9시 30분
+            오전 10시 ~ 오후 7시
           </Details>
         </TextContent>
       </InfoSection>

@@ -13,7 +13,6 @@ const getMenuItems = () => [
     subMenus: [
       { name: "모집 요강", path: RoutePaths.APPLY_GUIDE.path },
       { name: "원서접수", path: RoutePaths.APPLY.path },
-      { name: "대기 확인", path: "/waiting-list" },
     ],
   },
   {

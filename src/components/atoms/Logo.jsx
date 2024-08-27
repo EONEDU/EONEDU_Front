@@ -4,7 +4,7 @@ import SizeValue from "../ui/SizeValue";
 import ColorPalette from "../ui/ColorPalette";
 
 const LogoWrapper = styled.a`
-  margin: 0 ${SizeValue.space.xl};
+  margin-left: ${SizeValue.space.md};
   align-items: center;
   text-decoration: none;
   display: flex;
@@ -12,20 +12,18 @@ const LogoWrapper = styled.a`
 
 const LogoImage = styled.img`
   width: 120px;
-  
 `;
 
-const LogoText = styled.div`
-  ${FontStyle.display2Bold}
-  color: ${ColorPalette.black};
-  margin-left: ${SizeValue.space.sm};
+const LogoImage2 = styled.img`
+  width: 40px;
 `;
+
 
 function Logo({ logoText, href }) {
   return (
     <LogoWrapper href={href}>
+      <LogoImage2 src="/assets/image/icon_logo.png" alt="Logo" />
       <LogoImage src="/assets/image/logo.png" alt="Logo" />
-    
     </LogoWrapper>
   );
 }
