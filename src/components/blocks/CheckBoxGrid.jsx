@@ -6,6 +6,7 @@ const CheckboxGridStyle = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 columns */
   gap: 10px;
+  flex-shrink: 0;
 `;
 
 const CheckboxItem = styled.label`
