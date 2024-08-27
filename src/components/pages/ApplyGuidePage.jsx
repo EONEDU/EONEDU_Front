@@ -4,6 +4,10 @@ import SizeValue from "../ui/SizeValue";
 import Layout from "../blocks/Layout";
 import HighlightText from "../atoms/HighlightText";
 import FontStyle from "../ui/FontStyle";
+import Button from "../atoms/Button";
+import ColorPalette from "../ui/ColorPalette";
+import { useNavigate } from "react-router-dom";
+import RoutePaths from "../../constants/RoutePaths";
 
 const MainContent = styled.div`
   display: flex;
@@ -45,8 +49,14 @@ const Content = styled.div`
   color: #333;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 function ApplyGuidePage() {
   const [activeTab, setActiveTab] = useState("natural"); // 기본값을 자연계로 설정
+  const navigate = useNavigate();
 
   return (
     <Layout>
@@ -54,6 +64,18 @@ function ApplyGuidePage() {
         <TitleWrapper>
           <HighlightText text="모집 요강" fontStyle={FontStyle.display2Bold} />
         </TitleWrapper>
+        <ButtonWrapper>
+          <Button
+              buttonText="원서 접수하기"
+              height={SizeValue.height.button}
+              backgroundColor={ColorPalette.gray900}
+              textColor={ColorPalette.white}
+              onClick={() => {
+                navigate(RoutePaths.APPLY.path);
+              }}
+              width="300px"
+            />
+        </ButtonWrapper>
         <TabContainer>
           <Tab active={activeTab === "natural"} onClick={() => setActiveTab("natural")}>
             자연계
