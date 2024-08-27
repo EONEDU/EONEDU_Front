@@ -276,7 +276,7 @@ function ScoreInputForm({
 					name="foreignLangScore"
 					value={subjectScores.foreignLangScore}
 					placeholder="등급"
-					onChange={handleInputChange}
+					onChange={handleSingleDigitInputChange}
 				/>
 			</FormRow>
     </FormContainer>

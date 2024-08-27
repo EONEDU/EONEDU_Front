@@ -21,6 +21,7 @@ const useApplyStore = create((set) => ({
   selectedGraduationType: [],
   photoUrl: '',
   fileUrl: '',
+  isVerified: false,
   
   setYear: (year) => set({ year }),
   setMonth: (month) => set({ month }),
@@ -42,6 +43,7 @@ const useApplyStore = create((set) => ({
   setSelectedGraduationType: (selectedGraduationType) => set({ selectedGraduationType }),
   setPhotoUrl: (photoUrl) => set({ photoUrl }),
   setFileUrl: (fileUrl) => set({ fileUrl }),
+  setIsVerified: (isVerified) => set({ isVerified }),
 }));
 
 export default useApplyStore;
