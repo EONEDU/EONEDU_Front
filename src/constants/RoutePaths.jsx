@@ -8,6 +8,10 @@ import FacilityPage from "../components/pages/FacilityPage";
 import ConsultationResultPage from "../components/pages/ConsultationResultPage";
 import NoticePage from "../components/pages/notice_pages/NoticePage";
 import ApplyResultPage from "../components/pages/ApplyResultPage";
+import Sciences2024ApplyPage from "../components/pages/apply_pages/Sciences2024Apply";
+import Sciences2025ApplyPage from "../components/pages/apply_pages/Sciences2025Apply";
+import Humanities2024ApplyPage from "../components/pages/apply_pages/Humanities2024Apply";
+import Humanities2025ApplyPage from "../components/pages/apply_pages/Humanities2025Apply";
 
 const RoutePaths = {
   HOME: { path: "/", element: <MainPage />, title: "홈", isNavItem: false },
@@ -20,6 +24,11 @@ const RoutePaths = {
   FACILITY: { path: "/facility", element: <FacilityPage />, title: "학원 시설 안내", isNavItem: false },
   NOTICE_DETAIL: { path: "/notice/:id", element: <NoticePage />, title: "공지 상세", isNavItem: false },
   APPLY_RESULT: { path: "/apply_result", element: <ApplyResultPage />, title: "원서 접수 결과", isNavItem: false },
+  APPLY_SCIENCE_2024 : { path: "/apply_science_2024", element: <Sciences2024ApplyPage />, title: "2024년도 과학고원서접수", isNavItem: false },
+  APPLY_SCIENCE_2025 : { path: "/apply_science_2025", element: <Sciences2025ApplyPage />, title: "2024년도 과학고원서접수", isNavItem: false },
+  APPLY_HUMANITY_2024 : { path: "/apply_humanity_2024", element: <Humanities2024ApplyPage />, title: "2024년도 과학고원서접수", isNavItem: false },
+  APPLY_HUMANITY_2025 : { path: "/apply_humanity_2025", element: <Humanities2025ApplyPage />, title: "2024년도 과학고원서접수", isNavItem: false },
+
 };
 
 export default RoutePaths;

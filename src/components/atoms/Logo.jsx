@@ -7,6 +7,12 @@ const LogoWrapper = styled.a`
   margin: 0 ${SizeValue.space.xl};
   align-items: center;
   text-decoration: none;
+  display: flex;
+`;
+
+const LogoImage = styled.img`
+  width: 120px;
+  
 `;
 
 const LogoText = styled.div`
@@ -15,11 +21,11 @@ const LogoText = styled.div`
   margin-left: ${SizeValue.space.sm};
 `;
 
-function Logo({ logoText, href, SvgIcon }) {
+function Logo({ logoText, href }) {
   return (
     <LogoWrapper href={href}>
-      {SvgIcon && <SvgIcon />}
-      <LogoText>{logoText}</LogoText>
+      <LogoImage src="/assets/image/logo.png" alt="Logo" />
+    
     </LogoWrapper>
   );
 }

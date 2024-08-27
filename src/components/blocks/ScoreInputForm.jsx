@@ -270,6 +270,13 @@ function ScoreInputForm({
 					<option value="응시안함">응시안함</option>
 					<option value="일본어">일본어</option>
 					<option value="중국어">중국어</option>
+					<option value="독일어">독일어</option>
+					<option value="아랍어">아랍어</option>
+					<option value="프랑스어">프랑스어</option>
+					<option value="베트남어">베트남어</option>
+					<option value="스페인어">스페인어</option>
+					<option value="러시아어">러시아어</option>
+					<option value="한문">한문</option>
 				</Select>
 				<Input
 					type="text"

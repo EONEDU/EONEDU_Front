@@ -36,17 +36,19 @@ const RadioLabel = styled.label`
   cursor: pointer;
 `;
 
-function ConsentForm() {
-  const [consent, setConsent] = useState(null);
-
+function ConsentForm({ consent, onConsentChange }) {
   const handleRadioChange = (e) => {
-    setConsent(e.target.value);
+    onConsentChange(e.target.value);
   };
 
   return (
     <Container>
       <DescriptionBox>
-
+        아카데미아 학원은 원활한 응시원서 확인 및 처리를 위해 아래와 같이 개인정보를 수집·이용하고자 합니다. 내용을 자 세히 읽으신 후 동의 여부를 결정하여 주십시오.<br />
+        [수집항목] 이름, 생년월일, 연락처, 학교, 성적정보<br />
+        [수집목적] 지원 내역 확인, 합격 안내 및 정보 제공 등에 사용<br />
+        [개인정보의 보유 및 이용기간] 동의 후 2년<br /><br />
+        * 개인정보 수집 및 이용 동의를 하지 않을 경우 관련 서비스의 제한이 있을 수 있습니다.
       </DescriptionBox>
       <RadioGroup>
         <RadioLabel>

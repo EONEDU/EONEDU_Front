@@ -1,23 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import SizeValue from "../ui/SizeValue";
-import Layout from "../blocks/Layout";
-import HighlightText from "../atoms/HighlightText";
-import FontStyle from "../ui/FontStyle";
-import CheckboxGrid from "../blocks/CheckBoxGrid";
-import PhotoUploadButton from "../atoms/PhotoUploadButton";
-import FileUpload from "../atoms/FileUpload";
-import ApplyItemWrapper from "../atoms/ApplyItemWrapper";
-import Button from "../atoms/Button";
-import ColorPalette from "../ui/ColorPalette";
-import ApplyUserInfoForm from "../blocks/ApplyUserInfoForm";
-import TextField from "../atoms/TextField";
-import BirthdayPicker from "../atoms/BirthdayPicker";
-import PhoneTextField from "../atoms/PhoneTextField";
-import ScoreInputForm from "../blocks/ScoreInputForm";
-import ConsentForm from "../blocks/ConsentForm";
-import useApplyStore from "../../store/applyStore";
+import SizeValue from "../../ui/SizeValue";
+import Layout from "../../blocks/Layout";
+import HighlightText from "../../atoms/HighlightText";
+import FontStyle from "../../ui/FontStyle";
+import CheckboxGrid from "../../blocks/CheckBoxGrid";
+import PhotoUploadButton from "../../atoms/PhotoUploadButton";
+import FileUpload from "../../atoms/FileUpload";
+import ApplyItemWrapper from "../../atoms/ApplyItemWrapper";
+import Button from "../../atoms/Button";
+import ColorPalette from "../../ui/ColorPalette";
+import ApplyUserInfoForm from "../../blocks/ApplyUserInfoForm";
+import TextField from "../../atoms/TextField";
+import BirthdayPicker from "../../atoms/BirthdayPicker";
+import PhoneTextField from "../../atoms/PhoneTextField";
+import ScoreInputForm from "../../blocks/ScoreInputForm";
+import ConsentForm from "../../blocks/ConsentForm";
+import { useNavigate } from "react-router-dom";
+import RoutePaths from "../../../constants/RoutePaths";
+import useApplyStoreScience2024 from "../../../store/applyStoreScience2024";
 
 const MainContent = styled.div`
   display: flex;
@@ -25,6 +27,7 @@ const MainContent = styled.div`
   width: 100%;
   max-width: 800px;
   align-self: center;
+  flex-shrink: 0;
 `;
 
 const TitleWrapper = styled.div`
@@ -44,19 +47,27 @@ const ButtonWrapper = styled.div`
   align-self: center;
 `;
 
+const ErrorText = styled.p`
+  color: red;
+  text-align: center;
+  margin-top: ${SizeValue.space.md};
+`;
+
 function Sciences2024ApplyPage() {
   const {
     year, month, day, photoFile, uploadedFile,
     name, phoneNumber, studentPhoneNumber, parentPhoneNumber, code, isButtonDisabled,
-    setYear, setMonth, setDay,
+    setYear, setMonth, setDay, isVerified,
     selectedKoreanOptions, selectedMathOptions,
     selectedScienceOptions, selectedGenderOptions, selectedGraduationType,
     setName, setStudentPhoneNumber, setCode,
     setPhotoFile, setUploadedFile,
     setPhoneNumber, setParentPhoneNumber, setSelectedKoreanOptions,
     setSelectedMathOptions, setSelectedScienceOptions, setSelectedGenderOptions,
-    setSelectedGraduationType
-  } = useApplyStore();
+    setSelectedGraduationType, setIsVerified,
+  } = useApplyStoreScience2024();
+
+  const navigate = useNavigate();
 
   const [subjectScores, setSubjectScores] = useState({
     korean: '',
@@ -78,6 +89,66 @@ function Sciences2024ApplyPage() {
     inquiry2: 'social'
   });
 
+  const [isButtonAvailable, setIsButtonAvailable] = useState(false);
+  const [missingFields, setMissingFields] = useState([]);
+  const [consent, setConsent] = useState(null);
+
+  useEffect(() => {
+    const fields = [];
+
+    // 조건 체크
+    if (!name) fields.push("이름");
+    if (!year || !month || !day) fields.push("생년월일");
+    if (selectedKoreanOptions.length === 0) fields.push("국어과목 선택");
+    if (selectedMathOptions.length === 0) fields.push("수학과목 선택");
+    if (selectedScienceOptions.length < 2) fields.push("탐구과목 선택");
+    if (!photoFile) fields.push("사진 파일 선택");
+    if (!uploadedFile) fields.push("성적표 파일 선택");
+
+    // 제2외국어가 "응시안함"이 아닐 때만 등급 입력을 검사
+    const requiredScores = [
+      'korean', 'koreanScore', 'math', 'mathScore',
+      'inquiry1', 'inquiry1Score', 'inquiry2', 'inquiry2Score',
+      'english', 'history'
+    ];
+
+    // Check other required scores
+    for (const score of requiredScores) {
+      if (!subjectScores[score]) {
+        fields.push("성적표 입력");
+        break; // 한 번만 메시지를 추가하기 위해 break
+      }
+    }
+
+    // Check foreignLangScore only if foreignLang is not "응시안함"
+    if (subjectScores.foreignLang !== "응시안함" && !subjectScores.foreignLangScore) {
+      fields.push("제2외국어 등급 입력");
+    }
+
+    if (!isVerified) fields.push("문자 인증");
+    if (selectedGraduationType.length === 0) fields.push("재학 여부 선택");
+    if (consent !== 'agree') fields.push("개인정보 처리 방침 동의");
+
+    setMissingFields(fields);
+    setIsButtonAvailable(fields.length === 0);
+  }, [
+    name, year, month, day, selectedKoreanOptions, selectedMathOptions,
+    selectedScienceOptions, photoFile, uploadedFile, subjectScores, isVerified,
+    selectedGraduationType, consent
+  ]);
+
+  const uploadTwoFiles = async () => {
+    const [uploadedPhotoUrl, uploadedReportFileUrl] = await Promise.all([
+      photoFile ? uploadFile(photoFile) : '',
+      uploadedFile ? uploadFile(uploadedFile) : ''
+    ]);
+
+    console.log("Uploaded photo URL:", uploadedPhotoUrl);
+    console.log("Uploaded report file URL:", uploadedReportFileUrl);
+
+    return { uploadedPhotoUrl, uploadedReportFileUrl };
+  };
+  
   const uploadFile = async (file) => {
     const formData = new FormData();
     formData.append('file', file);
@@ -96,21 +167,9 @@ function Sciences2024ApplyPage() {
     }
   };
 
-  const uploadTwoFiles = async () => {
-    const [uploadedPhotoUrl, uploadedReportFileUrl] = await Promise.all([
-      photoFile ? uploadFile(photoFile) : '',
-      uploadedFile ? uploadFile(uploadedFile) : ''
-    ]);
-
-    console.log("Uploaded photo URL:", uploadedPhotoUrl);
-    console.log("Uploaded report file URL:", uploadedReportFileUrl);
-
-    return { uploadedPhotoUrl, uploadedReportFileUrl };
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-  
+
     if (name.includes('Score')) {
       // 점수 입력일 경우
       const numericValue = parseInt(value, 10);
@@ -127,6 +186,8 @@ function Sciences2024ApplyPage() {
   };
 
   const handleReserveClick = async () => {
+    if (!isButtonAvailable) return;
+
     try {
       const { uploadedPhotoUrl, uploadedReportFileUrl } = await uploadTwoFiles();
 
@@ -142,9 +203,9 @@ function Sciences2024ApplyPage() {
 
       const requestBody = {
         branchId: 1,
-        registrationType: "자연계/6월평가원",
+        registrationType: "자연계/2024수능",
         clientInfo: {
-          gender: selectedGenderOptions[0], 
+          gender: selectedGenderOptions[0],
           birthdate: birthdate,
           graduationType: selectedGraduationType[0],
           clientPhone: studentPhoneNumber,
@@ -186,6 +247,8 @@ function Sciences2024ApplyPage() {
 
       console.log(response.data);
 
+      navigate(RoutePaths.APPLY_RESULT.path, { state: name });
+
     } catch (error) {
       console.error("Error during registration:", error);
     }
@@ -195,20 +258,20 @@ function Sciences2024ApplyPage() {
     <Layout>
       <MainContent>
         <TitleWrapper>
-          <HighlightText text="원서 접수" fontStyle={FontStyle.display2Bold} />
+          <HighlightText text="자연계 신설시작반 (무시험전형) 원서접수 페이지" fontStyle={FontStyle.display2Bold} />
         </TitleWrapper>
         <ApplyItemWrapper
-          title="응시 예정 국어 *" 
+          title="응시 예정 국어 *"
           contentTitle="- 수능 응시(예정) 과목을 선택하세요. 접수 후 과목 변경 불가합니다." >
           <CheckboxGrid
-            options={["화법과작문", "언어와매체"]} 
-            selectedOptions={selectedKoreanOptions} 
-            setSelectedOptions={setSelectedKoreanOptions} 
-            maxSelection={1} 
+            options={["화법과작문", "언어와매체"]}
+            selectedOptions={selectedKoreanOptions}
+            setSelectedOptions={setSelectedKoreanOptions}
+            maxSelection={1}
           />
         </ApplyItemWrapper>
         <ApplyItemWrapper
-          title="응시 예정 수학 *" 
+          title="응시 예정 수학 *"
           contentTitle="- 수능 응시(예정) 과목을 선택하세요. 접수 후 과목 변경 불가합니다." >
           <CheckboxGrid
             options={["미적분", "확률과통계", "기하"]}
@@ -218,7 +281,7 @@ function Sciences2024ApplyPage() {
           />
         </ApplyItemWrapper>
         <ApplyItemWrapper
-          title="응시 예정 탐구 *" 
+          title="응시 예정 탐구 *"
           contentTitle="- 수능 응시(예정) 과목을 선택하세요. 접수 후 과목 변경 불가합니다." >
           <CheckboxGrid
             options={[
@@ -239,7 +302,7 @@ function Sciences2024ApplyPage() {
           />
         </ApplyItemWrapper>
         <ApplyItemWrapper
-          title="사진 *" 
+          title="사진 *"
           contentTitle="3개월 이내의 컬러 증명사진, 3 * 4 크기의 이미지 파일 (jpg, png)" >
           <PhotoUploadButton onPhotoUpload={setPhotoFile} />
         </ApplyItemWrapper>
@@ -275,8 +338,7 @@ function Sciences2024ApplyPage() {
             setPhoneNumber={setPhoneNumber}
             code={code}
             setCode={setCode}
-            isButtonDisabled={isButtonDisabled}
-            onButtonClick={null}
+            setVerified={setIsVerified}
           />
         </ApplyItemWrapper>
         <ApplyItemWrapper title="학부모 연락처 *" >
@@ -294,12 +356,12 @@ function Sciences2024ApplyPage() {
           />
         </ApplyItemWrapper>
         <ApplyItemWrapper
-          title="성적표 *" 
+          title="성적표 *"
           contentTitle="6월 평가원 성적표 사진" >
-        <FileUpload onFileUpload={setUploadedFile} />
+          <FileUpload onFileUpload={setUploadedFile} />
         </ApplyItemWrapper>
         <ApplyItemWrapper title="성적표 입력 *">
-          <ScoreInputForm 
+          <ScoreInputForm
             subjectScores={subjectScores}
             scienceType={scienceType}
             handleInputChange={handleInputChange}
@@ -307,18 +369,26 @@ function Sciences2024ApplyPage() {
           />
         </ApplyItemWrapper>
         <ApplyItemWrapper title="개인정보 처리 *">
-          <ConsentForm />
+          <ConsentForm
+            consent={consent}
+            onConsentChange={setConsent}
+          />
         </ApplyItemWrapper>
         <ButtonWrapper>
           <Button
             buttonText="원서 접수"
             height={SizeValue.height.button}
-            backgroundColor={ColorPalette.gray900}
+            backgroundColor={isButtonAvailable ? ColorPalette.gray900 : ColorPalette.gray300}
             textColor={ColorPalette.white}
-            available={true}
+            available={isButtonAvailable}
             onClick={handleReserveClick}
           />
         </ButtonWrapper>
+        {!isButtonAvailable && (
+          <ErrorText>
+            {`입력되지 않은 항목: ${missingFields.join(', ')}`}
+          </ErrorText>
+        )}
       </MainContent>
     </Layout>
   );
