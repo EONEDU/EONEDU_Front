@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Layout from '../blocks/Layout';
-import NoticeTable from '../blocks/NoticeTable';
-import HighlightText from '../atoms/HighlightText';
+import Layout from '../../blocks/Layout';
+import NoticeTable from '../../blocks/NoticeTable';
+import HighlightText from '../../atoms/HighlightText';
 import { useMediaQuery } from 'react-responsive';
-import FontStyle from '../ui/FontStyle';
-import SizeValue from '../ui/SizeValue';
-import Pagination from '../blocks/Pagination';
-import useFetchData from '../../hooks/useFetchData';
-import LoadingOverlay from '../atoms/LoadingOverlay';
+import FontStyle from '../../ui/FontStyle';
+import SizeValue from '../../ui/SizeValue';
+import Pagination from '../../blocks/Pagination';
+import useFetchData from '../../../hooks/useFetchData';
+import LoadingOverlay from '../../atoms/LoadingOverlay';
+import { useNavigate } from 'react-router-dom';
 
 const PageContent = styled.div`
   display: flex;
@@ -26,7 +27,8 @@ const TitleText = styled.div`
 
 function NoticeTablePage() {
   const [currentPage, setCurrentPage] = useState(1);
-  
+  const navigate = useNavigate();
+
   const requestConfig = {
     url: `/devapi/v1/notices`,
     method: 'GET',
@@ -38,10 +40,6 @@ function NoticeTablePage() {
     setCurrentPage(page);
   };
 
-  const handleRowClick = (id) => {
-    alert(`게시글 ${id}을(를) 클릭했습니다.`);
-  };
-
   const isMobile = useMediaQuery({ maxWidth: 768 });
   
   if (loading) return <LoadingOverlay />;
@@ -50,13 +48,15 @@ function NoticeTablePage() {
   const notices = data?.content || [];
   const totalPages = data?.totalPages || 1;
 
+  console.log("data", data);
+
   return (
     <Layout>
       <PageContent>
         <TitleText>
           <HighlightText text="공지사항" fontStyle={ isMobile ? FontStyle.display1Bold : FontStyle.display3Bold} />
         </TitleText>
-        <NoticeTable data={notices} onClick={handleRowClick} />
+        <NoticeTable data={notices} onClick={(id) => {navigate(`/notice/${id}`);}} />
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </PageContent>
     </Layout>

@@ -18,6 +18,9 @@ const useApplyStore = create((set) => ({
   selectedMathOptions: [],
   selectedScienceOptions: [],
   selectedGenderOptions: [],
+  selectedGraduationType: [],
+  photoUrl: '',
+  fileUrl: '',
   
   setYear: (year) => set({ year }),
   setMonth: (month) => set({ month }),
@@ -36,6 +39,9 @@ const useApplyStore = create((set) => ({
   setSelectedMathOptions: (selectedMathOptions) => set({ selectedMathOptions }),
   setSelectedScienceOptions: (selectedScienceOptions) => set({ selectedScienceOptions }),
   setSelectedGenderOptions: (selectedGenderOptions) => set({ selectedGenderOptions }),
+  setSelectedGraduationType: (selectedGraduationType) => set({ selectedGraduationType }),
+  setPhotoUrl: (photoUrl) => set({ photoUrl }),
+  setFileUrl: (fileUrl) => set({ fileUrl }),
 }));
 
 export default useApplyStore;
