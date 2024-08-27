@@ -7,6 +7,7 @@ import ApplyGuidePage from "../components/pages/ApplyGuidePage";
 import FacilityPage from "../components/pages/FacilityPage";
 import ConsultationResultPage from "../components/pages/ConsultationResultPage";
 import NoticePage from "../components/pages/notice_pages/NoticePage";
+import ApplyResultPage from "../components/pages/ApplyResultPage";
 
 const RoutePaths = {
   HOME: { path: "/", element: <MainPage />, title: "홈", isNavItem: false },
@@ -18,6 +19,7 @@ const RoutePaths = {
   APPLY_GUIDE: { path: "/apply_guide", element: <ApplyGuidePage />, title: "모집요강", isNavItem: false },
   FACILITY: { path: "/facility", element: <FacilityPage />, title: "학원 시설 안내", isNavItem: false },
   NOTICE_DETAIL: { path: "/notice/:id", element: <NoticePage />, title: "공지 상세", isNavItem: false },
+  APPLY_RESULT: { path: "/apply_result", element: <ApplyResultPage />, title: "원서 접수 결과", isNavItem: false },
 };
 
 export default RoutePaths;
