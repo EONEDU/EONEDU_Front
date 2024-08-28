@@ -135,6 +135,7 @@ function ConsultationRequestPage() {
 
   useEffect(() => {
     if (requestResult && requestResult.reservationUuid != null) {
+      console.log(requestResult);
       alert('상담 예약이 완료되었습니다.');
       navigate(RoutePaths.CONSULTATION_RESULT.path, { state: requestResult });
     }
@@ -174,7 +175,7 @@ function ConsultationRequestPage() {
   const handleReserveClick = () => {
     if (isButtonAvailable()) {
       setConsultationRequestConfig({
-        url: `devapi/v1/reservations`,
+        url: `/devapi/v1/reservations`,
         method: 'POST',
         data: {
           counselTypeId: selectedType + 1,
