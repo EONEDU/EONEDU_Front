@@ -8,8 +8,10 @@ import SizeValue from '../../ui/SizeValue';
 import useFetchData from '../../../hooks/useFetchData';
 import LoadingOverlay from '../../atoms/LoadingOverlay';
 import { useParams } from 'react-router-dom';
+import Title from '../../blocks/Title';
 
 const PageContent = styled.div`
+  padding-top: ${SizeValue.space.xl5};
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -63,10 +65,8 @@ function NoticePage() {
 
   return (
     <Layout>
+      <Title text={data.title} fontStyle={FontStyle.display2Bold} />
       <PageContent>
-        <TitleText>
-          <HighlightText text={`${data.title}`} fontStyle={ isMobile ? FontStyle.display1Bold : FontStyle.display2Bold} />
-        </TitleText>
         <Divider />
         <Content>
           {data.content}

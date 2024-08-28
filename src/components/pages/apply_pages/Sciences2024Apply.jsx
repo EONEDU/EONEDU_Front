@@ -20,22 +20,16 @@ import ConsentForm from "../../blocks/ConsentForm";
 import { useNavigate } from "react-router-dom";
 import RoutePaths from "../../../constants/RoutePaths";
 import useApplyStoreScience2024 from "../../../store/applyStoreScience2024";
+import Title from "../../blocks/Title";
 
 const MainContent = styled.div`
+  padding-top: ${SizeValue.space.xl5};
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 800px;
   align-self: center;
   flex-shrink: 0;
-`;
-
-const TitleWrapper = styled.div`
-  ${FontStyle.display2Bold}
-  margin: ${SizeValue.space.xl5} 0;
-  display: flex;
-  white-space: nowrap;
-  align-self: center;
 `;
 
 const ButtonWrapper = styled.div`
@@ -123,6 +117,16 @@ function Sciences2024ApplyPage() {
     // Check foreignLangScore only if foreignLang is not "응시안함"
     if (subjectScores.foreignLang !== "응시안함" && !subjectScores.foreignLangScore) {
       fields.push("제2외국어 등급 입력");
+    }
+
+    // 탐구 과목 점수가 100을 넘지 않도록 체크
+    if (subjectScores.inquiry1Score > 100 || subjectScores.inquiry2Score > 100) {
+      fields.push("탐구 과목 점수는 100을 넘을 수 없습니다.");
+    }
+
+    // 탐구 과목이 동일하지 않도록 체크
+    if (subjectScores.inquiry1 === subjectScores.inquiry2) {
+      fields.push("탐구 과목을 다르게 선택해야 합니다.");
     }
 
     if (!isVerified) fields.push("문자 인증");
@@ -247,7 +251,7 @@ function Sciences2024ApplyPage() {
 
       console.log(response.data);
 
-      navigate(RoutePaths.APPLY_RESULT.path, { state: name });
+      navigate(RoutePaths.APPLY_RESULT.path, { state: response });
 
     } catch (error) {
       console.error("Error during registration:", error);
@@ -256,10 +260,8 @@ function Sciences2024ApplyPage() {
 
   return (
     <Layout>
+      <Title text="자연계 신설시작반 (무시험전형) 원서접수 페이지" fontStyle={FontStyle.display2Bold} />
       <MainContent>
-        <TitleWrapper>
-          <HighlightText text="자연계 신설시작반 (무시험전형) 원서접수 페이지" fontStyle={FontStyle.display2Bold} />
-        </TitleWrapper>
         <ApplyItemWrapper
           title="응시 예정 국어 *"
           contentTitle="- 수능 응시(예정) 과목을 선택하세요. 접수 후 과목 변경 불가합니다." >

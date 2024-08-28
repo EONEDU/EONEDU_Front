@@ -1,38 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import SizeValue from "../ui/SizeValue";
 import Layout from "../blocks/Layout";
-import HighlightText from "../atoms/HighlightText";
 import FontStyle from "../ui/FontStyle";
-import Button from "../atoms/Button";
 import RoutePaths from "../../constants/RoutePaths";
+import Title from "../blocks/Title";
+import { useNavigate } from "react-router-dom";
 
 const MainContent = styled.div`
+  padding-top: ${SizeValue.space.xl5};
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 500px;
+  max-width: 800px;
   margin: 0 auto;
 `;
 
-const TitleWrapper = styled.div`
-  ${FontStyle.display2Bold}
-  margin: ${SizeValue.space.xl5} 0;
+const TabContainer = styled.div`
   display: flex;
-  white-space: nowrap;
-  align-self: center;
+  justify-content: flex-start;
+  margin-bottom: ${SizeValue.space.lg};
+`;
+
+const Tab = styled.button`
+  background: ${(props) => (props.active ? "#000" : "none")};
+  color: ${(props) => (props.active ? "#fff" : "#666")};
+  border: none;
+  padding: ${SizeValue.space.md} ${SizeValue.space.lg};
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: ${SizeValue.space.md};
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1150px;
   width: 100%;
   padding: ${SizeValue.space.lg};
   margin-bottom: ${SizeValue.space.lg};
   background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  
 `;
 
 const ContainerTitle = styled.h2`
@@ -46,7 +57,7 @@ const Section = styled.div`
 `;
 
 const SectionTitle = styled.h3`
-  ${FontStyle.subhead2Bold}
+  ${FontStyle.subhead3Bold}
   color: #555;
   margin-bottom: ${SizeValue.space.sm};
 `;
@@ -54,6 +65,20 @@ const SectionTitle = styled.h3`
 const SectionContent = styled.p`
   ${FontStyle.body2Regular}
   color: #555;
+  display: flex;
+  align-items: center;
+`;
+
+const LinkText = styled.a`
+  ${FontStyle.body2Bold}
+  color: #007bff;
+  margin-left: ${SizeValue.space.sm};
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -61,28 +86,26 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-const FullWidthButton = styled(Button)`
+const FullWidthButton = styled.button`
   width: 1150px;
-`;
-
-const LinkButton = styled(Button)`
-  background-color: #007bff;
-  text-decoration: none;
+  padding: ${SizeValue.space.md};
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
   text-align: center;
 `;
 
 function ApplyPage() {
+  const [activeTab, setActiveTab] = useState("science2024");
   const navigate = useNavigate();
 
   return (
     <Layout>
+      <Title text="원서 접수"/>
       <MainContent>
-        <TitleWrapper>
-          <HighlightText text="원서 접수" fontStyle={FontStyle.display2Bold} />
-        </TitleWrapper>
-
-        <Container>
-          <ContainerTitle>유의사항</ContainerTitle>
+        <>
           <Section>
             <SectionTitle>접수방법</SectionTitle>
             <SectionContent>온라인 접수만 가능 (방문접수 불가)</SectionContent>
@@ -90,151 +113,138 @@ function ApplyPage() {
           <Section>
             <SectionTitle>방문상담 예약</SectionTitle>
             <SectionContent>
-              <LinkButton
-                buttonText="상담 예약 바로가기"
-                height={SizeValue.height.button}
-                backgroundColor="#007bff"
-                textColor="#fff"
-                onClick={() => navigate(RoutePaths.CONSULTATION_REQUEST.path)}
-              />
+              링크를 통해 예약 가능
+              <LinkText onClick={() => navigate(RoutePaths.CONSULTATION_REQUEST.path)}>바로가기</LinkText>
             </SectionContent>
           </Section>
           <Section>
             <SectionTitle>전화문의</SectionTitle>
             <SectionContent>010-5486-4795</SectionContent>
           </Section>
-        </Container>
-        <Container>
-          <Section>
+        </>
+
+        <TabContainer>
+          <Tab active={activeTab === "science2024"} onClick={() => setActiveTab("science2024")}>
+            자연계 2024
+          </Tab>
+          <Tab active={activeTab === "science2025"} onClick={() => setActiveTab("science2025")}>
+            자연계 2025
+          </Tab>
+          <Tab active={activeTab === "humanity2024"} onClick={() => setActiveTab("humanity2024")}>
+            인문계 2024
+          </Tab>
+          <Tab active={activeTab === "humanity2025"} onClick={() => setActiveTab("humanity2025")}>
+            인문계 2025
+          </Tab>
+        </TabContainer>
+
+        {activeTab === "science2024" && (
+          <Container>
             <ContainerTitle>자연계 신설시작반(무시험전형) 원서접수 - 2024 수능 기준</ContainerTitle>
-          </Section>
-          <Section>
-            <SectionTitle>기준</SectionTitle>
-            <SectionContent>
-              2024학년도 수능 성적
-            </SectionContent>
-          </Section>
-          <Section>
-            <SectionTitle>모집기간</SectionTitle>
-            <SectionContent>
-              1차 모집 기간: 2024.8.28(수) ∼ 2024.9.4(수)
-            </SectionContent>
-          </Section>
-          <Section>
-            <SectionTitle>추가 설명</SectionTitle>
-            <SectionContent>
-              모집 기간 후 원서 접수자 대상으로 개별 안내
-            </SectionContent>
-          </Section>
-          <ButtonWrapper>
-            <FullWidthButton
-              buttonText="원서 접수"
-              height={SizeValue.height.button}
-              backgroundColor="#000"
-              textColor="#fff"
-              onClick={() => navigate(RoutePaths.APPLY_SCIENCE_2024.path)}
-            />
-          </ButtonWrapper>
-        </Container>
+            <Section>
+              <SectionTitle>기준</SectionTitle>
+              <SectionContent>2024학년도 수능 성적</SectionContent>
+            </Section>
+            <Section>
+              <SectionTitle>모집기간</SectionTitle>
+              <SectionContent>
+                1차 모집 기간: 2024.8.28(수) ∼ 2024.9.4(수)
+              </SectionContent>
+            </Section>
+            <Section>
+              <SectionTitle>추가 설명</SectionTitle>
+              <SectionContent>
+                모집 기간 후 원서 접수자 대상으로 개별 안내
+              </SectionContent>
+            </Section>
+            <ButtonWrapper>
+              <FullWidthButton onClick={() => navigate(RoutePaths.APPLY_SCIENCE_2024.path)}>
+                원서 접수
+              </FullWidthButton>
+            </ButtonWrapper>
+          </Container>
+        )}
 
-        <Container>
-          <Section>
+        {activeTab === "science2025" && (
+          <Container>
             <ContainerTitle>자연계 신설시작반(무시험전형) 원서접수 - 2025 6모 기준</ContainerTitle>
-          </Section>
-          <Section>
-            <SectionTitle>기준</SectionTitle>
-            <SectionContent>
-              2025학년도 6월 모의평가 성적
-            </SectionContent>
-          </Section>
-          <Section>
-            <SectionTitle>모집기간</SectionTitle>
-            <SectionContent>
-              1차 모집 기간: 2024.8.28(수) ∼ 2024.9.4(수)
-            </SectionContent>
-          </Section>
-          <Section>
-            <SectionTitle>추가 설명</SectionTitle>
-            <SectionContent>
-              모집 기간 후 원서 접수자 대상으로 개별 안내
-            </SectionContent>
-          </Section>
-          <ButtonWrapper>
-            <FullWidthButton
-              buttonText="원서 접수"
-              height={SizeValue.height.button}
-              backgroundColor="#000"
-              textColor="#fff"
-              onClick={() => navigate(RoutePaths.APPLY_SCIENCE_2025.path)}
-            />
-          </ButtonWrapper>
-        </Container>
+            <Section>
+              <SectionTitle>기준</SectionTitle>
+              <SectionContent>2025학년도 6월 모의평가 성적</SectionContent>
+            </Section>
+            <Section>
+              <SectionTitle>모집기간</SectionTitle>
+              <SectionContent>
+                1차 모집 기간: 2024.8.28(수) ∼ 2024.9.4(수)
+              </SectionContent>
+            </Section>
+            <Section>
+              <SectionTitle>추가 설명</SectionTitle>
+              <SectionContent>
+                모집 기간 후 원서 접수자 대상으로 개별 안내
+              </SectionContent>
+            </Section>
+            <ButtonWrapper>
+              <FullWidthButton onClick={() => navigate(RoutePaths.APPLY_SCIENCE_2025.path)}>
+                원서 접수
+              </FullWidthButton>
+            </ButtonWrapper>
+          </Container>
+        )}
 
-        <Container>
-          <Section>
+        {activeTab === "humanity2024" && (
+          <Container>
             <ContainerTitle>인문계 신설시작반(무시험전형) 원서접수 - 2024 수능 기준</ContainerTitle>
-          </Section>
-          <Section>
-            <SectionTitle>기준</SectionTitle>
-            <SectionContent>
-              2024학년도 수능 성적
-            </SectionContent>
-          </Section>
-          <Section>
-            <SectionTitle>모집기간</SectionTitle>
-            <SectionContent>
-              1차 모집 기간: 2024.8.28(수) ∼ 2024.9.4(수)
-            </SectionContent>
-          </Section>
-          <Section>
-            <SectionTitle>추가 설명</SectionTitle>
-            <SectionContent>
-              모집 기간 후 원서 접수자 대상으로 개별 안내
-            </SectionContent>
-          </Section>
-          <ButtonWrapper>
-            <FullWidthButton
-              buttonText="원서 접수"
-              height={SizeValue.height.button}
-              backgroundColor="#000"
-              textColor="#fff"
-              onClick={() => navigate(RoutePaths.APPLY_HUMANITY_2024.path)}
-            />
-          </ButtonWrapper>
-        </Container>
+            <Section>
+              <SectionTitle>기준</SectionTitle>
+              <SectionContent>2024학년도 수능 성적</SectionContent>
+            </Section>
+            <Section>
+              <SectionTitle>모집기간</SectionTitle>
+              <SectionContent>
+                1차 모집 기간: 2024.8.28(수) ∼ 2024.9.4(수)
+              </SectionContent>
+            </Section>
+            <Section>
+              <SectionTitle>추가 설명</SectionTitle>
+              <SectionContent>
+                모집 기간 후 원서 접수자 대상으로 개별 안내
+              </SectionContent>
+            </Section>
+            <ButtonWrapper>
+              <FullWidthButton onClick={() => navigate(RoutePaths.APPLY_HUMANITY_2024.path)}>
+                원서 접수
+              </FullWidthButton>
+            </ButtonWrapper>
+          </Container>
+        )}
 
-        <Container>
-          <Section>
+        {activeTab === "humanity2025" && (
+          <Container>
             <ContainerTitle>인문계 신설시작반(무시험전형) 원서접수 - 2025 6모 기준</ContainerTitle>
-          </Section>
-          <Section>
-            <SectionTitle>기준</SectionTitle>
-            <SectionContent>
-              2025학년도 6월 모의평가 성적
-            </SectionContent>
-          </Section>
-          <Section>
-            <SectionTitle>모집기간</SectionTitle>
-            <SectionContent>
-              1차 모집 기간: 2024.8.28(수) ∼ 2024.9.4(수)
-            </SectionContent>
-          </Section>
-          <Section>
-            <SectionTitle>추가 설명</SectionTitle>
-            <SectionContent>
-              모집 기간 후 원서 접수자 대상으로 개별 안내
-            </SectionContent>
-          </Section>
-          <ButtonWrapper>
-            <FullWidthButton
-              buttonText="원서 접수"
-              height={SizeValue.height.button}
-              backgroundColor="#000"
-              textColor="#fff"
-              onClick={() => navigate(RoutePaths.APPLY_HUMANITY_2025.path)}
-            />
-          </ButtonWrapper>
-        </Container>
+            <Section>
+              <SectionTitle>기준</SectionTitle>
+              <SectionContent>2025학년도 6월 모의평가 성적</SectionContent>
+            </Section>
+            <Section>
+              <SectionTitle>모집기간</SectionTitle>
+              <SectionContent>
+                1차 모집 기간: 2024.8.28(수) ∼ 2024.9.4(수)
+              </SectionContent>
+            </Section>
+            <Section>
+              <SectionTitle>추가 설명</SectionTitle>
+              <SectionContent>
+                모집 기간 후 원서 접수자 대상으로 개별 안내
+              </SectionContent>
+            </Section>
+            <ButtonWrapper>
+              <FullWidthButton onClick={() => navigate(RoutePaths.APPLY_HUMANITY_2025.path)}>
+                원서 접수
+              </FullWidthButton>
+            </ButtonWrapper>
+          </Container>
+        )}
       </MainContent>
     </Layout>
   );
