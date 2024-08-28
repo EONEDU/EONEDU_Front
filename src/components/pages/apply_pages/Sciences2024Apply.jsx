@@ -3,7 +3,6 @@ import styled from "styled-components";
 import axios from "axios";
 import SizeValue from "../../ui/SizeValue";
 import Layout from "../../blocks/Layout";
-import HighlightText from "../../atoms/HighlightText";
 import FontStyle from "../../ui/FontStyle";
 import CheckboxGrid from "../../blocks/CheckBoxGrid";
 import PhotoUploadButton from "../../atoms/PhotoUploadButton";
@@ -260,7 +259,7 @@ function Sciences2024ApplyPage() {
 
   return (
     <Layout>
-      <Title text="자연계 신설시작반 (무시험전형) 원서접수 페이지" fontStyle={FontStyle.display2Bold} />
+      <Title text="자연계 신설시작반 (무시험전형, 2024 수능) 원서접수 페이지" fontStyle={FontStyle.display2Bold} />
       <MainContent>
         <ApplyItemWrapper
           title="응시 예정 국어 *"
