@@ -22,7 +22,6 @@ const LogoImage2 = styled.img`
 function Logo({ logoText, href }) {
   return (
     <LogoWrapper href={href}>
-      <LogoImage2 src="/assets/image/icon_logo.png" alt="Logo" />
       <LogoImage src="/assets/image/logo.png" alt="Logo" />
     </LogoWrapper>
   );
