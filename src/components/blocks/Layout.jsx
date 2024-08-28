@@ -4,7 +4,7 @@ import NavBar from "../blocks/NavBar";
 import Footer from "../blocks/Footer";
 
 const MainContent = styled.div`
-  padding-top: 80px;
+  padding-top: 60px;
   min-height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;

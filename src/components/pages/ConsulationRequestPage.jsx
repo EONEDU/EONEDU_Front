@@ -19,8 +19,11 @@ import ColorPalette from '../ui/ColorPalette';
 import formatDateToLocal from '../../util/formatDateToLocal';
 import formatToTime from '../../util/formatToTime';
 import RoutePaths from '../../constants/RoutePaths';
+import ErrorBlock from '../blocks/ErrorBlock';
+import Title from '../blocks/Title';
 
 const ContentWrapper = styled.div`
+  padding-top: ${SizeValue.space.xl5};
   width: 100%;
   max-width: 500px;
   display: flex;
@@ -141,7 +144,7 @@ function ConsultationRequestPage() {
 
   const combinedError = reservationError || branchError || counselTypeError;
   if (combinedError) {
-    return <p>Error: {combinedError.message}</p>;
+    return <ErrorBlock />;
   }
 
   if (initialLoading) {
@@ -187,12 +190,8 @@ function ConsultationRequestPage() {
 
   return (
     <Layout>
+      <Title text="상담 신청" />
       <ContentWrapper>
-        <TitleWrapper>
-          <TitleText>{`빠르게\u00A0`}</TitleText>
-          <HighlightText text="상담 예약" fontStyle={isMobile ? FontStyle.display1Bold : FontStyle.display2Bold} />
-          <TitleText>{`을 도와드릴게요!`}</TitleText>
-        </TitleWrapper>
         <ConsultationStep stepTitle="1. 상담 종류" stepDescription="원하시는 상담 시간을 선택해주세요.">
           <ToggleButton toggleButtons={typeToggleData} selected={selectedType} setSelected={setSelectedType} />
         </ConsultationStep>

@@ -1,12 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import Layout from "../blocks/Layout";
-import HighlightText from "../atoms/HighlightText";
 import FontStyle from "../ui/FontStyle";
 import MapInfo from "../blocks/MapInfo";
 import InfoParagraph from "../atoms/InfoParagraph";
+import Title from "../blocks/Title";
+import SizeValue from "../ui/SizeValue";
 
 const MainContent = styled.div`
+  padding-top: ${SizeValue.space.xl5};
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -30,10 +32,8 @@ const InfoWrapper = styled.div`
 function AkademiaInfoPage() {
   return (
     <Layout>
+      <Title text="대치점 안내" fontStyle={FontStyle.display3Bold} />
       <MainContent>
-        <TitleWrapper>
-          <HighlightText text="대치점 안내" fontStyle={FontStyle.display3Bold} />
-        </TitleWrapper>
         <MapInfo />
         <InfoWrapper>
           <InfoParagraph />

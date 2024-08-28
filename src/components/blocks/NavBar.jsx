@@ -26,7 +26,6 @@ const NavContainer = styled.nav`
     $isScrolled ? "0 0 4px rgba(0, 0, 0, 0.25)" : "none"};
 
   @media (max-width: ${SizeValue.breakpoint.tablet}) {
-    
     height: 60px;
   }
 `;
@@ -67,12 +66,19 @@ const MenuItem = styled.li`
   }
 `;
 
-const MenuTitle = styled.div`
+const MenuLink = styled.div`
   ${FontStyle.subhead3SemiBold}
   padding: ${SizeValue.space.md} ${SizeValue.space.lg};
+  display: block;
+  color: ${ColorPalette.black};
+  text-decoration: none;
 
   @media (max-width: ${SizeValue.breakpoint.tablet}) {
     padding: ${SizeValue.space.sm};
+  }
+
+  &:hover {
+    background-color: ${ColorPalette.transparent};
   }
 `;
 
@@ -80,13 +86,12 @@ const SubMenu = styled.div`
   ${FontStyle.body1Medium}
   padding: ${SizeValue.space.md} 0;
   background-color: ${ColorPalette.white};
-  border-radius: ${SizeValue.radius.sm};
   white-space: nowrap;
   display: ${({ $isOpen }) => ($isOpen ? "block" : "none")};
   position: absolute;
   top: 100%;
   left: 0;
-  box-shadow: 0 0px 4px rgba(0, 0, 0, 0.3);
+  border: 1px solid ${ColorPalette.gray200};
 
   @media (max-width: ${SizeValue.breakpoint.tablet}) {
     position: static;
@@ -149,6 +154,10 @@ function NavBar() {
     }
   };
 
+  const handleMenuClick = (path) => {
+    window.location.href = path;
+  };
+
   return (
     <NavContainer $isScrolled={isScrolled}>
       <LogoContainer>
@@ -161,23 +170,33 @@ function NavBar() {
         {menuItems.map((menu, index) => (
           <MenuItem
             key={index}
-            onMouseEnter={() => window.innerWidth > 768 && setActiveMenu(index)}
-            onMouseLeave={() => window.innerWidth > 768 && setActiveMenu(null)}
-            onClick={() => window.innerWidth <= 768 && toggleSubMenuMobile(index)}
+            onMouseEnter={() =>
+              menu.hasMultipleSubMenus && window.innerWidth > 768 && setActiveMenu(index)
+            }
+            onMouseLeave={() =>
+              menu.hasMultipleSubMenus && window.innerWidth > 768 && setActiveMenu(null)
+            }
+            onClick={() =>
+              !menu.hasMultipleSubMenus && handleMenuClick(menu.subMenus[0].path)
+            }
           >
-            <MenuTitle>{menu.name}</MenuTitle>
-            <SubMenu
-              $isOpen={
-                (window.innerWidth > 768 && activeMenu === index) ||
-                (window.innerWidth <= 768 && activeSubMenuMobile === index)
-              }
-            >
-              {menu.subMenus.map((subMenu, subIndex) => (
-                <SubMenuItem key={subIndex} href={subMenu.path}>
-                  {subMenu.name}
-                </SubMenuItem>
-              ))}
-            </SubMenu>
+            <MenuLink>
+              {menu.name}
+            </MenuLink>
+            {menu.hasMultipleSubMenus && (
+              <SubMenu
+                $isOpen={
+                  (window.innerWidth > 768 && activeMenu === index) ||
+                  (window.innerWidth <= 768 && activeSubMenuMobile === index)
+                }
+              >
+                {menu.subMenus.map((subMenu, subIndex) => (
+                  <SubMenuItem key={subIndex} href={subMenu.path}>
+                    {subMenu.name}
+                  </SubMenuItem>
+                ))}
+              </SubMenu>
+            )}
           </MenuItem>
         ))}
       </Menu>

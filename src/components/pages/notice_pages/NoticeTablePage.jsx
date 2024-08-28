@@ -10,8 +10,10 @@ import Pagination from '../../blocks/Pagination';
 import useFetchData from '../../../hooks/useFetchData';
 import LoadingOverlay from '../../atoms/LoadingOverlay';
 import { useNavigate } from 'react-router-dom';
+import Title from '../../blocks/Title';
 
 const PageContent = styled.div`
+  padding-top: ${SizeValue.space.xl5};
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -52,10 +54,8 @@ function NoticeTablePage() {
 
   return (
     <Layout>
+      <Title text="공지사항" fontStyle={FontStyle.display2Bold} />
       <PageContent>
-        <TitleText>
-          <HighlightText text="공지사항" fontStyle={ isMobile ? FontStyle.display1Bold : FontStyle.display3Bold} />
-        </TitleText>
         <NoticeTable data={notices} onClick={(id) => {navigate(`/notice/${id}`);}} />
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </PageContent>

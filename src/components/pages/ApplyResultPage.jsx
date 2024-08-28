@@ -5,6 +5,7 @@ import SizeValue from "../ui/SizeValue";
 import Layout from "../blocks/Layout";
 import FontStyle from "../ui/FontStyle";
 import ColorPalette from "../ui/ColorPalette";
+import Title from "../blocks/Title";
 
 const MainContent = styled.div`
   display: flex;
@@ -26,7 +27,6 @@ const InfoContainer = styled.div`
   max-width: 400px;
   padding: ${SizeValue.space.lg};
   border: 1px solid ${ColorPalette.gray300};
-  border-radius: ${SizeValue.radius.md};
   background-color: ${ColorPalette.gray050};
 `;
 
@@ -38,16 +38,14 @@ const InfoItem = styled.div`
 
 function ApplyResultPage() {
   const location = useLocation();
-  const name = location.state;
+  const response = location.state;
 
   return (
     <Layout>
       <MainContent>
-        <TitleWrapper>
-          접수가 완료되었습니다.
-        </TitleWrapper>
+        <Title text={"신청 완료"} fontStyle={FontStyle.display2Bold} />
         <InfoContainer>
-          <InfoItem><strong>예약자: </strong> {name}</InfoItem>
+          <InfoItem><strong>예약자: </strong> {response}</InfoItem>
         </InfoContainer>
       </MainContent>
     </Layout>
