@@ -50,7 +50,7 @@ function TimeSlot({ selectedDate, selectedDateReservations, selectedTime, setSel
     [selectedDate]
   );
   const pmSlots = useMemo(
-    () => calculateTimeSlots(selectedDate, 12, 21, 30),
+    () => calculateTimeSlots(selectedDate, 12, 18, 30),
     [selectedDate]
   );
 
