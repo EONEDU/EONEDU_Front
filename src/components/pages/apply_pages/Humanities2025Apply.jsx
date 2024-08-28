@@ -3,8 +3,6 @@ import styled from "styled-components";
 import axios from "axios";
 import SizeValue from "../../ui/SizeValue";
 import Layout from "../../blocks/Layout";
-import HighlightText from "../../atoms/HighlightText";
-import FontStyle from "../../ui/FontStyle";
 import CheckboxGrid from "../../blocks/CheckBoxGrid";
 import PhotoUploadButton from "../../atoms/PhotoUploadButton";
 import FileUpload from "../../atoms/FileUpload";
@@ -30,14 +28,6 @@ const MainContent = styled.div`
   max-width: 800px;
   align-self: center;
   flex-shrink: 0;
-`;
-
-const TitleWrapper = styled.div`
-  ${FontStyle.display2Bold}
-  margin: ${SizeValue.space.xl5} 0;
-  display: flex;
-  white-space: nowrap;
-  align-self: center;
 `;
 
 const ButtonWrapper = styled.div`
@@ -86,6 +76,7 @@ function Humanities2025ApplyPage() {
     foreignLangScore: ''
   });
 
+  const [selectedSecondLanguage, setSelectedSecondLanguage] = useState([]);
   const [scienceType, setScienceType] = useState({
     inquiry1: 'social',
     inquiry2: 'social'
@@ -104,6 +95,7 @@ function Humanities2025ApplyPage() {
     if (selectedKoreanOptions.length === 0) fields.push("국어과목 선택");
     if (selectedMathOptions.length === 0) fields.push("수학과목 선택");
     if (selectedScienceOptions.length < 2) fields.push("탐구과목 선택");
+    if (selectedSecondLanguage.length === 0) fields.push("제2외국어 선택");
     if (!photoFile) fields.push("사진 파일 선택");
     if (!uploadedFile) fields.push("성적표 파일 선택");
 
@@ -145,7 +137,7 @@ function Humanities2025ApplyPage() {
     setIsButtonAvailable(fields.length === 0);
   }, [
     name, year, month, day, selectedKoreanOptions, selectedMathOptions,
-    selectedScienceOptions, photoFile, uploadedFile, subjectScores, isVerified,
+    selectedScienceOptions, selectedSecondLanguage, photoFile, uploadedFile, subjectScores, isVerified,
     selectedGraduationType, consent
   ]);
 
@@ -160,6 +152,7 @@ function Humanities2025ApplyPage() {
 
     return { uploadedPhotoUrl, uploadedReportFileUrl };
   };
+
   const uploadFile = async (file) => {
     const formData = new FormData();
     formData.append('file', file);
@@ -178,10 +171,9 @@ function Humanities2025ApplyPage() {
     }
   };
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-  
+
     if (name.includes('Score')) {
       // 점수 입력일 경우
       const numericValue = parseInt(value, 10);
@@ -196,28 +188,27 @@ function Humanities2025ApplyPage() {
     const { name, value } = e.target;
     setScienceType({ ...scienceType, [name]: value });
   };
-
   const handleReserveClick = async () => {
     if (!isButtonAvailable) return;
-
+  
     try {
       const { uploadedPhotoUrl, uploadedReportFileUrl } = await uploadTwoFiles();
-
+  
       if (!uploadedPhotoUrl || !uploadedReportFileUrl) {
         console.error("Failed to upload files");
         return;
       }
-
+  
       // 날짜를 4자리 연도, 2자리 월, 2자리 일로 포맷팅
       const formattedMonth = month.toString().padStart(2, '0');
       const formattedDay = day.toString().padStart(2, '0');
       const birthdate = `${year}-${formattedMonth}-${formattedDay}`;
-
+  
       const requestBody = {
         branchId: 1,
-        registrationType: "인문계/6월평가원",
+        registrationType: "인문계/20256모",
         clientInfo: {
-          gender: selectedGenderOptions[0], 
+          gender: selectedGenderOptions[0],
           birthdate: birthdate,
           graduationType: selectedGraduationType[0],
           clientPhone: studentPhoneNumber,
@@ -229,7 +220,7 @@ function Humanities2025ApplyPage() {
           math: selectedMathOptions[0],
           electiveSubject1: selectedScienceOptions[0],
           electiveSubject2: selectedScienceOptions[1],
-          secondLanguage: subjectScores.foreignLang,
+          secondLanguage: selectedSecondLanguage[0],
         },
         previousGrade: {
           subjects: {
@@ -246,29 +237,31 @@ function Humanities2025ApplyPage() {
             history: parseInt(subjectScores.history, 10),
             electiveSubject1: parseInt(subjectScores.inquiry1Score, 10),
             electiveSubject2: parseInt(subjectScores.inquiry2Score, 10),
-            secondLanguage: subjectScores.foreignLang === "응시안함" ? 0 : parseInt(subjectScores.foreignLangScore, 10),
+            secondLanguage: selectedSecondLanguage[0] === "응시안함" ? 0 : parseInt(subjectScores.foreignLangScore, 10),
           },
         },
         profileImageUrl: uploadedPhotoUrl,
         reportFileUrl: uploadedReportFileUrl,
       };
-
+  
       console.log(requestBody);
-
+  
       const response = await axios.post("/devapi/v1/registrations", requestBody);
-
+  
       console.log(response.data);
-
-      navigate(RoutePaths.APPLY_RESULT.path, { state: response });
-
+  
+      navigate(RoutePaths.APPLY_RESULT.path, { state: name });
+  
     } catch (error) {
       console.error("Error during registration:", error);
     }
   };
+  
   return (
     <Layout>
-      <Title text="인문계 신설시작반 (무시험전형) 원서접수 페이지" />
+      <Title text="인문계 신설시작반 (무시험전형, 2025 6모) 원서접수 페이지" />
       <MainContent>
+        
         <ApplyItemWrapper
           title="응시 예정 국어 *" 
           contentTitle="- 수능 응시(예정) 과목을 선택하세요. 접수 후 과목 변경 불가합니다." >
@@ -294,14 +287,27 @@ function Humanities2025ApplyPage() {
           contentTitle="- 수능 응시(예정) 과목을 선택하세요. 접수 후 과목 변경 불가합니다." >
           <CheckboxGrid
             options={[
-              "물리학1", "화학1", "생명과학1", "지구과학1",
-              "물리학2", "화학2", "생명과학2", "지구과학2",
-              "생활과윤리", "윤리와사상", "한국지리", "세계지리",
-              "동아시아사", "세계사",  "경제", "사회문화", "정치와법",
+                "물리학1", "화학1", "생명과학1", "지구과학1",
+                "물리학2", "화학2", "생명과학2", "지구과학2",
+                "생활과윤리", "윤리와사상", "한국지리", "세계지리",
+                "동아시아사", "세계사",  "경제", "사회문화", "정치와법",
             ]}
             selectedOptions={selectedScienceOptions}
             setSelectedOptions={setSelectedScienceOptions}
             maxSelection={2}
+          />
+        </ApplyItemWrapper>
+        <ApplyItemWrapper
+          title="응시 예정 제2외국어 *" 
+          contentTitle="- 응시 예정인 제2외국어를 선택하세요." >
+          <CheckboxGrid
+            options={[
+                "독일어", "프랑스어", "스페인어", "중국어", "일본어", 
+                "러시아어", "아랍어", "베트남어", "한문", "응시안함"
+            ]}
+            selectedOptions={selectedSecondLanguage}
+            setSelectedOptions={setSelectedSecondLanguage}
+            maxSelection={1}
           />
         </ApplyItemWrapper>
         <ApplyItemWrapper title="이름 *" >
